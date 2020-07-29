@@ -330,187 +330,16 @@ Con todo esto, podemos escribir:
 
 Ya que conocemos el valor de $\alpha$ y $\delta$ en $t_1$, $t_2$ y $t_3$, también conoceremos el valor en dichos momentos de $\lambda, \mu$ y $\nu$, que son los cosenos directores del vector que va de $E$ a $C$. Por tanto, habremos de determinar la distancia $\rho$.\\
 
-\section{Método Laplaciano de Determinación}
-(\textit{A desarrollar en el futuro}) Dividiremos el método en varios pasos.\\
 
-\subsection{\normalfont{\textit{Determinar el valor de la primera y segunda derivada de $\lambda, \mu, \nu, X, Y, Z$ en algún momento $t$.}}}
 
-Tomemos el valor de $t$ como $t_2$, que por el momento nos bastará para demostrar que se puede realizar una buena aproximación. Supongamos que el valor de $\lambda'$ no cambia muy rápido; entonces, el valor de ésta en medio del intervalo $[t_1,t_2]$ será muy cercano al valor de:
-\[
-\lambda_{12}'=\frac{\lambda_2-\lambda_1}{t_2-t_1}
-\]
 
-\textit{(no me gusta como está escrito reescribir en el futuro)}\\
 
-Análogamente, podemos determinar el valor de $\lambda_{23}'$; cuanto más pequeño sea el intervalo donde realizamos las operaciones, mejor será la aproximación. Además, si la longitud del intervalo $[t_1,t_2]$ es igual a la longitud de $[t_2,t_3]$, tenemos que el valor de $\lambda'$ en $t_2$ será muy cercano a:
-\[
-\lambda'_2=\frac{\lambda_{12}'+\lambda_{23}'}{2}
-\]
 
-\noindent es decir, la media de los dos valores calculados anteriormente. Si los intervalos tienen una longitud diferente, podremos ajustar la disparidad entre ellos.\\
 
-Análogamente, podremos definir la derivada segunda de $\lambda$ en $t_2$ de manera aproximada como:
-\[
-\lambda''_2=\frac{\lambda_{23}'-\lambda_{12}'}{\frac{1}{2}(t_3-t_1)}
-\]
 
-Utilizaremos el mismo método para calcular la primera y segunda derivada de $\mu$ y $\nu$. Las aproximaciones obtenidas de esta manera serán más cercanas cuanto menor sea la longitud de los intervalos entre las observaciones, y generalmente, en la práctica, los intervalos son cortos.\\
 
-Finalmente, para calcular la primera y segunda derivada de $X, Y$ y $Z$ utilizaremos el \textit{American Ephemeris}, que nos da el valor de estas variables para cualquier día del año.\\
 
-\subsection{\normalfont{\textit{Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}}}
-Asumiendo que el cuerpo observado $C$ no está alterado por la interacción con otros cuerpos cercanos, podemos asegurar que cumplirá siguientes ecuaciones diferenciales:
-\begin{align}
-\left\{
-\begin{array}{l}
-	\frac{d^2x}{dt^2}=-\frac{k^2x}{r^3}\\
-	\frac{d^2y}{dt^2}=-\frac{k^2y}{r^3}\\
-	\frac{d^2z}{dt^2}=-\frac{k^2z}{r^3}
-\end{array}
-\right.
-\label{eq:ley_gracitacion_C}
-\end{align}
-
-\noindent donde $k^2=GM$, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol.\\
-
-Además, utilizando las \hyperref[eq:terminologia]{relaciones entre $E$, $C$ y $S$}, así como los resultados vistos anteriormente, llegamos a:
-\begin{align}
-\left\{
-\begin{array}{l}
-	x=\rho\lambda-X\\
-	y=\rho\mu-Y\\
-	z=\rho\nu-Z
-\end{array}
-\right.
-\label{eq:relacion_C_S_E}
-\end{align}
-
-\noindent y sustituyendo los valores obtenidos en las  \hyperref[eq:ley_gracitacion_C]{ecuaciones \ref{eq:ley_gracitacion_C}}, obtenemos lo siguiente:
-\begin{align}
-\left\{
-\begin{array}{l}
-	(\rho\lambda)'' - X'' = \frac{-k^2(\rho\lambda-X)}{r^3}\\
-	(\rho\mu)'' - Y'' = \frac{-k^2(\rho\mu-Y)}{r^3}\\
-	(\rho\nu)'' - Z'' = \frac{-k^2(\rho\nu-Z)}{r^3}
-\end{array}
-\right.
-\label{eq:derivada_segunda}
-\end{align}
-
-Desarrollando la segunda derivada de $\rho\lambda$ conseguimos:
-\[
-(\rho\lambda)''=(\rho'\lambda+\rho\lambda')'=\rho''\lambda+2\rho'\lambda'+\rho\lambda'',
-\]
-\noindent valor que utilizaremos más adelante.\\
-
-De la misma manera que hemos hecho con $C$, escribimos las ecuaciones de gravitación para $E$, que gira alrededor de $S$ en concordancia con la ley de gravitación universal.
-\begin{align}
-\left\{
-\begin{array}{l}
-	X'' = -\frac{k^2X}{R^3}\\
-	Y'' = -\frac{k^2Y}{R^3}\\
-	Z'' = -\frac{k^2Z}{R^3}
-\end{array}
-\right.
-\label{eq:ley_gravitacion_E}
-\end{align}\\
-
-Utilizando este resultado, sustituyendo en la ecuación \ref{eq:derivada_segunda} y desarrollando llegamos a lo siguiente:
-\begin{align}
-\left\{
-\begin{array}{l}
-	\lambda\rho''+2\lambda'\rho'+[\lambda''+\frac{k^2\lambda}{r^3}]\rho=-k^2X[\frac{1}{R^3}-\frac{1}{r^3}]\\
-	\mu\rho''+2\mu'\rho'+[\mu''+\frac{k^2\mu}{r^3}]\rho=-k^2Y[\frac{1}{R^3}-\frac{1}{r^3}]\\
-	\nu\rho''+2\nu'\rho'+[\nu''+\frac{k^2\nu}{r^3}]\rho=-k^2Z[\frac{1}{R^3}-\frac{1}{r^3}]
-\end{array}
-\right.
-\label{eq:fin_paso_1}
-\end{align}
-
-Así, las incógnitas de las ecuaciones pasan a ser $r, \; \rho, \; \rho'$ y $\rho''$.\\
-
-\subsection{\normalfont{\textit{Determinar la Distancia de $C$ desde $E$ y $S$}}}
-Para resolver este paso, utilizaremos las ecuaciones que hemos acabado obteniendo del paso anterior, \ref{eq:fin_paso_1}, y una condición geométrica que cumplirán los tres cuerpos. Para ello, comenzamos definiendo el siguiente determinante:
-\[
-D =
-\left|
-\begin{array}{ccc}
-	\lambda & \lambda' & \lambda''+\frac{k^2\lambda}{r^3}\\
-	\mu & \mu' & \mu''+\frac{k^2\mu}{r^3}\\
-	\nu & \nu' & \nu''+\frac{k^2\nu}{r^3}
-\end{array}
-\right|
-=
-\left|
-\begin{array}{ccc}
-	\lambda & \lambda' & \lambda''\\
-	\mu & \mu' & \mu''\\
-	\nu & \nu' & \nu''
-\end{array}
-\right|
-\]
-
-Esta segunda forma del determinante la obtenemos mediante la transformación $C_3-\frac{k^2\lambda}{r^3}C_1$ sobre la matriz, donde $C_i$ será la columna i-ésima. En este determinante conocemos todos las cantidades. Por otra parte, definiremos el determinante $D_1$ reemplazando la tercera columna por el miembro de la derecha de las \hyperref[eq:fin_paso_1]{ecuaciones anteriores} y omitiendo el factor $[\frac{1}{R^3}-\frac{1}{r^3}]$, conociendo de nuevo todas las cantidades utilizadas. Así, obtenemos el siguiente determinante:
-
-\[
-D_1 = -k^2
-\left|
-\begin{array}{ccc}
-\lambda & \lambda' & X\\
-\mu & \mu' & Y\\
-\nu & \nu' & Z
-\end{array}
-\right|
-\]\\
-
-Con todo esto, la distancia $\rho$ se determina por
-
-\[
-\rho = \frac{D_1}{D}[\frac{1}{R^3}-\frac{1}{r^3}],
-\]
-
-\noindent a la que deberemos añadir la ecuación siguiente
-
-\[
-r^2=\rho^2+R^2-2\rho R\cos(\psi),
-\]
-
-donde $\psi$ es el ángulo en $E$ entre $r$ y $\rho$; esta ecuación expresa el hecho de que $S$, $E$ y $C$ forman un triángulo como vimos en la \hyperref[figure:1]{figura 1}. Resolviendo estas dos ecuaciones obtendremos los valores de $rho$ y $r$ y habremos terminado este paso, y al solucionar este problema podremos calcular las coordenadas de $C$ mediante las ecuaciones de \hyperref[eq:relacion_C_S_E]{las relaciones} entre $S$, $E$ y $C$.\\
-
-\subsection{\normalfont{\textit{Determinación de las Componentes de Velocidad de $C$}}}
-Se sigue de las ecuaciones \ref{eq:relacion_C_S_E} que:
-\[
-\left\{
-\begin{array}{l}
-	x'=\rho'\lambda+\rho\lambda'-X'\\
-	y'=\rho'\mu+\rho\mu'-Y'\\
-	z'=\rho'\nu+\rho\nu'-Z'
-\end{array}
-\right.	
-\]
-
-En estas ecuaciones solo tenemos una incógnita, $\rho'$, que podremos determinar a partir de:
-
-\[
-\rho'=+\frac{D_2}{2D}[\frac{1}{R^3}-\frac{1}{r^3}],
-\; \; \; \; \; \; \; \; \; \text{ con } \;
-D_2 = -k^2
-\left|
-\begin{array}{ccc}
-\lambda & X & \lambda''\\
-\mu & Y & \mu''\\
-\nu & Z & \nu''
-\end{array}
-\right|
-\]
-
-Así, $x'$, $y'$ y $z'$ se vuelven conocidas.\\
-
-\subsection{\normalfont{\textit{Determinar los elementos de la órbita a partir de la posición y los componentes de velocidad del cuerpo observado}}}
-\textit{(Buscar información Moulton capítulo V)}\\
-
-\url{https://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vectoURL}
-
+\iffalse
 
 
 
@@ -635,7 +464,7 @@ Notar que el cálculo de $\rho_2$ y $r_2$ realizado anteriormente es exactamente
 Estas dos posiciones y la de $C$ definirán el plano de la órbita sin mucho más trabajo. En su desarrollo, Gauss resolvió el problema de determinación de los elementos restantes mediante dos ecuaciones que solo involucraban las dos incógnitas. Una de ellas se obtiene de la proporción del triángulo formado por $S$, $E$ y $C$ en $t_1$ y $t_3$ con el área comprendida entre $r_1$, $r_3$ y el arco de la órbita descrito en el intervalo $[t_1,t_3]$; la otra ecuación deriva de la ecuación de Kepler en los momentos $t_1$ y $t_3$.\\
 
 Aunque estas fórmulas sean complejas, el método de resolución para cada una de ellas es un proceso rápido de aproximaciones sucesivas, y tras resolver estas ecuaciones los elementos son de terminados fácilmente de manera única.\\
-
+\fi
 
 
 

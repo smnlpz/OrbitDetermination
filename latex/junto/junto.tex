@@ -21,10 +21,10 @@
 \usepackage[font={color=griscaption},figurename=Fig.,labelfont={bf}]{caption}
 
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{theorem}{Teorema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposición}
 \newtheorem{definition}[theorem]{Definición}
 
 \newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
@@ -204,9 +204,10 @@ Con todo esto, la distancia $\rho$ se determina por
 \]
 
 El valor de $r$ es desconocido, por lo que añadiremos la siguiente ecuación formando con la anterior un sistema de ecuaciones en $r$ y $\rho$.
-\[
+\begin{align}
 r^2=\rho^2+R^2-2\rho R\cos\psi,
-\]
+\label{eq:triangle_relations_1}
+\end{align}
 
 \noindent donde $\psi$ es el ángulo formado en $E$ trazando una línea imaginaria hasta el Sol y hasta el cuerpo observado, es decir, entre $R$ y $\rho$; esta ecuación expresa el hecho de que $S$, $E$ y $C$ forman un triángulo como vimos en la \hyperref[figure:1]{figura 1}.\\
 
@@ -319,14 +320,14 @@ La solución para estas ecuaciones diferenciales de segundo orden puede ser expa
 \label{eq:series_taylor}
 \end{align}
 
-\noindent donde con el subíndice 0 estaremos indicando que tomamos el valor $t=0$ en la función. Podemos sustituir la segunda derivada que aparece en estas series por su valor en \eqref{eq:ley_gravitacion_C_2}, la tercera derivada por la derivada de ésta y a partir de la cuarta derivada repetimos este proceso, teniendo así que las series estarán solo en función de la $x$, $y$, $z$ y la primera derivada de cada una de estas, todos ellas tomadas en $t=0$.\\
+En las ecuaciones superiores el subíndice 0 indicará que tomamos el valor $t=0$ en la función. Podemos sustituir la segunda derivada que aparece en estas series por su valor en \eqref{eq:ley_gravitacion_C_2}, la tercera derivada por la derivada de ésta y a partir de la cuarta derivada repetimos este proceso, teniendo así que las series estarán solo en función de la $x$, $y$, $z$ y la primera derivada de cada una de estas, todos ellas tomadas en $t=0$.\\
 
-Los tres valores $x$, $y$, $z$, a los que en conjunto llamaremos $x(t)$, forman una solución del problema de Kepler, y sabemos la fórmula de las soluciones para el problema de Kepler, que será la siguiente:
+Los tres valores $x$, $y$, $z$, a los que en conjunto llamaremos $x(t)$, forman una solución del problema de Kepler. Además, sabemos la fórmula de las soluciones para el problema de Kepler son:
 \[
 x(t)=a(\cos{u(t)}-e,\sqrt{1-e^2}\sin{u(t)})
 \]
 
-\noindent donde $u(t)$ es la anomalía. Dado que la ecuación está formada por funciones trigonométricas, que son analíticas, y la anomalía es una función analítica por el problema de la función implícita, llegamos a que $x(t)$ será también una función analítica.
+\noindent donde $u(t)$ es la anomalía. Dado que la ecuación está formada por funciones trigonométricas, que son analíticas, y la anomalía es una función analítica por el teorema de la función implícita, llegamos a que $x(t)$ será también una función analítica.\\
 
 %%%
 %De esta manera llegamos al hecho de que la solución $x$, $y$, $z$ del problema de Kepler es una función analítica, pues su serie de Taylor centrada en $t$ converge a la función en un entorno de éste para cualquier $t$ que elijamos.\\
@@ -336,14 +337,14 @@ Hemos de tener en cuenta que el valor de estas series no siempre tiene valor pr�
 
 En el caso de la Tierra, expandiendo sus coordenadas en series de potencias, obtendremos una convergencia durante largos intervalos de tiempo debido a la pequeña excentricidad de la órbita terrestre ($e\approx0.0167$). Así, se sigue de la ecuación \eqref{eq:relacion_C_S_E}, que relaciona las coordenadas de la Tierra, el Sol y el cuerpo observado que las ecuaciones de $\rho$, $\lambda$, $\mu$ y $\nu$ también son funciones analíticas y por ello podrán ser expandidas como series de Taylor, con el mismo rango de utilidad que el de las series para $x$, $y$ y $z$.\\
 
-Veamos las series para $\lambda$, pues las de $\mu$ y $\nu$ serán simétricamente similares. Definimos $\tau_1$, $\tau_2$ y $\tau_3$ como los valores de $\tau$ tomando $t_1$, $t_2$ y $t_3$ respectivamente. Así, las series para $\lambda$ son:
+Veamos las series para $\lambda$, pues las de $\mu$ y $\nu$ serán simétricamente similares. Tomando los valores $t_1$, $t_2$ y $t_3$, las series para $\lambda$ serán:
 \begin{align}
 \left\{
 \begin{array}{l}
-\lambda=c_0+c_1\tau+c_2\tau^2+...\\
-\lambda_1=c_0+c_1\tau_1+c_2\tau_1^2+...\\
-\lambda_2=c_0+c_1\tau_2+c_2\tau_2^2+...\\
-\lambda_3=c_0+c_1\tau_3+c_2\tau_3^2+...
+	\lambda=c_0+c_1t+c_2t^2+...\\
+	\lambda_1=c_0+c_1t_1+c_2t_1^2+...\\
+	\lambda_2=c_0+c_1t_2+c_2t_2^2+...\\
+	\lambda_3=c_0+c_1t_3+c_2t_3^2+...
 \end{array}
 \right.
 \label{eq:series_lambda}
@@ -355,10 +356,10 @@ Dado que el sistema de ecuaciones \eqref{eq:series_lambda} está formado por tre
 \begin{align}
 \left|
 \begin{array}{cccc}
-\lambda & 1 & \tau & \tau^2\\
-\lambda_1 & 1 & \tau_1 & \tau^2_1\\
-\lambda_2 & 1 & \tau_2 & \tau^2_2\\
-\lambda_3 & 1 & \tau_3 & \tau^2_3\\
+\lambda   & 1 & t & t^2\\
+\lambda_1 & 1 & t_1 & t^2_1\\
+\lambda_2 & 1 & t_2 & t^2_2\\
+\lambda_3 & 1 & t_3 & t^2_3\\
 \end{array}
 \right|
 =0
@@ -368,35 +369,63 @@ Dado que el sistema de ecuaciones \eqref{eq:series_lambda} está formado por tre
 Resolvemos este determinante desarrollando por la primera columna y despejando $\lambda$ obtenemos:
 \begin{align}
 \lambda_L=
-\frac{(\tau-\tau_2)(\tau-\tau_3)}{(\tau_1-\tau_2)(\tau_1-\tau_3)}\lambda_1
-+\frac{(\tau-\tau_3)(\tau-\tau_1)}{(\tau_2-\tau_3)(\tau_2-\tau_1)}\lambda_2
-+\frac{(\tau-\tau_1)(\tau-\tau_2)}{(\tau_3-\tau_1)(\tau_3-\tau_2)}\lambda_3
+\frac{(t-t_2)(t-t_3)}{(t_1-t_2)(t_1-t_3)}\lambda_1
++\frac{(t-t_3)(t-t_1)}{(t_2-t_3)(t_2-t_1)}\lambda_2
++\frac{(t-t_1)(t-t_2)}{(t_3-t_1)(t_3-t_2)}\lambda_3
 \label{eq:lambda_value}
 \end{align}
 
-Dicho polinomio corresponderá al polinomio de interpolación de Lagrange con el que obtendremos un valor aproximado de $\lambda$. Hemos de tener en cuenta que los valores de $t_1$, $t_2$ y $t_3$ han de ser diferentes entre sí para que no se anulen los denominadores.\\
+Dicho polinomio corresponderá al polinomio de interpolación de Lagrange con el que obtendremos un valor aproximado de $\lambda$. Hemos de tener en cuenta que los valores en los nodos $t_1$, $t_2$, $t_3$ han de ser diferentes entre sí para que no se anulen los denominadores.\\
 
-Con esto, somos capaces de obtener $\lambda$ de manera exacta en $t_1$, $t_2$ y $t_3$; para otros valores más pequeños de $t$ obtendremos $\lambda$ de forma aproximada. Para obtener un valor exacto de $\lambda$ habremos de tomar la primera ecuación de \eqref{eq:series_lambda}, una serie infinita, dentro de su rango de convergencia. Considerando esta serie geométricamente podemos definir una curva que llamaremos $C$; por otra parte definiremos la curva $C_2$ como la que produce el polinomio de interpolación \eqref{eq:lambda_value}. Representando las dos en una misma gráfica podemos visualizar la diferencia entre el valor real y el aproximado mediante interpolación de las funciones estudiadas:
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{images/fig_31.png}
-\end{figure}
+Con esto, somos capaces de obtener $\lambda$ de manera exacta en $t_1$, $t_2$ y $t_3$; para otros valores más pequeños de $t$ obtendremos $\lambda$ de forma aproximada. Para obtener un valor exacto de $\lambda$ habremos de tomar la primera ecuación de \eqref{eq:series_lambda}, una serie infinita, dentro de su rango de convergencia.\\
 
-Dichas curvas se intersecan en $\tau_1$, $\tau_2$ y $\tau_3$, y en general en ningún otro punto; tomando valores pequeños de $\tau$ las dos curvas casi coincidirán.\\
+Como comentamos anteriormente, el polinomio de interpolación de Lagrange obtenido nos proporcionará valores aproximados de $\lambda$, por lo que será conveniente estudiar el error de éste, que tomando la primera ecuación de \eqref{eq:series_lambda} será:
+\[
+|\lambda(t)-\lambda_L(t)|
+\]
 
-Con el hecho anterior y todos los vistos anteriormente, podemos justificar que los valores de $\tau$ han de ser pequeños en la práctica para que las cantidades aproximadas calculadas sean lo más cercanas a su valor original. Además, no tendría sentido una diferencia de tiempo muy grande entre las observaciones del objeto, pues pasaríamos mucho tiempo para determinar una única órbita.\\
+Dado que en anteriores secciones hemos supuesto que $\lambda$, $\mu$, $\nu$ son de clase infinito, podemos aplicar el teorema de error de interpolación, que nos dará una fórmula para obtener el error para todo $t$. Utilizando los tres nodos $t_1$, $t_2$, $t_3$ obtenemos:
+\begin{align}
+\lambda(t)-\lambda_L(t)=\ddfrac{\lambda^{\romannumeral 4}(\xi)}{4!}(t-t_1)(t-t_2)(t-t_3)
+\label{eq:interpolation_error}
+\end{align}
+
+\noindent donde $\min{(t,t_1,t_2,t_3)}<\xi<\max{(t,t_1,t_2,t_3)}$. El cálculo de $\xi$ es complicado, pero podremos tomar una cota superior para $\lambda^{\romannumeral 4}$. Dado que $(\lambda,\mu,\nu)$ es un vector unitario, cada una de las coordenadas ha de ser menor que 1; además, la derivada de un vector unitario es unitaria\cite{unitary}, de manera que las coordenadas de la derivada n-ésima son menores que 1, y $(\lambda,\mu,\nu)^{(N)}=(\lambda^{(N)},\mu^{(N)},\nu^{(N)})$. Por tanto:
+\begin{align}
+|\lambda(t)-\lambda_L(t)|\leq\ddfrac{1}{4!}(t-t_1)(t-t_2)(t-t_3)
+\label{eq:interpolation_error_cota}
+\end{align}
+
+Utilizando un mayor número de observaciones dispondremos de más nodos; así, si hemos realizado $N$ observaciones la ecuación para el error será:
+\begin{align}
+|\lambda(t)-\lambda_L(t)|\leq\ddfrac{1}{(N+1)!}(t-t_1)...(t-t_N)
+\label{eq:interpolation_error_n_observations}
+\end{align}
+
+
+%%%
+%Considerando esta serie geométricamente podemos definir una curva que llamaremos $C$; por otra parte definiremos la curva $C_2$ como la que produce el polinomio de interpolación \eqref{eq:lambda_value}. Representando las dos en una misma gráfica podemos visualizar la diferencia entre el valor real y el aproximado mediante interpolación de las funciones estudiadas:
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.5]{images/fig_31.png}
+%\end{figure}
+%Dichas curvas se intersecan en $\tau_1$, $\tau_2$ y $\tau_3$, y en general en ningún otro punto; tomando valores pequeños de $\tau$ las dos curvas casi coincidirán.\\
+%%%
+
+
+Con el estudio del error y todo lo visto anteriormente, podemos justificar que los valores de $t$ han de ser pequeños en la práctica para que las cantidades aproximadas calculadas sean lo más cercanas a su valor original. Además, no tendría sentido una diferencia de tiempo muy grande entre las observaciones del objeto, pues pasaríamos mucho tiempo para determinar una única órbita.\\
 
 Por último, ya que necesitamos la primera y segunda derivada de $\lambda$, nos bastará con derivar del polinomio \eqref{eq:lambda_value}.
 \begin{align*}
-\lambda'_L = \frac{2\tau-(\tau_2+\tau_3)}{(\tau_1-\tau_2)(\tau_1-\tau_3)}\lambda_1
-+\frac{2\tau-(\tau_3+\tau_1)}{(\tau_2-\tau_3)(\tau_2-\tau_1)}\lambda_2
-+\frac{2\tau-(\tau_1+\tau_2)}{(\tau_3-\tau_1)(\tau_3-\tau_2)}\lambda_3\\
-\lambda''_L = \frac{2}{(\tau_1-\tau_2)(\tau_1-\tau_3)}\lambda_1
-+\frac{2}{(\tau_2-\tau_3)(\tau_2-\tau_1)}\lambda_2
-+\frac{2}{(\tau_3-\tau_1)(\tau_3-\tau_2)}\lambda_3
+\lambda'_L = \frac{2t-(t_2+t_3)}{(t_1-t_2)(t_1-t_3)}\lambda_1
++\frac{2t-(t_3+t_1)}{(t_2-t_3)(t_2-t_1)}\lambda_2
++\frac{2t-(t_1+t_2)}{(t_3-t_1)(t_3-t_2)}\lambda_3\\
+\lambda''_L = \frac{2}{(t_1-t_2)(t_1-t_3)}\lambda_1
++\frac{2}{(t_2-t_3)(t_2-t_1)}\lambda_2
++\frac{2}{(t_3-t_1)(t_3-t_2)}\lambda_3
 \end{align*}
 
-Tal y como comentamos anteriormente, se procederá al cálculo de $\mu$ y $\nu$ de manera similar a la desarrollada anteriormente.
+Tal y como comentamos anteriormente, se procederá al cálculo de $\mu$ y $\nu$ y al estudio de su error de aproximación de manera similar a la desarrollada anteriormente.
 
 \newpage
 
@@ -463,7 +492,7 @@ Así, tenemos que los valores de $\rho$ y sus derivadas pueden ser calculados me
 
 \noindent con $D$, $D_1$ y $D_2$ definidos anteriormente.\\
 
-Los determinantes $D$, $D_1$, $D_2$, $D_3$ están sujetos a pequeños errores dado que los valores implicados en ellos están calculados de forma aproximada, aunque dichos errores podrán ser corregidos tras calcular de forma aproximada el valor de $\rho$ y $\rho'$ con las ecuaciones superiores. Además, trabajamos bajo el supuesto de que las observaciones al objeto son realizadas desde el centro de la Tierra, y no desde un punto concreto de ella. Tras haber calculado de forma aproximada las distancias podremos corregir dichas observaciones por los efectos de la posición del observador sobre un punto en la superficie de la Tierra.\\
+Notar que los determinantes $D$, $D_1$, $D_2$, $D_3$ están sujetos a pequeños errores dado que los valores implicados en ellos no pueden ser calculados de forma exacta, procediendo a obtenerlos de manera aproximada. Además, trabajamos bajo el supuesto de que las observaciones al objeto son realizadas desde el centro de la Tierra, y no desde un punto concreto de ella. Tras haber calculado de forma aproximada las distancias podremos corregir dichas observaciones por los efectos de la posición del observador sobre un punto en la superficie de la Tierra.\\
 
 
 \subsection{\normalfont{\textit{Ecuaciones para la determinación de las distancias $r$ y $\rho$}}}
@@ -477,7 +506,7 @@ Recordemos la imagen \ref{fig:notation} en la que mostrábamos el triángulo for
 \label{fig:notation_angles}
 \end{figure}
 
-A partir de la figura superior, el producto escalar de $(X,Y,Z)$ con $(\lambda,\mu,\nu)$ y el teorema de los senos ($\ddfrac{a}{\sin{\alpha}}=\ddfrac{b}{\sin{\beta}}=\ddfrac{c}{\sin{\gamma}}$), podemos escribir las siguientes ecuaciones:
+A partir de la figura superior, del producto escalar de $(X,Y,Z)$ con $(\lambda,\mu,\nu)$ y del teorema de los senos ($\ddfrac{a}{\sin{\alpha}}=\ddfrac{b}{\sin{\beta}}=\ddfrac{c}{\sin{\gamma}}$), podemos escribir las siguientes ecuaciones:
 \begin{align}
 \left\{
 \begin{array}{l}
@@ -486,17 +515,17 @@ A partir de la figura superior, el producto escalar de $(X,Y,Z)$ con $(\lambda,\
 	r=R\ddfrac{\sin{\psi}}{\sin{\phi}}
 \end{array}
 \right.
-\label{eq:triangle_relations}
+\label{eq:triangle_relations_2}
 \end{align}
 
-Si sustituimos dichas ecuaciones en la ecuación de $\rho$ en \eqref{eq:rho_values}:
+Si sustituimos dichas ecuaciones en la ecuación de $\rho$ en \eqref{eq:rho_values}, esta pasará a ser:
 \[
 R\sin{\psi}\cos{\phi}+\left(R\cos{\psi}-\ddfrac{D_1}{DR^3}\right)\sin{\phi}=\ddfrac{-D_1}{DR^3\sin^3{\psi}}\sin^4{\phi}
 \]
 
-\noindent de manera que obtenemos una ecuación con una única incógnita, $\phi$.\\
+\noindent de manera que, ya que podemos obtener el valor de $\psi$ utilizando la primera ecuación de \eqref{eq:triangle_relations_2}, nos queda una ecuación con una única incógnita, $\phi$.\\
 
-Con el fin de simplificar esta expresión, definamos las siguientes expresiones:
+Con el fin de simplificar esta ecuación, definimos las siguientes expresiones:
 \begin{align}
 \left\{
 \begin{array}{l}
@@ -508,7 +537,9 @@ Con el fin de simplificar esta expresión, definamos las siguientes expresiones:
 \label{eq:to_simplify}
 \end{align}
 
-El signo de $N$ será elegido de tal manera que $M$ sea positivo; fijado el signo, las dos primeras ecuaciones de \eqref{eq:to_simplify} determinarán unívocamente los valores $N$ y $m$, y la expresión que queríamos simplificar pasa a ser simplemente:
+Hay ciertos casos excepcionales en las ecuaciones superiores. Si el término de la izquierda de la primera ecuación se anulase, llegaríamos a que $R\sin{\psi}=0$; como $R>0$ por definición, $\sin{\psi}=0$ y $\psi=k\pi$, $k\in\mathbb{Z}$, pero esta situación no es válida, pues entonces el sistema formado por el Sol, la Tierra y el objeto observado no formaría un triángulo tal y como queremos.\\
+
+El signo de $N$ será elegido de tal manera que $M$ sea positivo. Fijado el signo, las dos primeras ecuaciones de \eqref{eq:to_simplify} determinarán unívocamente los valores $N$ y $m$, y la expresión que queríamos simplificar pasa a ser simplemente:
 \begin{align}
 \def\arraystretch{2}
 \begin{array}{c}
@@ -518,7 +549,7 @@ El signo de $N$ será elegido de tal manera que $M$ sea positivo; fijado el sign
 \label{eq:phi_solution}
 \end{align}
 
-El valor para $M$ y $m$ serán conocidos cuando $M$ sea positivo. Busquemos ahora la solución de esta ecuación para $\phi$; dado que $\rho=0$ y $r=R$ es una solución al problema, podremos asegurar que $\phi=\pi-\psi$ es una solución válida, aunque no es de valor práctico dado que ésta corresponde a la posición del observador en la Tierra. Por tanto, dado que la solución ha de pertenecer al problema físico y que nos encontramos en un triángulo, podemos asegurar que:
+El valor para $M$ y $m$ será conocidos cuando $M$ sea positivo. Busquemos ahora la solución de esta ecuación para $\phi$; dado que $\rho=0$ y $r=R$ es una solución al problema, podremos asegurar que $\phi=\pi-\psi$ es una solución válida, aunque no es de valor práctico ya que que ésta corresponde a la posición del observador en la Tierra. Por tanto, dado que la solución ha de pertenecer al problema físico y que nos encontramos en un triángulo, podemos asegurar que:
 \[
 \phi<\pi-\psi
 \]
@@ -581,6 +612,37 @@ Supongamos que $\frac{D_1}{D}$ es negativo, de tal manera que, procediendo como 
 \textit{Si $\frac{D_1}{D}<0$, la distancia $r$ es menor que $R$, el ángulo $m$ estará en el primer cuadrante y disponemos de dos o tres soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
 \end{quote}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{\normalfont{\textit{Aproximación numérica mediante el método de Newton}}}
+%\label{subsec:newton}
+%Tras haber realizado un estudio teórico, hagamos ahora un estudio numérico de la ecuación \eqref{eq:phi_solution}. Dado que no podemos obtener los valores exactos de $\phi$ con los que se cumple dicha ecuación, utilizaremos el método de Newton para obtener un valor aproximado de éstos. Comencemos recordando dicho método.\\
+
+%Consideramos la ecuación $f(x)=0$ y $x^*$ tal que $f(x^*)=0$. Dado $x_0$, notamos por $\{x_n\}_{n\in\mathbb{N}}$ la sucesión de iterantes del método de Newton-Raphson,
+%\[
+%x_{n+1}=x_n-\ddfrac{f(x_n)}{f'(x_n)}, n\geq0
+%\]
+
+%\begin{proposition}
+%Sea $f\in\mathcal{C}([x^*-\alpha,x^*+\alpha])$, con $\alpha>0$ y $f'(x^*)\neq0$; entonces existe $\varepsilon>0$ tal que para todo $x_0$ con $|x_0-x^*|<\varepsilon$ se tiene:
+%\begin{itemize}
+%\item la sucesión $\{x_n\}_{n\in\mathbb{N}}$ está bien definida y converge a $x^*$.
+%\item Además, cuando $f''(x^*)\neq0$, dicha sucesión tiene orden de convergencia 2.\\
+%\end{itemize}
+%\end{proposition}
+
+%Para nuestro caso definiremos $f(\phi)=\sin^4{\phi}-M\sin{(\phi+m)}$, cuya derivada será $f'(\phi)=4\sin^3{\phi}\cos{\phi}-M\cos{(\phi+m)}$. A continuación, escribimos la sucesión de iterantes para el método de Newton-Raphson:
+%\begin{align}
+%\phi_{n+1}=\phi_n-\ddfrac{\sin^4{\phi_n}-M\sin{(\phi_n+m)}}{4\sin^3{\phi_n}\cos{\phi_n}-M\cos{(\phi_n+m)}}, n\geq0
+%\label{eq:phi_newton}
+%\end{align}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
 
 
 \subsection{\normalfont{\textit{Unicidad de la solución}}}
@@ -627,7 +689,66 @@ Así, conociendo que $MR>0$, llegamos a la conclusión de que la condición para
 \label{eq:condicion_unicidad}
 \end{align}
 
-Dado que todos los valores de estas ecuaciones están dados por simples observaciones, no será necesario resolver la ecuación \eqref{eq:phi_solution} para determinar la unicidad de la solución.
+Dado que todos los valores de estas ecuaciones están dados por simples observaciones, no será necesario resolver la ecuación \eqref{eq:phi_solution} para determinar la unicidad de la solución.\\
+
+Dado que $N\neq0$, el límite de las dos desigualdades será:
+\[
+\left[1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right]=0
+\]
+
+Ahora, utilicemos \eqref{eq:rho_values} y la relación \eqref{eq:triangle_relations_1} vista anteriormente para eliminar $\cos{\psi}$ y $\frac{D_1}{D}$ de la expresión superior.
+\[
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	\cos{\psi}=\ddfrac{r^2-\rho^2-R^2}{-2\rho R}\\
+	\ddfrac{D_1}{D}=\ddfrac{\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)}
+\end{array}
+\right.
+\]
+\[
+\def\arraystretch{2}
+\begin{array}{ll}
+& 1+\ddfrac{3}{R^4}\ddfrac{\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)}\ddfrac{r^2-\rho^2-R^2}{-2\rho R}=0\\
+\Longrightarrow & \ddfrac{3\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)}(r^2-\rho^2-R^2)=2\rho R^5\\
+\Longrightarrow & r^2-\rho^2-R^2=\ddfrac{2}{3}R^5\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)
+\end{array}
+\]
+
+Obtenemos así la igualdad:
+\begin{align}
+\rho^2=r^2+\ddfrac{2}{3}\ddfrac{R^5}{r^3}-\ddfrac{5}{3}R^2
+\label{eq:rho_cuadrado}
+\end{align}
+
+Si tomamos el miembro de la derecha de esta igualdad como una ecuación en $r$, tendremos que ésta alcanzará el mínimo en $r=0$, por lo que para cada valor de $r$ habrá un único valor positivo de $\rho$. Además, dado que estamos trabajando con el límite de las desigualdades \eqref{eq:condicion_unicidad}, todos los pares de valores $(\rho,r)$ que satisfagan la igualdad \eqref{eq:rho_cuadrado} se encontrarán en el límite de las regiones donde la solución es única, las cuales son superficies de revolución alrededor de la línea imaginaria que une la Tierra y el Sol. Para obtener una imagen más visual, representamos a continuación la sección de estas superficies con un plano que pase por la recta $SE$.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{images/fig_35.png}
+\caption{Sección de la superficie de revolución generada por los límites de \eqref{eq:condicion_unicidad}.}
+\label{fig:fig_35}
+\end{figure}
+
+En la imagen superior podemos ver que los límites para la condición de unicidad dividen el espacio en cuatro partes diferentes, dos sombreadas y las otras dos en blanco, de manera que las desigualdades de \eqref{eq:condicion_unicidad} mantienen el signo dentro de cada una de estas regiones y cambian de signo al cruzar la frontera de alguna de ellas.\\
+
+Estudiemos ahora en cuál de estas regiones obtenemos una solución única y en cual doble. Para ello, tomemos un punto a la izquierda de $E$ en la recta $SE$, en el cuál se cumplirá que $r=\rho+R$ y $\psi=\pi$. Con esto, comprobemos la unicidad con \eqref{eq:condicion_unicidad}:
+\[
+\def\arraystretch{2}
+\begin{array}{ll}
+  & 1+\ddfrac{3D_1}{DR^4}\cos{\psi} = 1-\ddfrac{3D_1}{DR^4} = 1-\ddfrac{3}{R^4}\ddfrac{\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)} = \\
+= & 1-\ddfrac{3\rho}{R-\ddfrac{R^4}{r^3}} = 1-\ddfrac{3\rho}{R-\ddfrac{R^4}{(\rho+R)^3}} = 1-\ddfrac{3\rho}{\ddfrac{R(\rho+R)^3-R^4}{(\rho+R)^3}} = \\
+= & 1-\ddfrac{3\rho(\rho+R)^3}{\rho^3R+3\rho^2R^2+3\rho R^3+R^4-R^4} = 1-\ddfrac{3(\rho+R)^3}{R(\rho^2+3\rho R+3R^2)}
+\end{array}
+\]
+
+Podemos ver fácilmente que esta última igualdad es negativa para un valor grande de $\rho$, y ya que hemos supuesto previamente que $r>R$, se sigue que $\ddfrac{D_1}{D}>0$ y $N<0$, por lo que estamos en la primera desigualdad de \eqref{eq:condicion_unicidad}. Ya que esta desigualdad está satisfecha, podemos concluir que la solución del problema será única si el objeto observado se encuentra en el área no sombreada a la izquierda de $E$.\\
+
+Cuando el objeto cruce de la región no sombreada a la izquierda de \ref{fig:fig_35} a una región sombreada, manteniendo que $r>R$, la función cambiará de signo mientras que el signo de $N$ no cambie, en cuyo caso la primera desigualdad de \eqref{eq:condicion_unicidad} no se cumplirá y estaremos en el caso de una solución doble. En esta región, la primera función de \eqref{eq:condicion_unicidad} es positiva y $N$ es negativo, por lo que si cruzamos al área pequeña sin sombra la función pasa a ser negativa y $N$ positivo, satisfaciendo así la segunda desigualdad y deduciendo así que la solución es única. De manera similar, podremos comprobar que la solución es doble en la región sombreada pequeña.\\
+
+Por tanto, el problema físico tendrá solución doble en las regiones sombreadas de la imagen \ref{fig:fig_35} y solución única en las regiones sin sombrear.\\
+
+
+
 
 
 
@@ -650,6 +771,8 @@ Dado que todos los valores de estas ecuaciones están dados por simples observac
 \bibitem{right_ascension_declination} \textsc{Sky \& Telescope}, \textsc{Right Ascension and Declination: Celestial Coordinates For Beginners}, \url{https://skyandtelescope.org/astronomy-resources/right-ascension-declination-celestial-coordinates/}
 
 \bibitem{ASA} \textsc{Solution of triangles}, \url{https://en.wikipedia.org/wiki/Solution_of_triangles#A_side_and_two_adjacent_angles_given_(ASA)}
+
+\bibitem{unitary} \textsc{Notes on Coordinate Systems and Unit Vectors}, \url{http://www.physics.purdue.edu/~jones105/phys310/coordinates.pdf}
 
 \end{thebibliography}
 
