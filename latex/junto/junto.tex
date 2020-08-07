@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage{amssymb,graphicx,amsmath,mathtools,float}
+\usepackage{amssymb,graphicx,amsmath,mathtools,float,subfig}
 \usepackage{lscape}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish, es-tabla]{babel}
@@ -390,15 +390,15 @@ Dado que en anteriores secciones hemos supuesto que $\lambda$, $\mu$, $\nu$ son 
 \label{eq:interpolation_error}
 \end{align}
 
-\noindent donde $\min{(t,t_1,t_2,t_3)}<\xi<\max{(t,t_1,t_2,t_3)}$. El cálculo de $\xi$ es complicado, pero podremos tomar una cota superior para $\lambda^{\romannumeral 4}$. Dado que $(\lambda,\mu,\nu)$ es un vector unitario, cada una de las coordenadas ha de ser menor que 1; además, la derivada de un vector unitario es unitaria\cite{unitary}, de manera que las coordenadas de la derivada n-ésima son menores que 1, y $(\lambda,\mu,\nu)^{(N)}=(\lambda^{(N)},\mu^{(N)},\nu^{(N)})$. Por tanto:
+\noindent donde $\min{(t,t_1,t_2,t_3)}<\xi<\max{(t,t_1,t_2,t_3)}$. El cálculo de $\xi$ es complicado, pero podremos tomar una cota superior para $\lambda^{\romannumeral 4}$. Sea $K_4$ dicha cota, con $|\lambda^{\romannumeral 4}(x)|\leq K_4$, entonces el error de la interpolación será:
 \begin{align}
-|\lambda(t)-\lambda_L(t)|\leq\ddfrac{1}{4!}(t-t_1)(t-t_2)(t-t_3)
+|\lambda(t)-\lambda_L(t)|\leq\ddfrac{K_4}{4!}(t-t_1)(t-t_2)(t-t_3)
 \label{eq:interpolation_error_cota}
 \end{align}
 
-Utilizando un mayor número de observaciones dispondremos de más nodos; así, si hemos realizado $N$ observaciones la ecuación para el error será:
+Utilizando un mayor número de observaciones dispondremos de más nodos; así, si hemos realizado $N$ observaciones, la ecuación para el error será:
 \begin{align}
-|\lambda(t)-\lambda_L(t)|\leq\ddfrac{1}{(N+1)!}(t-t_1)...(t-t_N)
+|\lambda(t)-\lambda_L(t)|\leq\ddfrac{K_N}{(N+1)!}(t-t_1)...(t-t_N)
 \label{eq:interpolation_error_n_observations}
 \end{align}
 
@@ -612,38 +612,35 @@ Supongamos que $\frac{D_1}{D}$ es negativo, de tal manera que, procediendo como 
 \textit{Si $\frac{D_1}{D}<0$, la distancia $r$ es menor que $R$, el ángulo $m$ estará en el primer cuadrante y disponemos de dos o tres soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
 \end{quote}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{\normalfont{\textit{Aproximación numérica mediante el método de Newton}}}
-%\label{subsec:newton}
-%Tras haber realizado un estudio teórico, hagamos ahora un estudio numérico de la ecuación \eqref{eq:phi_solution}. Dado que no podemos obtener los valores exactos de $\phi$ con los que se cumple dicha ecuación, utilizaremos el método de Newton para obtener un valor aproximado de éstos. Comencemos recordando dicho método.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Consideramos la ecuación $f(x)=0$ y $x^*$ tal que $f(x^*)=0$. Dado $x_0$, notamos por $\{x_n\}_{n\in\mathbb{N}}$ la sucesión de iterantes del método de Newton-Raphson,
-%\[
-%x_{n+1}=x_n-\ddfrac{f(x_n)}{f'(x_n)}, n\geq0
-%\]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\normalfont{\textit{Aproximación numérica mediante el método de Newton}}}
+\label{subsec:newton_rhapson}
+Tras haber realizado un estudio teórico de la ecuación \eqref{eq:phi_solution}, pasemos a buscar un método de resolución para ésta. Dado que no podemos encontrar valores exactos de $\phi$ que satisfagan la ecuación, pues es irresoluble, utilizaremos el método de Newton para obtener un valor aproximado.\\
 
-%\begin{proposition}
-%Sea $f\in\mathcal{C}([x^*-\alpha,x^*+\alpha])$, con $\alpha>0$ y $f'(x^*)\neq0$; entonces existe $\varepsilon>0$ tal que para todo $x_0$ con $|x_0-x^*|<\varepsilon$ se tiene:
-%\begin{itemize}
-%\item la sucesión $\{x_n\}_{n\in\mathbb{N}}$ está bien definida y converge a $x^*$.
-%\item Además, cuando $f''(x^*)\neq0$, dicha sucesión tiene orden de convergencia 2.\\
-%\end{itemize}
-%\end{proposition}
+Consideramos una función $f$ derivable y $x_0$ un valor inicial, definimos para cada $n$:
+\[
+x_{n+1}=x_n-\ddfrac{f(x_n)}{f'(x_n)}, n\geq0
+\]
 
-%Para nuestro caso definiremos $f(\phi)=\sin^4{\phi}-M\sin{(\phi+m)}$, cuya derivada será $f'(\phi)=4\sin^3{\phi}\cos{\phi}-M\cos{(\phi+m)}$. A continuación, escribimos la sucesión de iterantes para el método de Newton-Raphson:
-%\begin{align}
-%\phi_{n+1}=\phi_n-\ddfrac{\sin^4{\phi_n}-M\sin{(\phi_n+m)}}{4\sin^3{\phi_n}\cos{\phi_n}-M\cos{(\phi_n+m)}}, n\geq0
-%\label{eq:phi_newton}
-%\end{align}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Impondremos una tolerancia $\delta$ a la hora de aplicar el método de manera que cuando $|x_{k+1}-x_k|<\delta$, la solución será $x_{k+1}$. Es necesario que $f'(x)\neq0$ para poder llevar este método a la práctica.\\
 
+En nuestro caso, tomando $f(x)=\sin^4{x}-M\sin{(x+m)}$, tenemos que su derivada será $f'(x)=4\sin^3{x}\cos{x}-M\cos{(x+m)}$ de manera que la sucesión para la aproximación mediante el método de Newton será:
+\begin{align}
+x_{n+1}=x_n-\ddfrac{\sin^4{x_n}-M\sin{(x_n+m)}}{4\sin^3{x_n}\cos{x_n}-M\cos{(x_n+m)}}, \; \; \; \; \; n\geq0
+\label{eq:phi_newton}
+\end{align}
 
+El método de Newton no siempre es convergente, por lo que es conveniente mencionar los teoremas de convergencia de este método. 
+\begin{theorem}
+\label{theo:convergence_newton}
+Sea $f:I\rightarrow\mathbb{R}$ una función de clase 2 en un intervalo abierto $I$. Supongamos que existe $x^*$ tal que $f(x^*)=0$ y $f'(x^*)\neq0$; entonces, existe $\varepsilon>0$ tal que si $x_0\in[x^*-\varepsilon,x^*+\varepsilon]$, el método de Newton permite definir la sucesión $\{x_n\}_{n\in\mathbb{N}}$ que converge a $x^*$. Además, cuando $f''(x^*)\neq0$, dicha sucesión tiene orden de convergencia 2.\\
+\end{theorem}
 
+Dado que la función que queremos aproximar con el método de Newton es infinito-derivable por ser una función trigonométrica, podremos aplicar el teorema superior encontrado así el valor de $\phi$ para el que se cumple la ecuación \eqref{eq:phi_solution}; aún así, hemos de ser cuidadosos en la elección del intervalo $I$ donde aplicar el método de Newton, pues $f'$ se anula periódicamente, haciendo que el método no pudiera ser aplicable.\\
 
-
-
-
-
+%Notar que al aplicar el método la solución puede quedar fuera del intervalo $(0,\pi)$, aunque podremos \textit{trasladarla} hasta dicho intervalo utilizando la periodicidad de las funciones trigonométricas, sumando o restado $2\pi k$ un número $k$ de veces hasta quedar en dicho intervalo.\\
 
 \subsection{\normalfont{\textit{Unicidad de la solución}}}
 \label{subsec:unicidad}
@@ -721,7 +718,18 @@ Obtenemos así la igualdad:
 \label{eq:rho_cuadrado}
 \end{align}
 
-Si tomamos el miembro de la derecha de esta igualdad como una ecuación en $r$, tendremos que ésta alcanzará el mínimo en $r=0$, por lo que para cada valor de $r$ habrá un único valor positivo de $\rho$. Además, dado que estamos trabajando con el límite de las desigualdades \eqref{eq:condicion_unicidad}, todos los pares de valores $(\rho,r)$ que satisfagan la igualdad \eqref{eq:rho_cuadrado} se encontrarán en el límite de las regiones donde la solución es única, las cuales son superficies de revolución alrededor de la línea imaginaria que une la Tierra y el Sol. Para obtener una imagen más visual, representamos a continuación la sección de estas superficies con un plano que pase por la recta $SE$.
+Tomemos el miembro de la derecha de esta igualdad como una ecuación en $r$ y calculemos sus extremos mediante el método clásico:
+\[
+\ddfrac{\partial}{\partial r} (r^2+\ddfrac{2}{3}\ddfrac{R^5}{r^3}-\ddfrac{5}{3}R^2)=2r-\ddfrac{2R^5}{r}=0 \Longrightarrow R=r
+\]
+
+Por tanto, tenemos un extremo en $r=R$, que comprobaremos si es máximo o mínimo derivando una vez más:
+\[
+\ddfrac{\partial^2}{\partial r^2}(r^2+\ddfrac{2}{3}\ddfrac{R^5}{r^3}-\ddfrac{5}{3}R^2)=\ddfrac{8R^5}{r^5}+2
+ \; \; \; \xRightarrow[]{r=R} \; \; \; \ddfrac{8R^5}{R^5}+2>0, \; \; \; \forall R>0
+\]
+
+Así, tenemos un mínimo para nuestra función en $r=R$, y dado que el mínimo valor que puede tomar $R$ es cero, el miembro de la derecha de \eqref{eq:rho_cuadrado} alcanzará el mínimo en $r=0$, por lo que para cada valor de $r$ habrá un único valor positivo de $\rho$. Además, dado que estamos trabajando con el límite de las desigualdades \eqref{eq:condicion_unicidad}, todos los pares de valores $(\rho,r)$ que satisfagan la igualdad \eqref{eq:rho_cuadrado} se encontrarán en el límite de las regiones donde la solución es única, las cuales son superficies de revolución alrededor de la línea imaginaria que une la Tierra y el Sol. Para obtener una imagen más visual, representamos a continuación la sección de estas superficies con un plano que pase por la recta $SE$.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.3]{images/fig_35.png}
@@ -748,6 +756,102 @@ Cuando el objeto cruce de la región no sombreada a la izquierda de \ref{fig:fig
 Por tanto, el problema físico tendrá solución doble en las regiones sombreadas de la imagen \ref{fig:fig_35} y solución única en las regiones sin sombrear.\\
 
 
+
+\subsection{\normalfont{\textit{Límites en $m$ y $M$}}}
+\label{subsec:limites_m_M}
+A la hora de determinar una órbita en un problema real, hemos de tener en cuenta que los valores $m$ y $M$ han de cumplir que las soluciones reales de la ecuación \eqref{eq:phi_solution} estén entre $0$ y $\pi$, pues sino el Sol, la Tierra y el objeto observado no formarían un triángulo. Por tanto, hemos de determinar los límites para que esta condición se satisfaga, y dichos límites pueden ser determinados mediante las condiciones para que obtengamos raíces dobles.\\
+
+Para empezar, supongamos que $M$ es un valor fijo mientras $m$ varía. En el primer caso, que podemos ver en \ref{fig:phi_solution_m_negative_M_near_1}, se observan tres intersecciones de las curvas. Mientras $m$ vaya disminuyendo, la curva $y_2$ irá desplazándose hacia la derecha hasta que $\phi_1$ y $\phi_2$ pasen a ser iguales, teniendo así una raíz doble. De la misma manera, en \ref{fig:phi_solution_m_positive_M_near_1} observamos tres soluciones y, conforme $m$ aumente y desplace $y_2$ a la izquierda, $\phi_2$ y $\phi_3$ se igualarán.\\
+
+\begin{figure}[H]
+\centering
+%\subfloat{
+%	\includegraphics[scale=0.1]{images/minuscula_varia_primer_caso.png}
+%	\includegraphics[scale=0.1]{images/minuscula_varia_segundo_caso.png}
+%}
+\includegraphics[scale=0.115]{images/minuscula_varia_primer_caso.png}
+\caption{Variación de $m$ en la figura \ref{fig:phi_solution_m_negative_M_near_1} hasta obtener una solución doble.}
+\label{fig:minuscula_varia_primer_caso}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.115]{images/minuscula_varia_segundo_caso.png}
+\caption{Variación de $m$ en la figura \ref{fig:phi_solution_m_positive_M_near_1} hasta obtener una solución doble.}
+\label{fig:minuscula_varia_segundo_caso}
+\end{figure}
+
+Veamos ahora el otro caso; fijamos $m$ y vamos aumentando $M$ empezando desde un valor pequeño. Conforme $M$ aumente, la amplitud de $y_2$ aumentará, dejando fijo, en el primer caso (figura \ref{fig:phi_solution_m_negative_M_near_1}), $\phi_1$ y llegando a un punto donde $\phi_2$ y $\phi_3$ serán iguales. Funcionará análogamente con el segundo caso.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.115]{images/mayuscula_varia_primer_caso.png}
+\caption{Variación de $M$ en la figura \ref{fig:phi_solution_m_negative_M_near_1} hasta obtener una solución doble.}
+\label{fig:mayuscula_varia_primer_caso}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.115]{images/mayuscula_varia_segundo_caso.png}
+\caption{Variación de $M$ en la figura \ref{fig:phi_solution_m_positive_M_near_1} hasta obtener una solución doble.}
+\label{fig:mayuscula_varia_segundo_caso}
+\end{figure}
+
+Las condiciones en las que la ecuación \eqref{eq:phi_solution} tendrá una solución doble son:
+\begin{align}
+\left\{
+\begin{array}{l}
+	\sin^4{\phi}=M\sin{(\phi+m)}\\
+	4\sin^3{\phi}\cos{\phi}=M\cos{(\phi+m)}
+\end{array}
+\right.
+\label{eq:condicion_raiz_doble}
+\end{align}
+
+Con el fin de encontrar las condiciones a las que esté sujeto $m$ para que la raíz sea doble, dividamos las dos ecuaciones superiores y resolvamos para la $\tan{\phi}$.
+\begin{align}
+\def\arraystretch{2}
+\begin{array}{ll}
+  & \ddfrac{\sin^4{\phi}}{4\sin^3{\phi}\cos{\phi}}=\ddfrac{M\sin{(\phi+m)}}{M\cos{(\phi+m)}}\Longrightarrow \ddfrac{1}{4}\tan{\phi}=\tan{(\phi+m)}\\
+\Longrightarrow & \ddfrac{1}{4}\tan{\phi}=\ddfrac{\tan{m}+\tan{\phi}}{1-\tan{m}\tan{\phi}} \Longrightarrow \tan{\phi}-(\tan{\phi})^2\tan{m}=4\tan{m}+4\tan{\phi}\\
+\Longrightarrow & \tan^2{\phi}\tan{m}+3\tan{\phi}+4\tan{m}=0 \Longrightarrow \tan{\phi}=\ddfrac{-3\pm\sqrt{9-16\tan^2{m}}}{2\tan{m}}
+\end{array}
+\label{eq:tan_phi}
+\end{align}
+
+Así, para que $\tan{\phi}$ tenga soluciones reales $m$ ha de estar sujeto a la condición:
+\[
+9-\tan^2{m}\geq0,
+\]
+\noindent y resolviendo esta inecuación para $m$ obtendremos:
+\begin{align}
+\left\{
+\begin{array}{l}
+	0 \leq m \leq 36º52'\\
+	323º8' \leq m \leq 360º
+\end{array}
+\right.
+\label{eq:m_condition}
+\end{align}
+
+El primer rango de valores pertenecerá al segundo caso comentado, representado en la figura \ref{fig:phi_solution_m_positive_M_near_1}, y viceversa.\\
+
+Utilizando este rango de valores, para cada $m$ habrá dos soluciones de \eqref{eq:tan_phi} en el intervalo $(0,\pi)$. Si tomamos $m$ entre $323º8'$ y $360º$, la tangente de $m$ será negativa y $\tan{\phi}$ será positiva independientemente de qué signo tomemos antes de la raíz; además, $\tan{\phi}$ será menor cuando cojamos el signo negativo. De tal manera, si tomamos el radical positivo estaremos en el caso $\phi_1=\phi_2$ (figura \ref{fig:minuscula_varia_primer_caso}) y si lo tomamos negativo estaremos en el caso $\phi_2=\phi_3$ (figura \ref{fig:mayuscula_varia_primer_caso}). Por último, si tomamos $m$ como un valor límite del intervalo estaremos ante el caso $9-\tan^2{m}=0$, por lo que $\phi_1=\phi_2=\phi_3$. Si tomamos el caso $0 \leq m \leq 36º52'$ tendremos que $\tan{m}>0$ y la discusión será análoga a la anterior.\\
+
+Los valores límite de $\phi$ definidos por \eqref{eq:tan_phi} según el rango de valores para $m$ serán:
+\begin{align}
+\phi=\arctan{(\ddfrac{-3}{2\tan{m}})} \Longrightarrow
+\left\{
+\begin{array}{l}
+	\phi=116º34'\\
+	\phi=63º26'
+\end{array}
+\right.
+\end{align}
+
+Utilizando estos valores de $\phi$ podemos obtener un valor para $M$ mediante las ecuaciones \eqref{eq:condicion_raiz_doble}, $M=1.431$, y dicho valor se corresponderá con el máximo $M$ para el cuál \eqref{eq:phi_solution} tiene tres soluciones en el intervalo $(0,\pi)$.\\
+
+Supongamos que $m$ toma el valor límite $323º8'$ y va aumentando hasta su límite superior, $360º$. Como hemos visto anteriormente, comenzaremos teniendo una raíz doble y los dos valores de $\phi$ se corresponderán con $63º26'$, y conforme $m$ aumente, uno irá hacia $0º$ y otro hacia $90º$. Respecto a los dos valores correspondientes a $M$, comenzarán en el límite, $M=1.431$, e irán decreciendo, uno de ellos hasta $0$ y el otro hasta la unidad. Notar que para cada $m$ que tomemos en los intervalos definidos en \eqref{eq:m_condition} existirán dos límites de $M$ de manera que \eqref{eq:phi_solution} tenga tres soluciones reales; por tanto, estos límites han de ser tenidos en cuenta con el fin de reducir el trabajo lo máximo posible.\\
 
 
 
