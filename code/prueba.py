@@ -6,11 +6,10 @@ Created on Thu Jul 30 12:08:44 2020
 @author: simon
 """
 
-
 import numpy as np
 #from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
 
 class OrbitalObject:
@@ -48,7 +47,7 @@ Earth = OrbitalObject(name='Earth',
 					  e=0.01671123,
 					  i=0,
 					  Omega=0,
-					  omega=0,
+					  omega=101.22,
 					  p=365.256363)
 
 Saturn = OrbitalObject(name='Saturn',
@@ -81,7 +80,7 @@ def orbital_elements(x,vx,name='NotAssigned'):
 	# El valor de mu está en m^3*s^-2, mientras que x y vx están en
 	# au y au/day respectivamente. Hacemos la conversión:
 	mu=G*M
-	mu=86400.0**2*mu/149597870700.0**3	
+	mu=86400.0**2*mu/149597870700.0**3
 	
 	# Calculamos la energía, y con ella el semieje mayor
 	h=(vx_norm*vx_norm)/2 - mu/x_norm
@@ -118,8 +117,24 @@ def orbital_elements(x,vx,name='NotAssigned'):
 	
 	return orbital
 
+def rotation_matrix(axis,ang):
+	if axis=='x':
+		return np.matrix([[1, 0,           0          ],
+					      [0, np.cos(ang),-np.sin(ang)],
+						  [0, np.sin(ang), np.cos(ang)]])
+	if axis=='y':
+		return np.matrix([[np.cos(ang), 0,-np.sin(ang)],
+					      [0,           1, 0          ],
+						  [np.sin(ang), 0, np.cos(ang)]])
+	if axis=='z':
+		return np.matrix([[np.cos(ang),-np.sin(ang), 0],
+					      [np.sin(ang), np.cos(ang), 0],
+						  [0,           0,           1]])
+	return float('NaN')
+		
 
-def rotate(obj, x_ang, y_ang, z_ang):
+def rotate(obj, omega, i, Omega):
+	'''
 	rot_x = np.matrix([[1, 0,             0            ],
 				       [0, np.cos(x_ang),-np.sin(x_ang)],
 					   [0, np.sin(x_ang), np.cos(x_ang)]])
@@ -131,13 +146,13 @@ def rotate(obj, x_ang, y_ang, z_ang):
 	rot_z = np.matrix([[np.cos(z_ang),-np.sin(z_ang), 0],
 					   [np.sin(z_ang), np.cos(z_ang), 0],
 					   [0,             0,             1]])
-	
+	'''
 	obj=np.transpose(obj)
 	
-	for i in range(len(obj)):
-		obj[i]=np.dot(rot_y,obj[i])
-		obj[i]=np.dot(rot_x,obj[i])
-		obj[i]=np.dot(rot_z,obj[i])
+	for ind in range(len(obj)):
+		obj[ind]=np.dot(rotation_matrix('z',omega),obj[ind])
+		obj[ind]=np.dot(rotation_matrix('y',i),obj[ind])
+		obj[ind]=np.dot(rotation_matrix('z',Omega),obj[ind])
 	
 	return np.transpose(obj)
 	
@@ -168,22 +183,28 @@ def plotOrbit(orbita,earthOrbit=False):
 		# Dibujamos las elipses y las rotamos
 		u = np.linspace(0, 2*np.pi, 1000)
 		ellipse=np.array([orb.a*np.cos(u)+center, b*np.sin(u), np.zeros(len(u))])
-		ellipse=rotate(ellipse,0,orb.i,orb.Omega)
+		line_of_nodes=np.array([np.zeros(2),
+							    np.linspace(min(ellipse[1]),max(ellipse[1]),2),
+								np.zeros(2)])
+		
+		ellipse=rotate(ellipse,orb.omega,orb.i,orb.Omega)
+		line_of_nodes=rotate(line_of_nodes,orb.omega,orb.i,orb.Omega)
 		
 		ax.plot3D(ellipse[0],ellipse[1],ellipse[2], color=colors[color_i])
 		color_i+=1
-		
-		#line_of_nodes=np.array([np.zeros(2),
-		#					    np.linspace(min(ellipse[1]),max(ellipse[1]),2),
-		#						np.zeros(2)])
-		#line_of_nodes=rotate(line_of_nodes,0,np.pi/5,Omega)
-		#ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
+		ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
 	
 	if earthOrbit:
 		b=Earth.a*np.sqrt((1-Earth.e**2))
 		center=Earth.a*Earth.e
 		ax.plot3D(Earth.a*np.cos(u)+center, b*np.sin(u), 0, 'red')
-
+	
+	line_of_nodes=np.array([np.zeros(2),
+						    np.linspace(-40,40,2),
+							np.zeros(2)])
+	ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
+	
+	
 	# Establecemos los límites para los ejes
 	Xlim=np.asarray(ax.get_xlim3d())
 	Xlim_mid=np.asarray([-(Xlim[1]-Xlim[0])/2,(Xlim[1]-Xlim[0])/2])	
@@ -243,9 +264,9 @@ def main():
 	r=np.array([X,Y,Z])
 	v=np.array([VX,VY,VZ])
 	
-	orb=orbital_elements(r,v)
-	
-	orbits=list([orb,Saturn,Jupiter])
+	Pluto=orbital_elements(r,v,name='Pluto')
+	print(Pluto)
+	orbits=list([Pluto,Saturn,Jupiter])
 	
 	plotOrbit(orbits,True)
 	

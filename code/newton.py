@@ -8,8 +8,23 @@ Created on Mon Aug  3 18:10:42 2020
 
 from sympy import *
 import numpy as np
+import matplotlib.pyplot as plt
 
 x = Symbol('x')
+
+
+def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
+	'''
+	rel_tol is a relative tolerance, it is multiplied by
+	the greater of the magnitudes of the two arguments;
+	as the values get larger, so does the allowed difference
+	between them while still considering them equal.
+	
+	abs_tol is an absolute tolerance that is applied as-is in 
+	all cases. If the difference is less than either of 
+	those tolerances, the values are considered equal.
+	'''
+	return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 
 def newton_method(f,x_0,max_iters,tol):
@@ -26,24 +41,52 @@ def newton_method(f,x_0,max_iters,tol):
 
 
 
-def approximate_phi(M,m,x_0):
+def approximate_phi(M,m,plot=False):
 	max_iters=10000
+	tol=0.000000001
+	max_tries=16
+	
 	f = sin(x)**4-M*sin(x+m)
-	phi,n_iters=newton_method(f=f,x_0=x_0,max_iters=max_iters,tol=0.000000001)
+	phi_values=list()
 	
-	# Si llegamos al número máximo de iteraciones probablemente el valor
-	# aproximado no sea correcto, por lo que devolvemos NaN
-	if n_iters==max_iters:
-		phi=float('nan')
+	for i in range(max_tries):
+		x_0=i*2*np.pi/max_tries
+		phi,n_iters=newton_method(f=f,x_0=x_0,max_iters=max_iters,tol=tol)
+		
+		# Si llegamos al número máximo de iteraciones probablemente el valor
+		# aproximado no sea correcto, por lo que devolvemos NaN
+		if n_iters==max_iters:
+			phi=float('nan')
+		
+		# Por la periodicidad de la función, podemos trasladar a (0,2pi)
+		while phi<0 or phi>2*np.pi:
+			if phi<0:
+				phi+=2*np.pi
+			else:
+				phi-=2*np.pi
+		
+		# Comprobamos que el valor calculado no sea similar a otro
+		# calculado previamente
+		add=True
+		for s in phi_values:
+			if isclose(phi,s,rel_tol=10000*tol):
+				add=False
+				break
+		
+		if add:
+			phi_values.append(phi)
+		
+	phi_values = [s for s in phi_values if s<np.pi]
+	phi_values.sort()
 	
-	# Por la periodicidad de la función, podemos trasladar a (0,2pi)
-	while phi<0 or phi>2*np.pi:
-		if phi<0:
-			phi+=2*np.pi
-		else:
-			phi-=2*np.pi
+	if plot:
+		t=np.arange(0.,np.pi,np.pi/64)
+		plt.clf()
+		plt.plot(t,np.sin(t)**4, color='blue')
+		plt.plot(t,M*np.sin(t+m),color='green')
+		plt.plot(phi_values,np.sin(phi_values)**4,'ro')
 	
-	return phi,n_iters
+	return phi_values
 
 	
 def main():
@@ -53,21 +96,13 @@ def main():
 	print('sqrt(3) = '+ str(raiz_3) +';\t n_iters = ' + str(n_iters))
 	
 	
-	M=0.6
-	m=6.09
-	phi_values=list()
+	M=0.3695715755580589
+	m=-0.034911329608047485
 	
+	lista=approximate_phi(M,m,plot=True)
 	
-	for i in range(8):
-		x_0=i*2*np.pi/8
-		phi,n_iters=approximate_phi(M,m,x_0)
-		print('\nx_0 = '+ str(x_0))
-		print('phi = '+ str(phi) +';\t n_iters = ' + str(n_iters))
-		
-		if not phi in phi_values:
-			phi_values.append(phi)
-			
-	phi_values = [s for s in phi_values if s<np.pi]
+	print(lista)
+	
 	
 	
 
