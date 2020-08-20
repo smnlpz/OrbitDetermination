@@ -52,37 +52,53 @@
 
 
 \section{Método Laplaciano de Determinación}
-
-\subsection{\normalfont{\textit{Determinar el valor de la primera y segunda derivada de $\lambda$, $\mu$, $\nu$, $X$, $Y$, $Z$ en algún momento $t$.}}}
+%Determinar el valor de la primera y segunda derivada de $\lambda$, $\mu$, $\nu$, $X$, $Y$, $Z$ en algún momento $t$.
+\subsection{\normalfont{\textit{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ en algún momento $t$.}}}
 \label{subsec:primera_segunda_derivada}
-Dado que no podemos calcular el valor exacto de la derivada de $\lambda$, $\mu$ y $\nu$, utilizaremos fórmulas de derivación numérica con dos nodos para obtener un valor aproximado de éstas. Tomemos, por ejemplo, $t=t_2$, que por el momento nos bastará para demostrar que se puede realizar una buena aproximación. Supongamos que el valor de $\lambda'$ no cambia muy rápido; entonces, el valor de ésta en $t_2$ en el intervalo $[t_1,t_2]$ será muy cercano al valor de:
+Dado que no podemos calcular el valor exacto de las derivadas de $\lambda$, $\mu$, $\nu$, utilizaremos fórmulas de derivación numérica con dos nodos para obtener un valor aproximado de éstas. Tomemos, por ejemplo, $t=t_2$, que por el momento nos bastará para demostrar que se puede realizar una buena aproximación. Supongamos que el valor de $\lambda'$ no cambia muy rápido; entonces, el valor de la derivada en $t_2$ en el intervalo $[t_1,t_2]$ será muy cercano al valor de:
 \[
-\lambda_{12}'=\frac{\lambda_2-\lambda_1}{t_2-t_1},
+\lambda_{12}'=\frac{\lambda(t_2)-\lambda(t_1)}{t_2-t_1},
 \]
 
-\noindent y dado que los nodos elegidos cumplen $t_2>t_1$, estaremos ante una diferencia regresiva. Análogamente podremos aproximar el valor de la derivada en $t_2$ mediante una diferencia progresiva, al que llamaremos $\lambda_{23}'$.\\
+\noindent y dado que los nodos elegidos cumplen $t_2>t_1$, estaremos ante una diferencia regresiva. Análogamente podremos aproximar el valor de la derivada en $t_2$ mediante una diferencia progresiva, a la que llamaremos $\lambda_{23}'$.\\
 
 El error de estas aproximaciones, suponiendo que $\lambda$ sea de clase 2 en el intervalo de aproximación, es del orden de $(t_2-t_1)$ y $(t_3-t_2)$ para $\lambda_{12}'$ y $\lambda_{23}'$ respectivamente. Por tanto, cuanto más pequeño sea el intervalo donde realizamos las operaciones, es de esperar que la aproximación obtenida sea mejor. Además, si la longitud del intervalo $[t_1,t_2]$ es igual a la longitud de $[t_2,t_3]$, podremos calcular el valor aproximado de $\lambda'$ en $t_2$ mediante una diferencia centrada, obteniendo:
 \[
 \lambda'_2=\frac{\lambda_{12}'+\lambda_{23}'}{2}
 \]
 
-\noindent es decir, la media de los dos valores calculados anteriormente. Si los intervalos tienen una longitud diferente, podremos ajustar la disparidad entre ellos para realizar la aproximación.\\
+Si los intervalos tienen una longitud diferente, podremos ajustar la disparidad entre ellos para realizar la aproximación o utilizar un método diferente para aproximar la derivada, como veremos en \ref{subsec:series_potencias}.\\
 
-Análogamente, podremos definir la derivada segunda de $\lambda$ en $t_2$ de manera aproximada como:
+Análogamente podremos definir la derivada segunda de $\lambda$ en $t_2$, en la que utilizaremos los valores de la primera derivada obtenidos anteriormente:
 \[
 \lambda''_2=\frac{\lambda_{23}'-\lambda_{12}'}{\frac{1}{2}(t_3-t_1)}
 \]
 
-\noindent de orden $(t_3-t_1)^2$ siempre que $\lambda\in\mathcal{C}^4[t_1,t_3]$. Utilizaremos el mismo método para calcular la primera y segunda derivada de $\mu$ y $\nu$, y podemos suponer que las tres funciones son de clase infinito en todo $\mathbb{R}$.\\
+Dicha aproximación será de orden $(t_3-t_1)^2$ siempre que $\lambda\in\mathcal{C}^4[t_1,t_3]$. Mediante este mismo método calcularemos la primera y segunda derivada de $\mu$ y $\nu$; además, podemos suponer que las tres funciones son de clase infinito en todo $\mathbb{R}$.\\
 
 Como hemos comentado antes, las aproximaciones obtenidas de esta manera es razonable que sean más cercanas cuanto menor sea la longitud de los intervalos entre las observaciones, y generalmente, en la práctica, los intervalos que utilizaremos serán cortos.\\
 
-Finalmente, para calcular la primera y segunda derivada de $X$, $Y$ y $Z$ utilizaremos la efemérides proporcionada por el \href{https://ssd.jpl.nasa.gov/horizons.cgi}{\textit{Jet Propulsion Laboratory}} en su página web, que nos dará el valor de estas variables para cualquier día del año\footnote{Mientras que el JPL proporciona una herramienta para generar efemérides, hemos de tener en cuenta que no podemos escoger una posición exacta de observación en la Tierra. Para ello, podemos utilizar \href{http://xjubier.free.fr/en/site_pages/astronomy/ephemerides.html}{\textit{esta}} página.}.\\
+Finalmente, necesitaremos tener los valores de la primera y segunda derivada de $X$, $Y$, $Z$, correspondientes al vector de $S$ a $E$, aunque no tendremos por qué calcularlos de manera aproximada. Para obtener dichas cantidades exactas utilizaremos la efemérides proporcionada por el \href{https://ssd.jpl.nasa.gov/horizons.cgi}{\textit{Jet Propulsion Laboratory}} en su página web, que nos dará el valor de estas variables para cualquier día del año, a cualquier hora y desde cualquier coordenada terrestre. Notar que aquí solo aparecerá la posición y velocidad, pero dado que $E$ gira alrededor de $S$ en concordancia con la ley de Gravitación Universal, podremos calcular la segunda derivada mediante:
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	X'' = -\ddfrac{k^2X}{R^3}\\
+	Y'' = -\ddfrac{k^2Y}{R^3}\\
+	Z'' = -\ddfrac{k^2Z}{R^3}
+\end{array}
+\right.
+\label{eq:ley_gravitacion_S_E}
+\end{align}
 
+\noindent donde $k^2=GM$, parámetro gravitacional estándar, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol. Tomamos solo la masa del Sol, $M$, ya que la masa de nuestro cuerpo es despreciable en comparación con ésta usando como modelo el problema de Kepler.\\
+
+
+
+%Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.
 \subsection{\normalfont{\textit{Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}}}
 \label{subsec:ley_gravitacion}
-Asumiendo que el cuerpo observado $C$ no está alterado por la interacción con otros cuerpos cercanos, podemos asegurar que cumplirá siguientes ecuaciones diferenciales:
+Asumiendo que el cuerpo observado $C$ no está alterado por la interacción con otros cuerpos cercanos, podemos asegurar que cumplirá el problema de Kepler, dando lugar a las siguientes ecuaciones diferenciales:
 \begin{align}
 \left\{
 \def\arraystretch{2}
@@ -92,10 +108,10 @@ Asumiendo que el cuerpo observado $C$ no está alterado por la interacción con 
 	\ddfrac{d^2z}{dt^2}=-\ddfrac{k^2z}{r^3}
 \end{array}
 \right.
-\label{eq:ley_gravitacion_C}
+\label{eq:ley_gravitacion_S_C}
 \end{align}
 
-\noindent donde $k^2=GM$, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol. Tomamos solo la masa del Sol, $M$, ya que la masa de nuestro cuerpo es despreciable en comparación con ésta usando como modelo el problema de Kepler.\\
+\noindent análogas a las que hemos visto para $S$ y $E$ en \eqref{eq:ley_gravitacion_S_E}.\\
 
 Además, utilizando las \hyperref[eq:terminologia]{relaciones entre $E$, $C$ y $S$}, así como los resultados vistos anteriormente, llegamos a:
 \begin{align}
@@ -109,7 +125,7 @@ Además, utilizando las \hyperref[eq:terminologia]{relaciones entre $E$, $C$ y $
 \label{eq:relacion_C_S_E}
 \end{align}
 
-\noindent y sustituyendo los valores obtenidos en las  ecuaciones \eqref{eq:ley_gravitacion_C}, obtenemos lo siguiente:
+\noindent y sustituyendo los valores obtenidos en las  ecuaciones \eqref{eq:ley_gravitacion_S_C}, obtenemos:
 \begin{align}
 \left\{
 \def\arraystretch{2}
@@ -122,27 +138,14 @@ Además, utilizando las \hyperref[eq:terminologia]{relaciones entre $E$, $C$ y $
 \label{eq:derivada_segunda}
 \end{align}
 
-Desarrollando la segunda derivada de $\rho\lambda$ conseguimos:
+Desarrollando la segunda derivada de $\rho\lambda$ llegamos a:
 \[
 (\rho\lambda)''=(\rho'\lambda+\rho\lambda')'=\rho''\lambda+2\rho'\lambda'+\rho\lambda'',
 \]
 
 \noindent valor que utilizaremos más adelante.\\
 
-De la misma manera que hemos hecho con $C$, escribimos las ecuaciones de gravitación para $E$, que gira alrededor de $S$ en concordancia con la ley de gravitación universal.
-\begin{align}
-\left\{
-\def\arraystretch{2}
-\begin{array}{l}
-	X'' = -\ddfrac{k^2X}{R^3}\\
-	Y'' = -\ddfrac{k^2Y}{R^3}\\
-	Z'' = -\ddfrac{k^2Z}{R^3}
-\end{array}
-\right.
-\label{eq:ley_gravitacion_E}
-\end{align}\\
-
-Utilizando este resultado, sustituyendo en la ecuación \eqref{eq:derivada_segunda} y desarrollando llegamos a lo siguiente:
+Utilizando el resultado \eqref{eq:ley_gravitacion_S_E}, sustituyendo en la ecuación \eqref{eq:derivada_segunda} y desarrollando llegamos a lo siguiente:
 \begin{align}
 \left\{
 \def\arraystretch{2}
@@ -155,12 +158,13 @@ Utilizando este resultado, sustituyendo en la ecuación \eqref{eq:derivada_segun
 \label{eq:fundamental_equations}
 \end{align}
 
-Así, las incógnitas de las ecuaciones pasan a ser $r, \; \rho, \; \rho'$ y $\rho''$.\\
+\noindent a las que llamaremos ecuaciones fundamentales. Así, las incógnitas de las ecuaciones a resolver pasan a ser $r, \; \rho, \; \rho'$ y $\rho''$.\\
 
-\subsection{\normalfont{\textit{Determinar la Distancia de $C$ desde $E$ y $S$}}}
+
+
+\subsection{\normalfont{\textit{Determinación de las distancias de $C$ a $E$ y $S$.}}}
 \label{subsec:distancias}
-Para resolver este paso, utilizaremos las ecuaciones que hemos acabado obteniendo del paso anterior, \eqref{eq:fundamental_equations}, y una condición geométrica que cumplirán los tres cuerpos. Para ello, tomaremos el sistema \eqref{eq:fundamental_equations} como un sistema lineal en $\rho, \rho'$ y $\rho''$ y resolveremos utilizando la regla de Cramer. Comencemos definiendo el siguiente determinante:
-
+Actualmente disponemos de un vector unitario $(\lambda,\mu,\nu)$ que apunta desde la Tierra hacia el cuerpo observado, pero desconocemos la distancia que hay entre estos dos cuerpos. Para determinar tanto esta distancia como la que hay desde $S$ hasta $C$, utilizaremos las ecuaciones fundamentales obtenidas al final del paso anterior, \eqref{eq:fundamental_equations}, y una condición geométrica que cumplirán los tres cuerpos. Para llevar a cabo esto, tomaremos el sistema \eqref{eq:fundamental_equations} como un sistema lineal en $\rho$, $\rho'$ y $\rho''$ y resolveremos utilizando la regla de Cramer. Comencemos definiendo el siguiente determinante:
 \[
 D =
 \left|
@@ -182,11 +186,9 @@ D =
 =2W(\lambda,\mu,\nu)
 \]
 
-\noindent siendo $W(\lambda,\mu\nu)$ el Wronskiano de las coordenadas angulares.\\
+\noindent siendo $W(\lambda,\mu,\nu)$ el Wronskiano de las coordenadas angulares. La segunda forma del determinante ha sido obtenida mediante la transformación $C_3-\frac{k^2\lambda}{r^3}C_1$ sobre la matriz, donde $C_i$ representará la columna i-ésima. Una vez hayamos sustituido las derivadas exactas por su valor aproximado calculado anteriormente, conoceremos todas las cantidades de este determinante.\\
 
-Esta segunda forma del determinante la obtenemos mediante la transformación $C_3-\frac{k^2\lambda}{r^3}C_1$ sobre la matriz, donde $C_i$ representará la columna i-ésima. Una vez hayamos sustituido las derivadas exactas por su valor aproximado calculado anteriormente, conoceremos todas las cantidades de este determinante.\\
-
-Por otra parte, definiremos el determinante $D_1$, que utilizaremos para calcular $\rho$ mediante la regla de Cramer, reemplazando la tercera columna por los términos independientes del sistema \eqref{eq:fundamental_equations} y omitiendo el factor $[\frac{1}{R^3}-\frac{1}{r^3}]$, conociendo de nuevo todas las cantidades utilizadas. Así, obtenemos el siguiente determinante:
+Por otra parte, definiremos el determinante $D_1$, que utilizaremos para calcular $\rho$ mediante la regla de Cramer, reemplazando la tercera columna por los términos independientes del sistema \eqref{eq:fundamental_equations} y omitiendo el factor $[\frac{1}{R^3}-\frac{1}{r^3}]$, que añadiremos más adelante. De nuevo, conocemos todas las cantidades utilizadas. Así, obtenemos el siguiente determinante:
 \[
 D_1 = -2k^2
 \left|
@@ -198,7 +200,7 @@ D_1 = -2k^2
 \right|
 \]
 
-Con todo esto, la distancia $\rho$ se determina por
+Con todo esto, la distancia $\rho$ será determinada por:
 \[
 \rho = \frac{D_1}{D}[\frac{1}{R^3}-\frac{1}{r^3}],
 \]
@@ -216,9 +218,9 @@ Dado que disponemos de los valores $\overrightarrow{SE}=(X,Y,Z)$ y $\overrightar
 \cos{\psi}=\frac{\langle\overrightarrow{SE},\overrightarrow{EC}\rangle}{|\overrightarrow{SE}||\overrightarrow{EC}|}=\frac{\langle(X,Y,Z),(\lambda,\mu,\nu)\rangle}{R}
 \]
 
-Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valores de $\rho$ y $r$, habiendo terminado este paso. Más adelante discutiremos la unicidad de la solución en el sistema con $r,\rho>0$ (\ref{subsec:unicidad}). Al solucionar este problema, podremos calcular las coordenadas de $C$ mediante las ecuaciones \eqref{eq:relacion_C_S_E} de las relaciones entre $S$, $E$ y $C$.\\
+Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valores de $\rho$ y $r$, habiendo terminado este paso. Más adelante discutiremos la unicidad de la solución en el sistema con $r,\rho>0$ (\ref{subsec:unicidad}). Al encontrar la solución de este sistema podremos calcular las coordenadas de $C$ mediante las ecuaciones \eqref{eq:relacion_C_S_E} de las relaciones entre $S$, $E$ y $C$.\\
 
-\subsection{\normalfont{\textit{Determinación de las Componentes de Velocidad de $C$}}}
+\subsection{\normalfont{\textit{Determinación de las componentes de velocidad de $C$.}}}
 \label{subsec:velocity_component}
 Se sigue de las ecuaciones \eqref{eq:relacion_C_S_E} que:
 \[
@@ -247,15 +249,15 @@ D_2 = -k^2
 
 Notar que en $D_2$ también hemos realizado la operación $C_3-\frac{k^2\lambda}{r^3}C_1$, como en $D$, para obtener un determinante más simple.\\
 
-Así, $x'$, $y'$ y $z'$ se vuelven conocidas.\\
+Dado que ya conocemos el valor de $r$ podremos calcular directamente $\rho'$, y de esta manera $x'$, $y'$ y $z'$ se vuelven conocidas.\\
 
-\subsection{\normalfont{\textit{Determinar los elementos de la órbita a partir de la posición y los componentes de velocidad del cuerpo observado}}}
+\subsection{\normalfont{\textit{Determinación de los elementos orbitales a partir de la posición y velocidad del cuerpo observado.}}}
 \label{subsec:elements_determination}
-Una vez conocida tanto la posición como la velocidad del cuerpo en un instante determinado, nos dispondremos a calcular los elementos orbitales mediante las distintas fórmulas estudiadas en el manual de Mecánica Celeste\cite{ortega}. Denotemos por $x(t)=(x,y,z)(t)$ la posición del objeto y $x'(t)$ su derivada, la velocidad.\\
+Una vez conocida tanto la posición como la velocidad del cuerpo en un instante determinado, nos dispondremos a calcular los elementos orbitales mediante las distintas fórmulas estudiadas en el manual de Mecánica Celeste\cite{ortega}. Denotemos por $r(t)=(x,y,z)(t)$ la posición del objeto y $v(t)$ su derivada, la velocidad.\\
 
 Comencemos determinando la energía que tiene nuestro cuerpo en un instante $t$. Para ello utilizaremos:
 \[
-h=\frac{|x'(t)|^2}{2}-\frac{\mu}{|x(t)|}
+h=\frac{|v(t)|^2}{2}-\frac{\mu}{|r(t)|}
 \]
 
 \noindent donde $\mu=GM$ una constante positiva. Con el valor de la energía podemos pasar a calcular la primera de nuestros elementos astronómicos, la longitud del semieje mayor, $a$, utilizando la siguiente ecuación:
@@ -265,17 +267,17 @@ a=-\frac{\mu}{2h}
 
 Pasemos ahora a calcular el momento angular de nuestro objeto. Dado que la masa del objeto observado es despreciable frente a la masa del Sol, podremos obviar su valor, obteniendo así el vector del momento angular mediante:
 \[
-c=x(t)\wedge x'(t)
+c=r(t)\wedge v(t)
 \]
 
 Calculado el momento angular, podremos obtener el vector de excentricidad para la órbita del cuerpo observado:
 \[
-\vec{e}=-\frac{x(t)}{|x(t)|}-\frac{1}{\mu}(c\wedge x'(t))
+\vec{e}=-\frac{r(t)}{|r(t)|}-\frac{1}{\mu}(c\wedge v(t))
 \]
 
 \noindent y la excentricidad de la órbita será $e=|\vec{e}|$.\\
 
-Una vez obtenidos estos valores, podemos utilizar la tercera ley de Kepler para obtener el período mínimo (suponiendo que nuestra órbita se corresponda con la de una elipse). Si el momento angular del objeto observado $c\neq0$ y su energía $h<0$, entonces la órbita es periódica y su período mínimo valdrá:
+Una vez obtenidos estos valores, podemos utilizaremos la tercera ley de Kepler para obtener el período mínimo (suponiendo que nuestra órbita se corresponda con la de una elipse). Si el momento angular del objeto observado $c\neq0$ y su energía $h<0$, entonces la órbita es periódica y su período mínimo valdrá:
 \[
 p=\frac{2\pi}{\sqrt{\mu}}a^{3/2}
 \]
@@ -292,9 +294,12 @@ Sabemos que el vector del momento angular, del que disponemos, es el vector norm
 
 Finalmente usaremos el vector de excentricidad $\vec{e}$ para calcular $\omega$, utilizando el nodo ascendente como eje de rotación.\\
 
-\subsection{\normalfont{\textit{Determinación de $\lambda$, $\mu$ y $\nu$ y sus derivadas mediante series de potencias}}}
+
+\subsection{\normalfont{\textit{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ mediante interpolación.}}}
 \label{subsec:series_potencias}
-Tal y como hemos visto en la sección \ref{subsec:primera_segunda_derivada}, hemos de calcular la primera y segunda derivada de las coordenadas angulares o de $\lambda$, $\mu$ y $\nu$. Comencemos recordando las ecuaciones \eqref{eq:ley_gravitacion_C}:
+Tal y como hemos visto en la sección \ref{subsec:primera_segunda_derivada}, hemos de calcular la primera y segunda derivada de las coordenadas angulares $\lambda$, $\mu$, $\nu$. El problema es que no siempre los intervalos de tiempo en los que hacemos la medida del objeto en el cielo son equiespaciados, y por tanto no podremos obtener una aproximación mediante diferencias centradas. Por tanto, busquemos un nuevo método para obtener las derivadas aproximadas de nuestras coordenadas angulares.\\
+
+Comencemos recordando las ecuaciones \eqref{eq:ley_gravitacion_S_C}:
 \begin{align}
 \left\{
 \def\arraystretch{2}
@@ -322,62 +327,60 @@ La solución para estas ecuaciones diferenciales de segundo orden puede ser expa
 
 En las ecuaciones superiores el subíndice 0 indicará que tomamos el valor $t=0$ en la función. Podemos sustituir la segunda derivada que aparece en estas series por su valor en \eqref{eq:ley_gravitacion_C_2}, la tercera derivada por la derivada de ésta y a partir de la cuarta derivada repetimos este proceso, teniendo así que las series estarán solo en función de la $x$, $y$, $z$ y la primera derivada de cada una de estas, todos ellas tomadas en $t=0$.\\
 
-Los tres valores $x$, $y$, $z$, a los que en conjunto llamaremos $x(t)$, forman una solución del problema de Kepler. Además, sabemos la fórmula de las soluciones para el problema de Kepler son:
+Los tres valores $x$, $y$, $z$, a los que en conjunto llamaremos $r(t)$, forman una solución del problema de Kepler. Además, sabemos que la fórmula de las soluciones para el problema de Kepler es:
 \[
-x(t)=a(\cos{u(t)}-e,\sqrt{1-e^2}\sin{u(t)})
+r(t)=a(\cos{u(t)}-e,\sqrt{1-e^2}\sin{u(t)})
 \]
 
-\noindent donde $u(t)$ es la anomalía. Dado que la ecuación está formada por funciones trigonométricas, que son analíticas, y la anomalía es una función analítica por el teorema de la función implícita, llegamos a que $x(t)$ será también una función analítica.\\
+\noindent donde $u(t)$ es la anomalía. Dado que la ecuación está formada por funciones trigonométricas, que son analíticas, y la anomalía es una función analítica por el teorema de la función implícita, llegamos a que $r(t)$ será también una función analítica.\\
 
-%%%
-%De esta manera llegamos al hecho de que la solución $x$, $y$, $z$ del problema de Kepler es una función analítica, pues su serie de Taylor centrada en $t$ converge a la función en un entorno de éste para cualquier $t$ que elijamos.\\
-%%%
+Hemos de tener en cuenta que el valor de estas series no siempre tiene valor práctico, pues el intervalo de tiempo para la convergencia puede ser demasiado grande; notar que los límites serán más pequeños cuanto más pequeña sea la distancia del perihelio y más grande la excentricidad de nuestra órbita.\\
 
-Hemos de tener en cuenta que el valor de estas series no siempre tiene valor práctico, pues el intervalo de tiempo para la convergencia puede ser demasiado grande; notar que los límites serán más pequeños cuanto más pequeña sea la distancia del perihelio y más grande la excentricidad de nuestra órbita, y dependerán de la posición del cuerpo en $t=0$.\\
-
-En el caso de la Tierra, expandiendo sus coordenadas en series de potencias, obtendremos una convergencia durante largos intervalos de tiempo debido a la pequeña excentricidad de la órbita terrestre ($e\approx0.0167$). Así, se sigue de la ecuación \eqref{eq:relacion_C_S_E}, que relaciona las coordenadas de la Tierra, el Sol y el cuerpo observado que las ecuaciones de $\rho$, $\lambda$, $\mu$ y $\nu$ también son funciones analíticas y por ello podrán ser expandidas como series de Taylor, con el mismo rango de utilidad que el de las series para $x$, $y$ y $z$.\\
+En el caso de la Tierra, expandiendo sus coordenadas en series de potencias, obtendremos una convergencia durante largos intervalos de tiempo debido a la pequeña excentricidad de la órbita terrestre ($e\approx0.0167$). Así, se sigue de la ecuación \eqref{eq:relacion_C_S_E}, que relaciona las coordenadas de la Tierra, el Sol y el cuerpo observado que las ecuaciones de $\rho$, $\lambda$, $\mu$, $\nu$ también son funciones analíticas y por ello podrán ser expandidas como series de Taylor, con el mismo rango de utilidad que el de las series para $x$, $y$ y $z$.\\
 
 Veamos las series para $\lambda$, pues las de $\mu$ y $\nu$ serán simétricamente similares. Tomando los valores $t_1$, $t_2$ y $t_3$, las series para $\lambda$ serán:
 \begin{align}
 \left\{
 \begin{array}{l}
-	\lambda=c_0+c_1t+c_2t^2+...\\
-	\lambda_1=c_0+c_1t_1+c_2t_1^2+...\\
-	\lambda_2=c_0+c_1t_2+c_2t_2^2+...\\
-	\lambda_3=c_0+c_1t_3+c_2t_3^2+...
+	\lambda(t)=c_0+c_1t+c_2t^2+...\\
+	\lambda(t_1)=c_0+c_1t_1+c_2t_1^2+...\\
+	\lambda(t_2)=c_0+c_1t_2+c_2t_2^2+...\\
+	\lambda(t_3)=c_0+c_1t_3+c_2t_3^2+...
 \end{array}
 \right.
 \label{eq:series_lambda}
 \end{align}
 
-\noindent donde los valores $c_0, c_1, c_2, ...$ son constantes. Si estas series terminan tras los términos elevados al cuadrado, podremos determinar $c_0$, $c_1$ y $c_2$ resolviendo como un sistema de ecuaciones, ya que conocemos las cantidades $\lambda_1$, $\lambda_2$, $\lambda_3$. Así, tenemos que cuantas más observaciones tengamos disponibles, más coeficientes podrán ser determinados.\\
+\noindent donde los valores $c_0, c_1, c_2, ...$ son constantes. Si estas series terminan tras los términos elevados al cuadrado, podremos determinar $c_0$, $c_1$ y $c_2$ resolviendo como un sistema de ecuaciones, ya que conocemos las cantidades $\lambda(t_1)$, $\lambda(t_2)$, $\lambda(t_3)$. Así, tenemos que cuantas más observaciones tengamos disponibles, más coeficientes podrán ser determinados.\\
 
-Dado que el sistema de ecuaciones \eqref{eq:series_lambda} está formado por tres incógnitas y cuatro ecuaciones, si queremos que sea compatible su determinante ha de ser 0. Así, podemos obtener lo siguiente:
+Tomamos ahora el sistema de ecuaciones \eqref{eq:series_lambda}; si queremos que sea compatible, su determinante ha de ser 0, pues tenemos tres incógnitas y cuatro ecuaciones, es decir, nos ``sobra'' una ecuación (sistema compatible indeterminado). Así, podemos obtener la siguiente igualdad:
 \begin{align}
 \left|
 \begin{array}{cccc}
-\lambda   & 1 & t & t^2\\
-\lambda_1 & 1 & t_1 & t^2_1\\
-\lambda_2 & 1 & t_2 & t^2_2\\
-\lambda_3 & 1 & t_3 & t^2_3\\
+\lambda(t)   & 1 & t   & t^2  \\
+\lambda(t_1) & 1 & t_1 & t^2_1\\
+\lambda(t_2) & 1 & t_2 & t^2_2\\
+\lambda(t_3) & 1 & t_3 & t^2_3\\
 \end{array}
 \right|
 =0
 \label{eq:resultante}
 \end{align}
 
-Resolvemos este determinante desarrollando por la primera columna y despejando $\lambda$ obtenemos:
+Si resolvemos este determinante desarrollando por la primera columna y despejamos $\lambda$ obtenemos:
 \begin{align}
-\lambda_L=
-\frac{(t-t_2)(t-t_3)}{(t_1-t_2)(t_1-t_3)}\lambda_1
-+\frac{(t-t_3)(t-t_1)}{(t_2-t_3)(t_2-t_1)}\lambda_2
-+\frac{(t-t_1)(t-t_2)}{(t_3-t_1)(t_3-t_2)}\lambda_3
+\lambda(t)_L=
+\frac{(t-t_2)(t-t_3)}{(t_1-t_2)(t_1-t_3)}\lambda(t_1)
++\frac{(t-t_3)(t-t_1)}{(t_2-t_3)(t_2-t_1)}\lambda(t_2)
++\frac{(t-t_1)(t-t_2)}{(t_3-t_1)(t_3-t_2)}\lambda(t_3)
 \label{eq:lambda_value}
 \end{align}
 
+Utilizamos el subíndice $L$ para denotar que esta función es aproximada y no proporcionará el valor exacto de $\lambda$ (salvo en ciertos casos).\\
+
 Dicho polinomio corresponderá al polinomio de interpolación de Lagrange con el que obtendremos un valor aproximado de $\lambda$. Hemos de tener en cuenta que los valores en los nodos $t_1$, $t_2$, $t_3$ han de ser diferentes entre sí para que no se anulen los denominadores.\\
 
-Con esto, somos capaces de obtener $\lambda$ de manera exacta en $t_1$, $t_2$ y $t_3$; para otros valores más pequeños de $t$ obtendremos $\lambda$ de forma aproximada. Para obtener un valor exacto de $\lambda$ habremos de tomar la primera ecuación de \eqref{eq:series_lambda}, una serie infinita, dentro de su rango de convergencia.\\
+Con esto, somos capaces de obtener $\lambda$ de manera exacta en $t_1$, $t_2$ y $t_3$; para otros valores diferentes de $t$ obtendremos $\lambda$ de forma aproximada. Para obtener un valor exacto de $\lambda$ habremos de tomar la primera ecuación de \eqref{eq:series_lambda}, una serie infinita, dentro de su rango de convergencia.\\
 
 Como comentamos anteriormente, el polinomio de interpolación de Lagrange obtenido nos proporcionará valores aproximados de $\lambda$, por lo que será conveniente estudiar el error de éste, que tomando la primera ecuación de \eqref{eq:series_lambda} será:
 \[
@@ -413,28 +416,30 @@ Utilizando un mayor número de observaciones dispondremos de más nodos; así, s
 %%%
 
 
-Con el estudio del error y todo lo visto anteriormente, podemos justificar que los valores de $t$ han de ser pequeños en la práctica para que las cantidades aproximadas calculadas sean lo más cercanas a su valor original. Además, no tendría sentido una diferencia de tiempo muy grande entre las observaciones del objeto, pues pasaríamos mucho tiempo para determinar una única órbita.\\
+Con el estudio del error y todo lo visto anteriormente, podemos justificar que la diferencia entre los valores de $t$ ha de ser pequeña en la práctica para que las cantidades aproximadas calculadas sean lo más cercanas a su valor original. Además, no tendría sentido una diferencia de tiempo muy grande entre las observaciones del objeto, pues pasaríamos mucho tiempo para determinar una única órbita.\\
 
 Por último, ya que necesitamos la primera y segunda derivada de $\lambda$, nos bastará con derivar del polinomio \eqref{eq:lambda_value}.
 \begin{align*}
-\lambda'_L = \frac{2t-(t_2+t_3)}{(t_1-t_2)(t_1-t_3)}\lambda_1
-+\frac{2t-(t_3+t_1)}{(t_2-t_3)(t_2-t_1)}\lambda_2
-+\frac{2t-(t_1+t_2)}{(t_3-t_1)(t_3-t_2)}\lambda_3\\
-\lambda''_L = \frac{2}{(t_1-t_2)(t_1-t_3)}\lambda_1
-+\frac{2}{(t_2-t_3)(t_2-t_1)}\lambda_2
-+\frac{2}{(t_3-t_1)(t_3-t_2)}\lambda_3
+\lambda'(t)_L = \frac{2t-(t_2+t_3)}{(t_1-t_2)(t_1-t_3)}\lambda(t_1)
++\frac{2t-(t_3+t_1)}{(t_2-t_3)(t_2-t_1)}\lambda(t_2)
++\frac{2t-(t_1+t_2)}{(t_3-t_1)(t_3-t_2)}\lambda(t_3)\\
+\lambda''(t)_L = \frac{2}{(t_1-t_2)(t_1-t_3)}\lambda(t_1)
++\frac{2}{(t_2-t_3)(t_2-t_1)}\lambda(t_2)
++\frac{2}{(t_3-t_1)(t_3-t_2)}\lambda(t_3)
 \end{align*}
 
-Tal y como comentamos anteriormente, se procederá al cálculo de $\mu$ y $\nu$ y al estudio de su error de aproximación de manera similar a la desarrollada anteriormente.
+Tal y como comentamos anteriormente, se procederá al cálculo de $\mu$ y $\nu$ y al estudio de su error de aproximación de manera similar a la desarrollada en este apartado.
 
 \newpage
 
 
-\section{Estudio de la unicidad de la solución}
+\section{Estudio del número de soluciones admisibles}
 
-\subsection{\normalfont{\textit{Ecuaciones fundamentales en el método de Laplace}}}
+\subsection{\normalfont{\textit{Ecuaciones fundamentales en el método de Laplace.}}}
 \label{subsec:fundamental_equations}
-Para terminar la explicación del método de determinación con tres observaciones, recapitulemos viendo las principales ecuaciones utilizadas para obtener la órbita del objeto observado. Las ecuaciones fundamentales serán las de \eqref{eq:fundamental_equations}, que involucrarán las coordenadas angulares $\lambda$, $\mu$, $\nu$ y sus derivadas, las cuáles conocemos su valor aproximado por \ref{subsec:primera_segunda_derivada} o \ref{subsec:series_potencias}. Por otra parte, el valor de $\rho$ y sus derivadas se obtendrá resolviendo las ecuaciones fundamentales utilizando la regla de Cramer, como vimos en anteriores apartados. Nos faltaría por calcular $\rho''$; comencemos definiendo el determinante $D_3$:
+Para terminar la explicación del método de determinación con tres observaciones, recapitulemos viendo las principales ecuaciones utilizadas para obtener la órbita del objeto observado. Las ecuaciones fundamentales serán las de \eqref{eq:fundamental_equations}, que involucrarán las coordenadas angulares $\lambda$, $\mu$, $\nu$ y sus derivadas, las cuáles conocemos su valor aproximado por \ref{subsec:primera_segunda_derivada} o \ref{subsec:series_potencias}. Por otra parte, el valor de $\rho$ y sus derivadas se obtendrá resolviendo las ecuaciones fundamentales utilizando la regla de Cramer, como vimos en anteriores apartados, aunque discutiremos más adelante otro método para su cálculo.\\
+
+Hasta ahora disponemos de $\rho$ y $\rho'$; nos faltaría por calcular $\rho''$. Comencemos definiendo el determinante $D_3$:
 \[
 D_3=-2k^2
 \left|
@@ -446,7 +451,7 @@ Z & \nu' & \nu''
 \right|
 \]
 
-Ahora, calculemos el determinante $D$ cambiando la primera columna por el término independiente de \eqref{eq:fundamental_equations}, sin tomar $[\frac{1}{R^3}-\frac{1}{r^3}]$. 
+Tras ello, calculemos el determinante $D$ cambiando la primera columna por el término independiente de \eqref{eq:fundamental_equations}, sin tomar $[\frac{1}{R^3}-\frac{1}{r^3}]$. 
 \[
 \left|
 \begin{array}{ccc}
@@ -495,7 +500,7 @@ Así, tenemos que los valores de $\rho$ y sus derivadas pueden ser calculados me
 Notar que los determinantes $D$, $D_1$, $D_2$, $D_3$ están sujetos a pequeños errores dado que los valores implicados en ellos no pueden ser calculados de forma exacta, procediendo a obtenerlos de manera aproximada. Además, trabajamos bajo el supuesto de que las observaciones al objeto son realizadas desde el centro de la Tierra, y no desde un punto concreto de ella. Tras haber calculado de forma aproximada las distancias podremos corregir dichas observaciones por los efectos de la posición del observador sobre un punto en la superficie de la Tierra.\\
 
 
-\subsection{\normalfont{\textit{Ecuaciones para la determinación de las distancias $r$ y $\rho$}}}
+\subsection{\normalfont{\textit{Ecuaciones para la determinación de las distancias $r$ y $\rho$.}}}
 \label{subsec:distancias_r_rho}
 Recordemos la imagen \ref{fig:notation} en la que mostrábamos el triángulo formado por los tres cuerpos $S$, $E$ y $C$ junto a sus distancias. Definamos $\psi$ y $\phi$, ángulos formados en $E$ y $C$ respectivamente.
 
@@ -506,11 +511,10 @@ Recordemos la imagen \ref{fig:notation} en la que mostrábamos el triángulo for
 \label{fig:notation_angles}
 \end{figure}
 
-A partir de la figura superior, del producto escalar de $(X,Y,Z)$ con $(\lambda,\mu,\nu)$ y del teorema de los senos ($\ddfrac{a}{\sin{\alpha}}=\ddfrac{b}{\sin{\beta}}=\ddfrac{c}{\sin{\gamma}}$), podemos escribir las siguientes ecuaciones:
+Nos encontramos ahora ante un problema de resolución de triángulos. A partir de la figura superior y del teorema de los senos ($\ddfrac{a}{\sin{\alpha}}=\ddfrac{b}{\sin{\beta}}=\ddfrac{c}{\sin{\gamma}}$), podemos escribir las siguientes ecuaciones:
 \begin{align}
 \left\{
 \begin{array}{l}
-	R\cos{\psi}=X\lambda+Y\mu+Z\nu\\
 	\rho=R\ddfrac{\sin{(\psi+\phi)}}{\sin{\phi}}\\
 	r=R\ddfrac{\sin{\psi}}{\sin{\phi}}
 \end{array}
@@ -518,12 +522,21 @@ A partir de la figura superior, del producto escalar de $(X,Y,Z)$ con $(\lambda,
 \label{eq:triangle_relations_2}
 \end{align}
 
-Si sustituimos dichas ecuaciones en la ecuación de $\rho$ en \eqref{eq:rho_values}, esta pasará a ser:
+Además, recordemos que podemos obtener el ángulo $\psi$ mediante:
+\[
+R\cos{\psi}=X\lambda+Y\mu+Z\nu\\
+\]
+
+\noindent obteniendo así que el valor de $\psi$ estará en el primer o cuarto cuadrante, pues $R>0$ y el producto escalar de $(X,Y,Z)$ por $(\lambda,\mu,\nu)$ es positivo. Pero, como nos encontramos en un triángulo, se ha de cumplir que $\psi<\pi$ por lo que el ángulo $\psi$ será agudo.\\
+
+Si sustituimos las ecuaciones  \eqref{eq:triangle_relations_2} en la ecuación de $\rho$ en \eqref{eq:rho_values}, esta pasará a ser:
 \[
 R\sin{\psi}\cos{\phi}+\left(R\cos{\psi}-\ddfrac{D_1}{DR^3}\right)\sin{\phi}=\ddfrac{-D_1}{DR^3\sin^3{\psi}}\sin^4{\phi}
 \]
 
 \noindent de manera que, ya que podemos obtener el valor de $\psi$ utilizando la primera ecuación de \eqref{eq:triangle_relations_2}, nos queda una ecuación con una única incógnita, $\phi$.\\
+
+Ahora, consideramos el vector en el plano $(R\cos{\psi}-\ddfrac{D_1}{DR^3},R\sin{\psi})$ y suponemos que es distinto del origen. Realmente esto ocurre siempre, ya que, como el ángulo $\psi$ es agudo y distinto de $0$, $R\sin{\psi}$ será distinto de $0$. Como consecuencia, al no ser el origen, podremos expresar dicho punto en coordenadas polares de la forma $N(\cos{m},\sin{m})$, con $N\neq0$ y pudiendo escoger el valor de $m$ en $(0,2\pi)$.\\
 
 Con el fin de simplificar esta ecuación, definimos las siguientes expresiones:
 \begin{align}
@@ -537,9 +550,11 @@ Con el fin de simplificar esta ecuación, definimos las siguientes expresiones:
 \label{eq:to_simplify}
 \end{align}
 
+Las dos primeras ecuaciones vienen dadas de la forma polar comentada anteriormente. Respecto a la tercera ecuación, la utilizaremos para darle un signo al valor $N$, de manera que podamos reducir el intervalo donde escoger el valor de $m$ a $(0,\pi)$. El signo de $N$ será elegido de tal manera que $M$ sea positivo, y como $\sin{\psi}>0$, $R>0$, el valor $N$ será positivo cuando $\ddfrac{D_1}{D}$ sea negativo y viceversa.\\
+
 Hay ciertos casos excepcionales en las ecuaciones superiores. Si el término de la izquierda de la primera ecuación se anulase, llegaríamos a que $R\sin{\psi}=0$; como $R>0$ por definición, $\sin{\psi}=0$ y $\psi=k\pi$, $k\in\mathbb{Z}$, pero esta situación no es válida, pues entonces el sistema formado por el Sol, la Tierra y el objeto observado no formaría un triángulo tal y como queremos.\\
 
-El signo de $N$ será elegido de tal manera que $M$ sea positivo. Fijado el signo, las dos primeras ecuaciones de \eqref{eq:to_simplify} determinarán unívocamente los valores $N$ y $m$, y la expresión que queríamos simplificar pasa a ser simplemente:
+Fijado el signo de $M$, las dos primeras ecuaciones de \eqref{eq:to_simplify} determinarán unívocamente los valores $N$ y $m$, y la expresión que queríamos simplificar pasa a ser simplemente:
 \begin{align}
 \def\arraystretch{2}
 \begin{array}{c}
@@ -549,17 +564,18 @@ El signo de $N$ será elegido de tal manera que $M$ sea positivo. Fijado el sign
 \label{eq:phi_solution}
 \end{align}
 
-El valor para $M$ y $m$ será conocidos cuando $M$ sea positivo. Busquemos ahora la solución de esta ecuación para $\phi$; dado que $\rho=0$ y $r=R$ es una solución al problema, podremos asegurar que $\phi=\pi-\psi$ es una solución válida, aunque no es de valor práctico ya que que ésta corresponde a la posición del observador en la Tierra. Por tanto, dado que la solución ha de pertenecer al problema físico y que nos encontramos en un triángulo, podemos asegurar que:
+Aunque la ecuación \eqref{eq:phi_solution} podría estar definida para $\phi\in\mathbb{R}$, solo nos interesará en el intervalo $(0,\pi)$; es más, dicho intervalo se puede seguir reduciendo. Ya que $\phi$ es uno de los tres ángulos, y teniendo en cuenta cómo hemos definido $m$, podremos asegurar que $\phi=\pi-\psi$ es una solución válida (se puede comprobar sustituyendo en \eqref{eq:phi_solution}), aunque no es de valor práctico ya que que ésta corresponde a la posición del observador en la Tierra. Por tanto, dado que la solución ha de pertenecer al problema físico y que nos encontramos en un triángulo, podemos asegurar que:
 \[
 \phi<\pi-\psi
 \]
+\noindent y por tanto buscaremos una solución para la ecuación \eqref{eq:phi_solution}, no en todos los puntos que está definida, sino con $\phi$ estrictamente entre 0 y $\pi-\psi$.\\
 
 Así, las soluciones de \eqref{eq:phi_solution} han de ser las intersecciones entre las curvas que definen las ecuaciones de la izquierda y de la derecha, es decir, la intersección entre:
 \[
 \left\{
 \begin{array}{l}
-y_1=\sin^4{\phi}\\
-y_2=M\sin{(\phi+m)}
+	y_1=\sin^4{\phi}\\
+	y_2=M\sin{(\phi+m)}
 \end{array}
 \right.
 \]
@@ -573,7 +589,7 @@ Si el valor de $m$ es negativo cercano a cero y $M$ es ligeramente menor que 1, 
 \label{fig:phi_solution_m_negative_M_near_1}
 \end{figure}
 
-En dicha imagen podemos ver que obtenemos tres intersecciones de las curvas, correspondientes cada una a una solución de \eqref{eq:phi_solution} y con $\phi_1<\phi_2<\phi_3$.\\
+A partir de dicha imagen podemos observar que obtenemos tres intersecciones de las curvas, correspondientes cada una a una solución de \eqref{eq:phi_solution} y con $\phi_1<\phi_2<\phi_3$, sabiendo que una de ellas ha de ser $\pi-\psi$.\\
 
 Discutamos ahora según el signo de $\frac{D_1}{D}$ los valores de $r$, $R$ y $m$. Comencemos considerando que $\frac{D_1}{D}$ es positivo. Es claro que $\rho$ y $r$ han de ser positivos, por lo que deducimos de la primera ecuación de \eqref{eq:rho_values} que $r$ ha de ser mayor que $R$. Por tanto, como $\psi$ ha de ser menor que 180º (pues estamos en un triángulo), utilizando las ecuaciones \eqref{eq:to_simplify} tenemos:
 \[
@@ -588,12 +604,14 @@ Por tanto, $N$ es negativo y $m$ estará en el tercer o cuarto cuadrante.\\
 
 Si $m$ está en el cuarto cuadrante, la rama ascendente de la curva $y_2$ atraviesa el eje de abscisas $\phi$ en el primer cuadrante y, si $M<1$, las relaciones entre las dos curvas serán las que podemos ver en la figura \ref{fig:phi_solution_m_negative_M_near_1}. Si el valor de $m$ es cercano a 180º tendremos tres soluciones disponibles $\phi_1$, $\phi_2$, $\phi_3$, una de las cuales corresponderá al observador ($\phi_i=\pi-\psi$). Discutamos según cuál de las tres soluciones toma este valor:
 \begin{itemize}
-\item Si $\phi_3=\pi-\psi$, las otras dos soluciones cumplirán todas las condiciones del problema, no pudiendo determinar cuál de las dos pertenece a la órbita real del cuerpo observado (siempre que no tengamos información adicional). Pero, podría darse el caso de que en estas condiciones los valores de $r$ y $\rho$ proporcionados por la solución $\phi_1$ fueran demasiado grandes como para que el objeto fuera visible para el observador, llegando así a la conclusión de que $\phi_2$, el cuál proporcionaría un $r$ más pequeño, pertenecería al problema físico.
-\item Si $\phi_2=\pi-\psi$, se sigue del hecho de que $\phi<\pi-\psi$ que la solución ha de ser $\phi_1$.
 \item Si $\phi_1=\pi-\psi$, entonces el problema no tendría solución dado que cualquiera de las otras dos soluciones sería mayor que $\pi-\psi$.
+\item Si $\phi_2=\pi-\psi$, se sigue del hecho de que $\phi<\pi-\psi$ que la solución ha de ser $\phi_1$ y es única.
+\item Si $\phi_3=\pi-\psi$, las otras dos soluciones cumplirán todas las condiciones del problema, no pudiendo determinar cuál de las dos pertenece a la órbita real del cuerpo observado (siempre que no tengamos información adicional). Si tuviéramos una cuarta medición, repetiríamos el proceso anterior eliminando una de las mediciones tomadas y añadiendo ésta nueva; la solución que se repita (aproximadamente) será la perteneciente al problema real.
+
+Pero, si solo dispusiésemos de tres mediciones, podría darse el caso de que los valores de $r$ y $\rho$ proporcionados por la solución $\phi_1$ fueran demasiado grandes como para que el objeto fuera visible para el observador, llegando así a la conclusión de que $\phi_2$, el cuál proporcionaría un $r$ más pequeño, pertenecería al problema físico.
 \end{itemize} 
 
-A medida que la rama ascendente de la curva $y_2$ se mueve hacia la derecha, es decir, fijando $M$ y haciendo crecer $\phi_3$, las soluciones $\phi_1$ y $\phi_2$ tienden a coincidir, y en estas condiciones, que corresponderían a $m$ lejos de 180º en el tercer o cuarto cuadrante, el problema no tendría solución. Por tanto:
+A medida que la rama ascendente de la curva $y_2$ se mueve hacia la derecha, es decir, fijando $M$ hacemos decrecer $m$, las soluciones $\phi_1$ y $\phi_2$ tienden a coincidir, y en estas condiciones el problema no tendría solución. Por tanto:
 \begin{quote}
 \textit{Si $\frac{D_1}{D}>0$, la distancia $r$ es mayor que $R$, el ángulo $m$ estará en el cuarto cuadrante y disponemos de dos o tres soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
 \end{quote}
@@ -607,24 +625,26 @@ Veamos ahora el caso contrario.
 \label{fig:phi_solution_m_positive_M_near_1}
 \end{figure}
 
-Supongamos que $\frac{D_1}{D}$ es negativo, de tal manera que, procediendo como en el caso positivo, llegamos a que $r<R$ y que $m$ está en el primer o segundo cuadrante. Si $m$ está en el primer cuadrante, la rama descendente de la curva $y_2$ atraviesa el eje de abscisas $\phi$ en el segundo cuadrante, y para un $m$ pequeño y $M<1$, las relaciones entre las dos curvas serán las que podemos ver en la gráfica \ref{fig:y1_y2_graph_negative}. En este caso, la solución será única o doble en función de que $\phi_2$ o $\phi_3$ valgan $\pi-\psi$. Por último, si $m$ estuviera en el segundo cuadrante, la parte descendente de $y_2$ cortaría el eje de abscisas en el primer cuadrante, por lo que $\phi_2$ y $\phi_3$ no serían reales y el problema no tendría solución. Así, tenemos que:
+Supongamos que $\frac{D_1}{D}$ es negativo, de tal manera que, procediendo como en el caso positivo, llegamos a que $r<R$ y que $m$ está en el primer o segundo cuadrante. Si $m$ está en el primer cuadrante, la rama descendente de la curva $y_2$ atraviesa el eje de abscisas $\phi$ en el segundo cuadrante, y para un $m$ pequeño y $M<1$, las relaciones entre las dos curvas serán las que podemos ver en la gráfica \ref{fig:phi_solution_m_positive_M_near_1}. En este caso, la solución será única o doble en función de que $\phi_2$ o $\phi_3$ valgan $\pi-\psi$. Por último, si $m$ estuviera en el segundo cuadrante, la rama descendente de $y_2$ cortaría el eje de abscisas en el primer cuadrante, por lo que $\phi_2$ y $\phi_3$ no serían reales y el problema no tendría solución. Así, tenemos que:
 \begin{quote}
 \textit{Si $\frac{D_1}{D}<0$, la distancia $r$ es menor que $R$, el ángulo $m$ estará en el primer cuadrante y disponemos de dos o tres soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
 \end{quote}
 
+Como consecuencia de toda esta discusión concluimos que, en determinadas situaciones, según las medidas que se nos den y el número de estas, nos encontraremos ante una única respuesta o dos respuestas, y en este segundo caso tendremos que discernir sobre cuál de las dos soluciones pertenecerá al problema físico.\\
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\normalfont{\textit{Aproximación numérica mediante el método de Newton}}}
+\subsection{\normalfont{\textit{Aproximación numérica mediante el método de Newton.}}}
 \label{subsec:newton_rhapson}
 Tras haber realizado un estudio teórico de la ecuación \eqref{eq:phi_solution}, pasemos a buscar un método de resolución para ésta. Dado que no podemos encontrar valores exactos de $\phi$ que satisfagan la ecuación, pues es irresoluble, utilizaremos el método de Newton para obtener un valor aproximado.\\
 
-Consideramos una función $f$ derivable y $x_0$ un valor inicial, definimos para cada $n$:
+Consideramos una función $f$ derivable y $x_0$ un valor inicial, definimos el método de Newton para cada $n$ como:
 \[
 x_{n+1}=x_n-\ddfrac{f(x_n)}{f'(x_n)}, n\geq0
 \]
 
-Impondremos una tolerancia $\delta$ a la hora de aplicar el método de manera que cuando $|x_{k+1}-x_k|<\delta$, la solución será $x_{k+1}$. Es necesario que $f'(x)\neq0$ para poder llevar este método a la práctica.\\
+Para no aplicar la operación superior de forma infinita, impondremos una tolerancia $\delta$ a la hora de aplicar el método de manera que cuando $|x_{k+1}-x_k|<\delta$, la solución será $x_{k+1}$. Es necesario que $f'(x)\neq0$ para poder llevar este método a la práctica.\\
 
 En nuestro caso, tomando $f(x)=\sin^4{x}-M\sin{(x+m)}$, tenemos que su derivada será $f'(x)=4\sin^3{x}\cos{x}-M\cos{(x+m)}$ de manera que la sucesión para la aproximación mediante el método de Newton será:
 \begin{align}
@@ -642,9 +662,9 @@ Dado que la función que queremos aproximar con el método de Newton es infinito
 
 %Notar que al aplicar el método la solución puede quedar fuera del intervalo $(0,\pi)$, aunque podremos \textit{trasladarla} hasta dicho intervalo utilizando la periodicidad de las funciones trigonométricas, sumando o restado $2\pi k$ un número $k$ de veces hasta quedar en dicho intervalo.\\
 
-\subsection{\normalfont{\textit{Unicidad de la solución}}}
+\subsection{\normalfont{\textit{Unicidad de la solución.}}}
 \label{subsec:unicidad}
-Tal y como hemos visto en la sección anterior, la solución del problema físico será única si $\phi_2=\pi-\psi$, independientemente del signo de $\frac{D_1}{D}$; en otro caso, la solución será doble o no existirá. Sea $\varepsilon>0$ un valor pequeño y supongamos que $\phi=\pi-\psi+\varepsilon$. Entonces, si $\frac{D_1}{D}$ es positivo, podemos ver en la gráfica \ref{fig:y1_y2_graph_positive} que la diferencia $y_1-y_2$ es positiva cuando $\phi=\phi_2+\varepsilon$; y si $\frac{D_1}{D}$ es negativo, podemos ver en la gráfica \ref{fig:y1_y2_graph_negative} que $y_1-y_2$ es negativo cuando $\phi=\phi_2+\varepsilon$.\\
+Tal y como hemos visto en la sección anterior, la solución del problema físico será única si $\phi_2=\pi-\psi$, independientemente del signo de $\frac{D_1}{D}$; en otro caso, la solución será doble o no existirá. Sea $\varepsilon>0$ un valor pequeño y supongamos que $\phi=\pi-\psi+\varepsilon$. Entonces, si $\frac{D_1}{D}$ es positivo, podemos ver en la gráfica \ref{fig:phi_solution_m_negative_M_near_1} que la diferencia $y_1-y_2$ es positiva cuando $\phi=\phi_2+\varepsilon$; y si $\frac{D_1}{D}$ es negativo, podemos ver en la gráfica \ref{fig:phi_solution_m_positive_M_near_1} que $y_1-y_2$ es negativo cuando $\phi=\phi_2+\varepsilon$.\\
 
 Sabemos que las funciones $y_1$ e $y_2$ son analíticas, y que la suma, el producto y la composición de funciones analíticas es analítica. Por tanto, $y_1-y_2$ es analítica y podremos expandirla como serie de potencias en $\varepsilon$ cuando $\phi=\pi-\psi+\varepsilon$. Así, tenemos la siguiente expresión:
 \begin{align}
@@ -757,7 +777,7 @@ Por tanto, el problema físico tendrá solución doble en las regiones sombreada
 
 
 
-\subsection{\normalfont{\textit{Límites en $m$ y $M$}}}
+\subsection{\normalfont{\textit{Límites en $m$ y $M$.}}}
 \label{subsec:limites_m_M}
 A la hora de determinar una órbita en un problema real, hemos de tener en cuenta que los valores $m$ y $M$ han de cumplir que las soluciones reales de la ecuación \eqref{eq:phi_solution} estén entre $0$ y $\pi$, pues sino el Sol, la Tierra y el objeto observado no formarían un triángulo. Por tanto, hemos de determinar los límites para que esta condición se satisfaga, y dichos límites pueden ser determinados mediante las condiciones para que obtengamos raíces dobles.\\
 
