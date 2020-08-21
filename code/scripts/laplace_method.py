@@ -7,29 +7,22 @@ Created on Sun Aug  9 12:43:52 2020
 """
 
 import numpy as np
-from sympy import *
-from astropy.coordinates import Angle
-from astropy.time import Time
-import astropy.units as u
 
 import requests
 from requests.exceptions import HTTPError
 
 import csv
 
+from newton import approximate_phi
+
+# Para modificar en ejecución el directorio desde el que importar
 import sys
+sys.path.insert(1, '../utils')
 
-from newton import approximate_phi, isclose
+import my_constants as const
+from utilities import isclose
 
-from prueba import orbital_elements, plotOrbit
 
-
-# Cte gravitación universal
-G=6.67384*10**(-11)
-# Masa solar
-M=1.98847*10**(30)
-
-mu=86400.0**2*G*M/149597870700.0**3
 
 def toJulian(times):
 	return times.jd
@@ -91,7 +84,7 @@ def getS_E(epoch):
 	velocity=np.array([float(row[5]),float(row[6]),float(row[7])])
 	R=float(row[9])
 	
-	second_deriv=-mu*position/R**3
+	second_deriv=-const.mu*position/R**3
 	
 	return position,velocity,second_deriv,R
 	
@@ -128,7 +121,7 @@ def get_rho_r(pos,vel,second_deriv,pos_sun,R):
 	
 	D1_matrix=np.matrix([pos,vel,pos_sun])
 	D1_matrix=np.transpose(D1_matrix)
-	D1=-2*mu*np.linalg.det(D1_matrix)
+	D1=-2*const.mu*np.linalg.det(D1_matrix)
 	
 	psi=np.arccos(np.dot(pos_sun,pos)/R)
 
@@ -158,7 +151,7 @@ def getPosVel(pos,vel,second_deriv,rho,pos_sun,vel_sun,R,r):
 	
 	D2_matrix=np.matrix([pos,pos_sun,second_deriv])
 	D2_matrix=np.transpose(D2_matrix)
-	D2=-2*mu*np.linalg.det(D2_matrix)
+	D2=-2*const.mu*np.linalg.det(D2_matrix)
 	
 	rho_deriv=D2/D*(1/R**3-1/r**3)	
 	
@@ -183,87 +176,3 @@ def Laplace(coordinates, times):
 	return pos,vel
 	
 
-
-
-
-
-def main():
-	# NEPTUNE
-	
-	'''
-	ascension_1=Angle('23 24 35.15 hours')
-	declination_1=Angle('-05 01 22.3 degrees')
-	t_1='2020-08-19 00:00'
-	
-	ascension_2=Angle('23 24 30.99 hours')
-	declination_2=Angle('-05 01 50.1 degrees')
-	t_2='2020-08-19 18:20'
-	
-	ascension_3=Angle(' 23 24 29.24 hours')
-	declination_3=Angle('-05 02 01.8  degrees')
-	t_3='2020-08-20 02:00'
-	'''
-	
-	
-	# Con estos valores m=0.1295350258220578, y dicho valor es erróneo
-	# ya que obtenemos solución única que al utilizarla para calcular
-	# $\rho$ y $r$ nos da un valor que no se corresponde al real
-	'''
-	ascension_1=Angle('23 26 17.98 hours')
-	declination_1=Angle('-04 49 41.3 degrees')
-	t_1='2020-07-28 00:00'
-	
-	ascension_2=Angle('23 26 16.98 hours')
-	declination_2=Angle('-04 49 48.3 degrees')
-	t_2='2020-07-28 06:20'
-	
-	ascension_3=Angle('23 26 16.73 hours')
-	declination_3=Angle('-04 49 50.0  degrees')
-	t_3='2020-07-28 07:52'
-	'''
-	
-	# Con estos valores, m=-0.034911329608047485, solución válida,
-	# pero obtenemos una solución doble
-	
-	ascension_1=Angle('23 26 17.98 hours')
-	declination_1=Angle('-04 49 41.3 degrees')
-	t_1=2459058.5
-	
-	ascension_2=Angle('23 26 17.35 hours')
-	declination_2=Angle('-04 49 45.7 degrees')
-	t_2=2459058.666666667
-	
-	ascension_3=Angle('23 26 16.71 hours')
-	declination_3=Angle('-04 49 50.2 degrees')
-	t_3=2459058.833333333
-	
-	
-	# Con estos valores, m=0.0030083783084677513
-	'''
-	ascension_1=Angle('23 26 17.98 hours')
-	declination_1=Angle('-04 49 41.3 degrees')
-	t_1=2459058.5
-	
-	ascension_2=Angle('23 26 14.15 hours')
-	declination_2=Angle('-04 50 08.1 degrees')
-	t_2=2459059.5 # 29 de julio 00:00
-	
-	ascension_3=Angle('23 26 10.22 hours')
-	declination_3=Angle('-04 50 35.5 degrees')
-	t_3=2459060.5 # 30 de julio 00:00
-	'''
-	
-	coordinates=list([(ascension_1,declination_1),(ascension_2,declination_2),(ascension_3,declination_3)])
-	t=[t_1,t_2,t_3]
-	times = Time(t, format='jd')
-	
-	r,v=Laplace(coordinates,times)
-	Object=orbital_elements(r,v,name='Pluto')
-	print(Object)
-	
-	plotOrbit(Object,True)
-	
-	
-	
-if __name__ == '__main__':
-	main()

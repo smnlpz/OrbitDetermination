@@ -10,21 +10,14 @@ from sympy import *
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Para modificar en ejecución el directorio desde el que importar
+import sys
+sys.path.insert(1, '../utils')
+
+from utilities import isclose
+
+
 x = Symbol('x')
-
-
-def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
-	'''
-	rel_tol is a relative tolerance, it is multiplied by
-	the greater of the magnitudes of the two arguments;
-	as the values get larger, so does the allowed difference
-	between them while still considering them equal.
-	
-	abs_tol is an absolute tolerance that is applied as-is in 
-	all cases. If the difference is less than either of 
-	those tolerances, the values are considered equal.
-	'''
-	return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 
 def newton_method(f,x_0,max_iters,tol):
@@ -87,26 +80,5 @@ def approximate_phi(M,m,plot=False):
 		plt.plot(phi_values,np.sin(phi_values)**4,'ro')
 	
 	return phi_values
-
-	
-def main():
-	# Cálculo de sqrt(3) mediante el método de Newton
-	f=x**2-3
-	raiz_3,n_iters=newton_method(f=f,x_0=2,max_iters=1000,tol=0.000001)
-	print('sqrt(3) = '+ str(raiz_3) +';\t n_iters = ' + str(n_iters))
-	
-	
-	M=0.3695715755580589
-	m=-0.034911329608047485
-	
-	lista=approximate_phi(M,m,plot=True)
-	
-	print(lista)
-	
-	
-	
-
-if __name__ == '__main__':
-	main()
 
 
