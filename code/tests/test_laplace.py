@@ -92,9 +92,11 @@ def main():
 	
 	r,v=Laplace(coordinates,times)
 	Object=getOrbitalElements(r,v,name='Pluto')
+	print('Elementos orbitales obtenidos:')
 	print(Object)
+	print('')
 	
-	plotOrbit(Object,True)
+	plotOrbit(Object)
 	
 	
 	

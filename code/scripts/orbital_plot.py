@@ -33,16 +33,22 @@ def rotation_matrix(axis,ang):
 def rotate(obj, omega, i, Omega):
 	obj=np.transpose(obj)
 	
+	# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
+	rot_matrix=np.dot(np.dot(rotation_matrix('z',omega),rotation_matrix('x',i)),rotation_matrix('z',Omega))
+	
 	for ind in range(len(obj)):
+		obj[ind]=np.dot(rot_matrix,obj[ind])
+		'''
 		obj[ind]=np.dot(rotation_matrix('z',omega),obj[ind])
 		obj[ind]=np.dot(rotation_matrix('y',i),obj[ind])
 		obj[ind]=np.dot(rotation_matrix('z',Omega),obj[ind])
+		'''
 	
 	return np.transpose(obj)
 	
 
 
-def plotOrbit(orbita,earthOrbit=False):
+def plotOrbit(orbita):
 	# Creamos la figura
 	fig = plt.figure(figsize=(10, 10))
 	ax = fig.add_subplot(111, projection='3d')
@@ -61,7 +67,7 @@ def plotOrbit(orbita,earthOrbit=False):
 		b=orb.a*np.sqrt((1-orb.e**2))
 		center=orb.a*orb.e
 		
-		# Dibujamos las elipses y las rotamos
+		# Dibujamos la elipse y la rotamos
 		u = np.linspace(0, 2*np.pi, 1000)
 		ellipse=np.array([orb.a*np.cos(u)+center, b*np.sin(u), np.zeros(len(u))])
 		line_of_nodes=np.array([np.zeros(2),
@@ -71,16 +77,10 @@ def plotOrbit(orbita,earthOrbit=False):
 		ellipse=rotate(ellipse,orb.omega,orb.i,orb.Omega)
 		line_of_nodes=rotate(line_of_nodes,orb.omega,orb.i,orb.Omega)
 		
-		ax.plot3D(ellipse[0],ellipse[1],ellipse[2], color=colors[color_i])
+		ax.plot3D(ellipse[0],ellipse[1],ellipse[2], color=colors[color_i],label=orb.name)
 		color_i+=1
 		ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
 	
-	'''
-	if earthOrbit:
-		b=Earth.a*np.sqrt((1-Earth.e**2))
-		center=Earth.a*Earth.e
-		ax.plot3D(Earth.a*np.cos(u)+center, b*np.sin(u), 0, 'red')
-	'''
 	
 	line_of_nodes=np.array([np.zeros(2),
 						    np.linspace(-40,40,2),
@@ -98,3 +98,6 @@ def plotOrbit(orbita,earthOrbit=False):
 		ax.set_aspect('equal')
 	except NotImplementedError:
 		pass
+	
+	# Finalmente, añadimos la leyenda a la gráfica
+	ax.legend(loc='upper right', frameon=False)

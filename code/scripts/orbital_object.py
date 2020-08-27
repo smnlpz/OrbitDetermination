@@ -6,6 +6,7 @@ Created on Fri Aug 21 11:36:56 2020
 @author: simon
 """
 
+import numpy as np
 from astropy import units as u
 from astropy.coordinates import Angle
 
@@ -22,19 +23,14 @@ class OrbitalObject:
 		self.Omega=Angle(Omega, angle_unit).rad
 		self.omega=Angle(omega, angle_unit).rad
 		self.p=p
-		
-	def toRad(self):
-		self.i=self.i.rad
-		self.Omega=self.Omega.rad
-		self.omega=self.omega.rad
-		
-	def toDeg(self):
-		self.i=self.i.deg
-		self.Omega=self.Omega.deg
-		self.omega=self.omega.deg	
-		
+
+	def getDegAngles(self):
+		conv=180/np.pi
+		return list([self.i*conv, self.Omega*conv, self.omega*conv])
+	
 	def getName(self):
 		return self.name
 	
 	def __str__(self):
-		return '(\''+str(self.name)+'\', '+str(self.a)+', '+str(self.e)+', '+str(self.i)+', '+str(self.Omega)+', '+str(self.omega)+', '+str(self.p)+')'
+		deg_angles=self.getDegAngles()
+		return '(\''+str(self.name)+'\', '+str(self.a)+', '+str(self.e)+', '+str(deg_angles[0])+', '+str(deg_angles[1])+', '+str(deg_angles[2])+', '+str(self.p)+')'

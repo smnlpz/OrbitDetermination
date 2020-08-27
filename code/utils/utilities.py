@@ -6,6 +6,8 @@ Created on Fri Aug 21 11:42:17 2020
 @author: simon
 """
 
+import numpy as np
+
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
 	'''
 	rel_tol is a relative tolerance, it is multiplied by
@@ -19,3 +21,23 @@ def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
 	'''
 	return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
+def reduce_to_0_2pi(x):
+	'''
+	Parameters
+	----------
+	x : float
+		Ángulo en radianes en \mathbb{R}
+
+	Returns
+	-------
+	x : float
+		Ángulo en radianes en [0,2\pi]
+
+	'''
+	
+	while x<0 or x>2*np.pi:
+		if x<0:
+			x+=2*np.pi
+		else:
+			x-=2*np.pi
+	return x

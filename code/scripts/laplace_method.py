@@ -41,7 +41,7 @@ def getE_C(coordinates,times):
 	position=list()
 	for coord in coordinates:
 		position.append(toCartesian(toRadian(coord[0]),toRadian(coord[1])))
-	
+		
 	velocity=np.zeros(3)
 	second_deriv=np.zeros(3)
 	for i in range(3):	
@@ -91,8 +91,8 @@ def getS_E(epoch):
 
 def discuss_phi(phi_values,psi):
 	index=-1
-	print(phi_values)
-	print(np.pi-psi)
+	#print(phi_values)
+	#print(np.pi-psi)
 	for i in range(len(phi_values)):
 		if isclose(np.pi-psi,phi_values[i]):
 			index=i
@@ -134,8 +134,6 @@ def get_rho_r(pos,vel,second_deriv,pos_sun,R):
 	M=(-N*D*R**3*np.sin(psi)**3)/D1
 	m=np.arcsin(R*np.sin(psi)/N)
 		
-	#m=np.arctan(R*np.sin(psi)/(R*np.cos(psi)-D1/(D*R**3)))
-	#N=(R*np.sin(psi))/np.sin(m)
 	phi_values=approximate_phi(M,m,plot=True)
 	phi=discuss_phi(phi_values,psi)
 	

@@ -15,6 +15,7 @@ sys.path.insert(1, '../scripts')
 
 import newton
 
+
 def main():
 	# Cálculo de sqrt(3) mediante el método de Newton
 	f=x**2-3
@@ -22,14 +23,14 @@ def main():
 	print('sqrt(3) = '+ str(raiz_3) +';\t n_iters = ' + str(n_iters))
 	
 	
-	M=0.3695715755580589
-	m=-0.034911329608047485
+	# El método de Newton no converge con
+	# m=3.600653945648716 y x_0=1.5707963267948966
+	M=0.6
+	m=6
 	
 	lista=newton.approximate_phi(M,m,plot=True)
 	
 	print(lista)
-	
-	
 	
 
 if __name__ == '__main__':

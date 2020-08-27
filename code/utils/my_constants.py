@@ -44,3 +44,11 @@ Jupiter = OrbitalObject(name='Jupiter',
 						Omega=100.464,
 						omega=273.867,
 						p=4332.59, degree=True)
+
+Neptune = OrbitalObject(name='Neptune',
+						a=30.10366151,
+						e=0.00858587,
+						i=1.767975,
+						Omega=131.794310,
+						omega=265.646853,
+						p=60190, degree=True)
