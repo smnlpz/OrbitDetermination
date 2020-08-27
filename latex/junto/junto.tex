@@ -28,7 +28,7 @@
 \newtheorem{definition}[theorem]{Definición}
 
 \newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
-
+\newcommand{\rulesep}{\unskip\ \vrule\ }
 
 
 
@@ -527,7 +527,7 @@ Además, recordemos que podemos obtener el ángulo $\psi$ mediante:
 R\cos{\psi}=X\lambda+Y\mu+Z\nu\\
 \]
 
-\noindent obteniendo así que el valor de $\psi$ estará en el primer o cuarto cuadrante, pues $R>0$ y el producto escalar de $(X,Y,Z)$ por $(\lambda,\mu,\nu)$ es positivo. Pero, como nos encontramos en un triángulo, se ha de cumplir que $\psi<\pi$ por lo que el ángulo $\psi$ será agudo.\\
+\noindent obteniendo así que el valor de $\psi$ estará en el primer o cuarto cuadrante, pues $R>0$ y el producto escalar de $(X,Y,Z)$ por $(\lambda,\mu,\nu)$ es positivo. Pero, como nos encontramos en un triángulo, se ha de cumplir que $\psi<\pi$, y suponemos que el ángulo $\psi$ es agudo.\\
 
 Si sustituimos las ecuaciones  \eqref{eq:triangle_relations_2} en la ecuación de $\rho$ en \eqref{eq:rho_values}, esta pasará a ser:
 \[
@@ -613,7 +613,7 @@ Pero, si solo dispusiésemos de tres mediciones, podría darse el caso de que lo
 
 A medida que la rama ascendente de la curva $y_2$ se mueve hacia la derecha, es decir, fijando $M$ hacemos decrecer $m$, las soluciones $\phi_1$ y $\phi_2$ tienden a coincidir, y en estas condiciones el problema no tendría solución. Por tanto:
 \begin{quote}
-\textit{Si $\frac{D_1}{D}>0$, la distancia $r$ es mayor que $R$, el ángulo $m$ estará en el cuarto cuadrante y disponemos de dos o tres soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
+\textit{Si $\frac{D_1}{D}>0$, la distancia $r$ es mayor que $R$, el ángulo $m$ estará en el cuarto cuadrante y disponemos de una o dos soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
 \end{quote}
 
 Veamos ahora el caso contrario. 
@@ -627,7 +627,7 @@ Veamos ahora el caso contrario.
 
 Supongamos que $\frac{D_1}{D}$ es negativo, de tal manera que, procediendo como en el caso positivo, llegamos a que $r<R$ y que $m$ está en el primer o segundo cuadrante. Si $m$ está en el primer cuadrante, la rama descendente de la curva $y_2$ atraviesa el eje de abscisas $\phi$ en el segundo cuadrante, y para un $m$ pequeño y $M<1$, las relaciones entre las dos curvas serán las que podemos ver en la gráfica \ref{fig:phi_solution_m_positive_M_near_1}. En este caso, la solución será única o doble en función de que $\phi_2$ o $\phi_3$ valgan $\pi-\psi$. Por último, si $m$ estuviera en el segundo cuadrante, la rama descendente de $y_2$ cortaría el eje de abscisas en el primer cuadrante, por lo que $\phi_2$ y $\phi_3$ no serían reales y el problema no tendría solución. Así, tenemos que:
 \begin{quote}
-\textit{Si $\frac{D_1}{D}<0$, la distancia $r$ es menor que $R$, el ángulo $m$ estará en el primer cuadrante y disponemos de dos o tres soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
+\textit{Si $\frac{D_1}{D}<0$, la distancia $r$ es menor que $R$, el ángulo $m$ estará en el primer cuadrante y disponemos de una o dos soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
 \end{quote}
 
 Como consecuencia de toda esta discusión concluimos que, en determinadas situaciones, según las medidas que se nos den y el número de estas, nos encontraremos ante una única respuesta o dos respuestas, y en este segundo caso tendremos que discernir sobre cuál de las dos soluciones pertenecerá al problema físico.\\
@@ -637,9 +637,9 @@ Como consecuencia de toda esta discusión concluimos que, en determinadas situac
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{\normalfont{\textit{Aproximación numérica mediante el método de Newton.}}}
 \label{subsec:newton_rhapson}
-Tras haber realizado un estudio teórico de la ecuación \eqref{eq:phi_solution}, pasemos a buscar un método de resolución para ésta. Dado que no podemos encontrar valores exactos de $\phi$ que satisfagan la ecuación, pues es irresoluble, utilizaremos el método de Newton para obtener un valor aproximado.\\
+Tras haber realizado un estudio teórico de la ecuación \eqref{eq:phi_solution}, pasemos a buscar un método de resolución para ésta. Dado que no podemos encontrar valores exactos de $\phi$ que satisfagan la ecuación, pues no hay una fórmula explícita para la solución, utilizaremos el método de Newton para obtener un valor aproximado.\\
 
-Consideramos una función $f$ derivable y $x_0$ un valor inicial, definimos el método de Newton para cada $n$ como:
+Considerando una función $f$ derivable y $x_0$ un valor inicial, definimos el método de Newton para cada $n$ como:
 \[
 x_{n+1}=x_n-\ddfrac{f(x_n)}{f'(x_n)}, n\geq0
 \]
@@ -658,43 +658,79 @@ El método de Newton no siempre es convergente, por lo que es conveniente mencio
 Sea $f:I\rightarrow\mathbb{R}$ una función de clase 2 en un intervalo abierto $I$. Supongamos que existe $x^*$ tal que $f(x^*)=0$ y $f'(x^*)\neq0$; entonces, existe $\varepsilon>0$ tal que si $x_0\in[x^*-\varepsilon,x^*+\varepsilon]$, el método de Newton permite definir la sucesión $\{x_n\}_{n\in\mathbb{N}}$ que converge a $x^*$. Además, cuando $f''(x^*)\neq0$, dicha sucesión tiene orden de convergencia 2.\\
 \end{theorem}
 
-Dado que la función que queremos aproximar con el método de Newton es infinito-derivable por ser una función trigonométrica, podremos aplicar el teorema superior encontrado así el valor de $\phi$ para el que se cumple la ecuación \eqref{eq:phi_solution}; aún así, hemos de ser cuidadosos en la elección del intervalo $I$ donde aplicar el método de Newton, pues $f'$ se anula periódicamente, haciendo que el método no pudiera ser aplicable.\\
+Dado que la función que queremos aproximar con el método de Newton es infinito-derivable por ser una función trigonométrica, podremos aplicar el teorema superior encontrado así el valor de $\phi$ para el que se cumple la ecuación \eqref{eq:phi_solution}.\\
 
-%Notar que al aplicar el método la solución puede quedar fuera del intervalo $(0,\pi)$, aunque podremos \textit{trasladarla} hasta dicho intervalo utilizando la periodicidad de las funciones trigonométricas, sumando o restado $2\pi k$ un número $k$ de veces hasta quedar en dicho intervalo.\\
+Notemos que este teorema solo nos garantiza la convergencia supuesto que el punto $x_0$ sea cercano a la raíz, por lo que será buena idea separar las raíces por Bolzano y elegir el valor intermedio de los intervalos obtenidos como valor inicial para aplicar el método de Newton. La separación de raíces consiste en escoger un número adecuado de puntos $\alpha_1,...,\alpha_k\in[a,b]$ y aplicar el teorema de Bolzano para cada par $(\alpha_j,\alpha_{j+1})$, acotando así los intervalos donde buscar las raíces de una función. Ya que en nuestro caso buscamos la solución en el intervalo $[0,\pi]$ podremos escoger los puntos de la manera $\frac{j\cdot \pi}{n}$, con $j=0,...,n$, y una vez acotemos la raíz quedarnos como valor inicial:
+\[
+x_0=\ddfrac{\ddfrac{j\cdot\pi}{n}+\ddfrac{(j+1)\cdot\pi}{n}}{2}=\ddfrac{(2j+1)\cdot\pi}{2n}
+\]
+
+Veamos ahora un caso práctico de la aplicación de este método para determinar las soluciones de \eqref{eq:phi_solution}. Tomemos $M=0.6$ y $m=6$, por lo que $m$ estará en el cuarto cuadrante y nos encontraremos en el caso de \ref{fig:phi_solution_m_negative_M_near_1}. Escojamos $n=8$ y separemos las raíces en intervalos para escoger el valor de $x_0$.
+\begin{table}[H]
+\centering
+\resizebox{9.5cm}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+$\alpha_j$    & $0$ & $\frac{\pi}{8}$ & $\frac{\pi}{4}$ & $\frac{3\pi}{8}$ & $\frac{\pi}{2}$ & $\frac{5\pi}{8}$ & $\frac{3\pi}{4}$ & $\frac{7\pi}{8}$ & $\pi$ \\ \hline
+$f(\alpha_j)$ & + & -             & -             & +              & +             & +              & -              & -              & -  
+\end{tabular}%
+}
+\end{table}
+
+Tomamos, por ejemplo, el intervalo $[0,\frac{\pi}{8}]$ en el que nuestra función cambia de signo entre sus extremos. Calculamos el valor medio del intervalo, lo elegimos como valor inicial, $x_0=\frac{\pi}{16}$, y aplicamos el método de Newton con una tolerancia de $10^{-5}$. Veamos en una tabla cómo va convergiendo la solución.
+\begin{table}[H]
+\centering
+\def\arraystretch{1.5}
+\setlength{\tabcolsep}{20pt}
+\begin{tabular}{ccc}
+      &                       & $x_i-x_{i-1}$                   \\ \hline
+$x_0$ & $\pi/16$              &                                 \\ \hline
+$x_1$ & $0.2904116552751586$  & $0.0940621144257965$            \\ \hline
+$x_2$ & $0.295092645742656$   & $0.00468099046749737$           \\ \hline
+$x_3$ & $0.29511191583666796$ & $1.92700940119805\cdot10^{-5}$  \\ \hline
+$x_4$ & $0.29511191616986304$ & $3.33195082635740\cdot10^{-10}$ \\ \hline
+\end{tabular}
+\end{table}
+
+Por tanto, en cuatro iteraciones del método la diferencia entre las soluciones obtenidas es menor a la tolerancia que hemos fijado, obteniendo así que $\phi_1=0.29511191616986304$ es una solución de \eqref{eq:phi_solution}. De la misma manera calcularemos las raíces $\phi_2$ en $[\frac{\pi}{4},\frac{3\pi}{8}]$ y $\phi_3$ en $[\frac{5\pi}{8},\frac{3\pi}{4}]$.\\
+
+Tras aplicar el método de Newton y haber obtenido todas las soluciones de \eqref{eq:phi_solution} en el intervalo $[0,\pi]$, nos faltará comprobar cuál de las soluciones obtenidas es igual a $\pi-\psi$, pudiendo determinar así si hay o no unicidad para el problema físico. Aún así, es posible determinar la unicidad de la solución sin necesidad de resolver la ecuación \eqref{eq:phi_solution}, como veremos a continuación.\\
 
 \subsection{\normalfont{\textit{Unicidad de la solución.}}}
 \label{subsec:unicidad}
-Tal y como hemos visto en la sección anterior, la solución del problema físico será única si $\phi_2=\pi-\psi$, independientemente del signo de $\frac{D_1}{D}$; en otro caso, la solución será doble o no existirá. Sea $\varepsilon>0$ un valor pequeño y supongamos que $\phi=\pi-\psi+\varepsilon$. Entonces, si $\frac{D_1}{D}$ es positivo, podemos ver en la gráfica \ref{fig:phi_solution_m_negative_M_near_1} que la diferencia $y_1-y_2$ es positiva cuando $\phi=\phi_2+\varepsilon$; y si $\frac{D_1}{D}$ es negativo, podemos ver en la gráfica \ref{fig:phi_solution_m_positive_M_near_1} que $y_1-y_2$ es negativo cuando $\phi=\phi_2+\varepsilon$.\\
+Tal y como hemos visto en la sección anterior, la solución del problema físico será única si $\phi_2=\pi-\psi$, independientemente del signo de $\frac{D_1}{D}$; en otro caso, la solución será doble o no existirá.\\
 
-Sabemos que las funciones $y_1$ e $y_2$ son analíticas, y que la suma, el producto y la composición de funciones analíticas es analítica. Por tanto, $y_1-y_2$ es analítica y podremos expandirla como serie de potencias en $\varepsilon$ cuando $\phi=\pi-\psi+\varepsilon$. Así, tenemos la siguiente expresión:
-\begin{align}
-\begin{array}{l}
-y_1-y_2=[\sin^4{(\pi-\psi)}-M\sin{(\pi-\psi+m)}]+\\+[4\sin^3{(\pi-\psi)}\cos{(\pi-\psi)}-M\cos{(\pi-\psi+m)}]\epsilon+...
-\end{array}
-\label{eq:y1_y2_serie}
-\end{align}
+Fijémonos en la figura \ref{fig:phi_solution_m_negative_M_near_1}, donde aparecen tres intersecciones entre las curvas $y_1$ e $y_2$. La observación fundamental en esta gráfica reside en el hecho de que $\phi_2$ es un cero positivo, entendiendo por esto que la derivada en dicho punto es positiva, es decir, la función es creciente, y $\phi_1$ y $\phi_3$ son ceros negativos. Podemos ver esto más fácilmente en la siguiente imagen:
 
-\noindent donde hemos tomando $\varepsilon_0=0$ dado que $\phi=\pi-\psi$ es una solución del problema. Pasemos a simplificar esta expresión y reducir el coeficiente de $\varepsilon$ utilizando las ecuaciones \eqref{eq:to_simplify} y \eqref{eq:phi_solution}:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.125]{images/y_1_menos_y_2.png}
+\caption{Representación gráfica de $y_1-y_2$ cuando $\ddfrac{D_1}{D}>0$.}
+\label{fig:y_1_menos_y_2}
+\end{figure}
+
+Por otra parte, calculemos la derivada de $y_1-y_2$:
+\[
+(y_1-y_2)'(x)=4\sin^3{\phi}\cos{\phi}-M\cos{(\phi+m)}
+\]
+
+Pues bien, para que nuestra solución sea única tendrá que cumplirse que la derivada de $y_1-y_2$ en el punto $\pi-\psi$ sea positiva, es decir, que $\phi_2=\pi-\psi$. Desarrollemos la derivada en este punto para comprobar más fácilmente en qué casos se cumple la unicidad.
 \[
 \def\arraystretch{2}
 \begin{array}{ll}
-& [\sin^4{(\pi-\psi)}-\sin^4{(\pi-\psi)}]+[-4\sin^3{(\pi-\psi)}\cos{\psi}+M\cos{(-\psi+m)}]=\\
-= & 0 + \left[\ddfrac{4MD_1}{NDR^3}\cos{\psi}+M(\cos{\psi}\cos{m}+\sin{\psi}\sin{m})\right]=\\
+  & 4\sin^3{(\pi-\psi)}\cos{(\pi-\psi)}-M\cos{(\pi-\psi+m)}=\\
+= &-4\sin^3{(\pi-\psi)}\cos{\psi}+M\cos{(-\psi+m)}=\\
+= & \left[\ddfrac{4MD_1}{NDR^3}\cos{\psi}+M(\cos{\psi}\cos{m}+\sin{\psi}\sin{m})\right]=\\
 = & \ddfrac{4MD_1}{NDR^3}\cos{\psi}+M\left(\ddfrac{R\cos^2{\psi}}{N}-\ddfrac{D_1\cos{\psi}}{NDR^3}+\ddfrac{R\sin^2{\psi}}{N}\right)=\\
 = & \ddfrac{4MD_1}{NDR^3}\cos{\psi}-\ddfrac{MD_1}{NDR^3}\cos{\psi}+\ddfrac{MR}{N}(\cos^2{\psi}+\sin^2{\psi})=\\
 = & \ddfrac{MR}{N}\left(1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right)
 \end{array}
 \]
 
-\vspace{0.4cm}
+Dado que $M$ y $R$ son valores positivos podremos obviarlos a la hora de escribir la desigualdad. Así, tenemos una condición de unicidad para el caso de la figura \ref{fig:phi_solution_m_negative_M_near_1}, es decir, cuando $\ddfrac{D_1}{D}$ sea positivo, facilitando así un estudio previo en la determinación del ángulo $\phi$.\\
 
-Por tanto, la serie pasa a ser:
-\begin{align}
-y_1-y_2=\ddfrac{MR}{N}\left(1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right)\varepsilon+...
-\label{eq:y1_y2_serie2}
-\end{align}
+El razonamiento para $\ddfrac{D_1}{D}<0$ es análogo; en este caso, $\phi_2$ será un cero negativo y las otras dos soluciones serán ceros positivos, por lo que tendremos que comprobar que la derivada en $\pi-\psi$ sea negativa.\\
 
-Así, conociendo que $MR>0$, llegamos a la conclusión de que la condición para que el problema físico tenga solución única es:
+Así, con las dos desigualdades que hemos obtenido, llegamos a la conclusión de que la condición para que el problema físico tenga solución única es:
 \begin{align}
 \left\{
 \def\arraystretch{2}
@@ -708,12 +744,12 @@ Así, conociendo que $MR>0$, llegamos a la conclusión de que la condición para
 
 Dado que todos los valores de estas ecuaciones están dados por simples observaciones, no será necesario resolver la ecuación \eqref{eq:phi_solution} para determinar la unicidad de la solución.\\
 
-Dado que $N\neq0$, el límite de las dos desigualdades será:
+Sabemos que $N\neq0$, y por tanto el límite de las dos desigualdades será:
 \[
 \left[1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right]=0
 \]
 
-Ahora, utilicemos \eqref{eq:rho_values} y la relación \eqref{eq:triangle_relations_1} vista anteriormente para eliminar $\cos{\psi}$ y $\frac{D_1}{D}$ de la expresión superior.
+Ahora, utilicemos \eqref{eq:rho_values} y la relación \eqref{eq:triangle_relations_1} para eliminar $\cos{\psi}$ y $\frac{D_1}{D}$ de la expresión superior.
 \[
 \left\{
 \def\arraystretch{2}
@@ -749,12 +785,35 @@ Por tanto, tenemos un extremo en $r=R$, que comprobaremos si es máximo o mínim
  \; \; \; \xRightarrow[]{r=R} \; \; \; \ddfrac{8R^5}{R^5}+2>0, \; \; \; \forall R>0
 \]
 
-Así, tenemos un mínimo para nuestra función en $r=R$, y dado que el mínimo valor que puede tomar $R$ es cero, el miembro de la derecha de \eqref{eq:rho_cuadrado} alcanzará el mínimo en $r=0$, por lo que para cada valor de $r$ habrá un único valor positivo de $\rho$. Además, dado que estamos trabajando con el límite de las desigualdades \eqref{eq:condicion_unicidad}, todos los pares de valores $(\rho,r)$ que satisfagan la igualdad \eqref{eq:rho_cuadrado} se encontrarán en el límite de las regiones donde la solución es única, las cuales son superficies de revolución alrededor de la línea imaginaria que une la Tierra y el Sol. Para obtener una imagen más visual, representamos a continuación la sección de estas superficies con un plano que pase por la recta $SE$.
+Así, tenemos un mínimo para nuestra función en $r=R$, y dado que el mínimo valor que puede tomar $R$ es cero, el miembro de la derecha de \eqref{eq:rho_cuadrado} alcanzará el mínimo en $r=0$, por lo que para cada valor de $r$ habrá un único valor positivo de $\rho$. Además, dado que estamos trabajando con el límite de las desigualdades \eqref{eq:condicion_unicidad}, todos los pares de valores $(\rho,r)$ que satisfagan la igualdad \eqref{eq:rho_cuadrado} se encontrarán en el límite de las regiones donde la solución es única, las cuales son superficies de revolución alrededor de la línea imaginaria que une la Tierra y el Sol. Intentemos entender esto mejor mediante una imagen.
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.3]{images/fig_35.png}
-\caption{Sección de la superficie de revolución generada por los límites de \eqref{eq:condicion_unicidad}.}
-\label{fig:fig_35}
+\includegraphics[scale=0.4]{images/eje_rotacion.png}
+\caption{Distintas posiciones del cuerpo $C$, todas con las mismas distancias, $r$ y $\rho$, desde éstas al Sol y la Tierra.}
+\label{fig:eje_rotacion}
+\end{figure}
+
+Dado que $r$ y $\rho$ son distancias del Sol y la Tierra al cuerpo observado, habrá infinitos puntos en el espacio tridimensional donde estos valores se mantengan. En la imagen superior podemos ver como, girando en torno a un círculo cuyo eje es el vector $\vec{SE}$, la distancia de cada $C_i$ es la misma independientemente de en qué punto del círculo se encuentre. Por tanto, volviendo a lo comentado anteriormente, podremos formar una superficie de revolución para el límite de las regiones donde la solución pasa a ser única tomando los pares $(\rho,r)$ en dicho límite y girando alrededor de vector $\vec{SE}$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{images/sup_revol.png}
+\caption{Superficie formada por los límites donde cambia la unicidad de la solución.}
+\label{fig:sup_revol}
+\end{figure}
+
+En la imagen superior el círculo grande se extenderá hasta el infinito. A continuación, para obtener una imagen más visual en la que estudiar el cambio en la unicidad de la solución al atravesar las regiones límite, representamos una sección de la superficie con un plano que pase por la recta $SE$.
+\begin{figure}[H]
+\centering
+\subfloat{
+	\includegraphics[scale=0.1]{images/seccion_superficie_unicidad.png}
+	\hspace{1cm}
+	\rulesep
+	\hspace{1cm}
+	\includegraphics[scale=0.1]{images/seccion_superficie_no_unicidad.png}
+}
+\caption{Sección de la superficie de revolución junto a los casos en los que se da la unicidad y los que no. La región rosa se sigue extendiendo hasta el infinito.}
+\label{fig:seccion_superficie}
 \end{figure}
 
 En la imagen superior podemos ver que los límites para la condición de unicidad dividen el espacio en cuatro partes diferentes, dos sombreadas y las otras dos en blanco, de manera que las desigualdades de \eqref{eq:condicion_unicidad} mantienen el signo dentro de cada una de estas regiones y cambian de signo al cruzar la frontera de alguna de ellas.\\
@@ -771,9 +830,9 @@ Estudiemos ahora en cuál de estas regiones obtenemos una solución única y en 
 
 Podemos ver fácilmente que esta última igualdad es negativa para un valor grande de $\rho$, y ya que hemos supuesto previamente que $r>R$, se sigue que $\ddfrac{D_1}{D}>0$ y $N<0$, por lo que estamos en la primera desigualdad de \eqref{eq:condicion_unicidad}. Ya que esta desigualdad está satisfecha, podemos concluir que la solución del problema será única si el objeto observado se encuentra en el área no sombreada a la izquierda de $E$.\\
 
-Cuando el objeto cruce de la región no sombreada a la izquierda de \ref{fig:fig_35} a una región sombreada, manteniendo que $r>R$, la función cambiará de signo mientras que el signo de $N$ no cambie, en cuyo caso la primera desigualdad de \eqref{eq:condicion_unicidad} no se cumplirá y estaremos en el caso de una solución doble. En esta región, la primera función de \eqref{eq:condicion_unicidad} es positiva y $N$ es negativo, por lo que si cruzamos al área pequeña sin sombra la función pasa a ser negativa y $N$ positivo, satisfaciendo así la segunda desigualdad y deduciendo así que la solución es única. De manera similar, podremos comprobar que la solución es doble en la región sombreada pequeña.\\
+Cuando el objeto cruce de la región no sombreada a la izquierda de \ref{fig:seccion_superficie} a una región sombreada, manteniendo que $r>R$, la función cambiará de signo mientras que el signo de $N$ no cambie, en cuyo caso la primera desigualdad de \eqref{eq:condicion_unicidad} no se cumplirá y estaremos en el caso de una solución doble. En esta región, la primera función de \eqref{eq:condicion_unicidad} es positiva y $N$ es negativo, por lo que si cruzamos al área pequeña sin sombra la función pasa a ser negativa y $N$ positivo, satisfaciendo así la segunda desigualdad y deduciendo así que la solución es única. De manera similar, podremos comprobar que la solución es doble en la región sombreada pequeña.\\
 
-Por tanto, el problema físico tendrá solución doble en las regiones sombreadas de la imagen \ref{fig:fig_35} y solución única en las regiones sin sombrear.\\
+Por tanto, el problema físico tiene solución única en los casos que vemos en la primera imagen de \ref{fig:seccion_superficie}, es decir, en las regiones blancas, y solución doble en los casos de la segunda imagen, las regiones sombreadas.\\
 
 
 
