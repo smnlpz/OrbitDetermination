@@ -1,0 +1,159 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb,graphicx,amsmath,mathtools,float}
+\usepackage{lscape}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{indentfirst}	% Tabular tras un section
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=false,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=red,
+	urlcolor=black,
+	pdfborderstyle={/S/U/W 1}
+}
+
+\usepackage[svgnames]{xcolor}
+\definecolor{griscaption}{RGB}{100,100,100}
+\usepackage{caption}
+\usepackage[font={color=griscaption},figurename=Fig.,labelfont={bf}]{caption}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definición}
+
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+
+
+\begin{document}
+
+\section{Método Gaussiano de Determinación}
+Al igual que en el método de Laplace, volvamos a separar nuestro trabajo en distintos pasos.\\
+
+\subsection{\normalfont{\textit{Imponer que $C$ se mueve en un plano que pasa a través de $S$}}}
+Ya que $S$ es el origen de las coordenadas $x$, $y$ y $z$, podemos escribir la condición del enunciado como:
+\[
+\left\{
+\begin{array}{l}
+	Ax_1+By_1+Cz_1=0\\
+	Ax_2+By_2+Cz_2=0\\
+	Ax_3+By_3+Cz_3=0
+\end{array}
+\right.
+\]
+
+\noindent donde $A$, $B$ y $C$ son las constantes que determinan la posición del plano de movimiento. Eliminando estas incógnitas constantes llegaremos a:
+\[
+\left|
+\begin{array}{ccc}
+	x_1 & y_1 & z_1\\
+	x_2 & y_2 & z_2\\
+	x_3 & y_3 & z_3
+\end{array}
+\right|
+=0
+\]
+
+A partir de este determinante podemos obtener tres ecuaciones expandiéndolo respecto a los elementos de las tres columnas, donde estas tres ecuaciones no serán más que diferentes formas de la misma. Aún así, si se determinen los paréntesis y las variables $x_i$, $y_i$ y $z_i$ se expresan en términos de coordenadas geocéntricas, obtendremos tres ecuaciones con las incógnitas $\rho_1$, $\rho_2$ y $\rho_3$.
+\[
+\left\{
+\begin{array}{l}
+	(y_2z_3-z_2y_3)x_1-(y_1z_3-z_1y_3)x_2+(y_1z_2-z_1y_2)x_3=0\\
+	(x_2z_3-z_2x_3)y_1-(x_1z_3-z_1x_3)y_2+(x_1z_2-z_1x_2)y_3=0\\
+	(x_2y_3-y_2x_3)z_1-(x_1y_3-y_1x_3)z_2+(x_1y_2-y_1x_2)z_3=0
+\end{array}
+\right.
+\]\\
+
+Los valores entre paréntesis representan las proyecciones de dos de los triángulos formados por $S$ y las posiciones de $C$ tomadas de dos en dos sobre los tres planos fundamentales. Por tanto, como en cada ecuación las tres áreas son proyectadas sobre el mismo plano (\textit{tengo que hacer algún dibujito de esto}), podremos utilizar los triángulos por si mismos en vez de sus proyecciones. Ahora, definamos $[1,2]$, $[1,3]$ y $[2,3]$ los triángulos formados por $S$ y $C$ en los momentos $t_1$, $t_2$ y $t_3$; con esto, las ecuaciones anteriores pasan a ser:
+\[
+\left\{
+\begin{array}{l}
+	[2,3]x_1-[1,3]x_2+[1,2]x_3=0\\
+	{[2,3]}y_1-[1,3]y_2+[1,2]y_3=0\\
+	{[2,3]}z_1-[1,3]z_2+[1,2]z_3=0
+\end{array}
+\right.
+\]\\
+
+\subsection{\normalfont{\textit{Desarrollar las relaciones entre los triángulos como series de potencias en los intervalos de tiempo}}}
+Para resolver este paso, integraremos las \hyperref[eq:ley_gracitacion_C]{ecuaciones de la ley de gravitación} para $C$ como serie de potencias en los intervalos de tiempo de los que disponemos, y tras ello sustituiremos los resultados por $t=t_1,t_2,t_3$ en los coeficientes de las ecuaciones vistas en el paso anterior.\\
+
+Para facilitar la escritura de estas series de potencias, comencemos definiendo los siguientes valores:
+\[
+\left\{
+\begin{array}{l}
+	k(t_2-t_1)=\theta_3\\
+	k(t_3-t_2)=\theta_1\\
+	k(t_3-t_1)=\theta_2\\
+	\theta_2=\theta_1+\theta_3
+\end{array}
+\right.
+\]
+
+Con esta notación, la proporción entre los triángulos definidos anteriormente será:
+\[
+\left\{
+\begin{array}{l}
+	\frac{[2,3]}{[1,3]}=\frac{\theta_1}{\theta_2}[1+\frac{1}{6}\frac{\theta_2^2-\theta_1^2}{r_2^3}+...]\\
+	\frac{[1,2]}{[1,3]}=\frac{\theta_3}{\theta_2}[1+\frac{1}{6}\frac{\theta_2^2-\theta_3^2}{r_2^3}+...]
+\end{array}
+\right.
+\]\\
+
+\subsection{\normalfont{\textit{Desarrollar las ecuaciones para determinar $\rho_1$, $\rho_2$ y $\rho_3$}}}
+Utilizando la proporción entre los triángulos, las ecuaciones con los triángulos $[i,j]$ y \hyperref[eq:relacion_C_S_E]{esta ecuación} obtenemos lo siguiente:
+\[
+\left\{
+\begin{array}{l}
+	\theta_1[1+\frac{1}{6}\frac{\theta_2^2-\theta_1^2}{r_2^3}+...] (\lambda_1\rho_1-X_1)-\theta_2(\lambda_2\rho_2-X_2)+\\ \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; +\theta_3[1+\frac{1}{6}\frac{\theta_2^2-\theta_3^2}{r_2^3}+...] (\lambda_3\rho_3-X_3)=0\\
+
+	\theta_1[1+\frac{1}{6}\frac{\theta_2^2-\theta_1^2}{r_2^3}+...] (\mu_1\rho_1-Y_1)-\theta_2(\mu_2\rho_2-Y_2)+\\ \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; +\theta_3[1+\frac{1}{6}\frac{\theta_2^2-\theta_3^2}{r_2^3}+...] (\mu_3\rho_3-Y_3)=0\\
+
+	\theta_1[1+\frac{1}{6}\frac{\theta_2^2-\theta_1^2}{r_2^3}+...] (\nu_1\rho_1-Z_1)-\theta_2(\nu_2\rho_2-Z_2)+\\ \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; \; +\theta_3[1+\frac{1}{6}\frac{\theta_2^2-\theta_3^2}{r_2^3}+...] (\nu_3\rho_3-Z_3)=0
+\end{array}
+\right.
+\]\\
+
+Las incógnitas que aparecen en estas ecuaciones son $\rho_1$, $\rho_2$, $\rho_3$ y $r_2$. Ya que esta última solo aparece al multiplicando por $\theta_1$, $\theta_2$ o $\theta_3$, podríamos suponer que en una primera aproximación que estos términos se pueden omitir, pudiendo obtener así los $\rho_i$ mediante ecuaciones lineales; sin embargo, tras un discusión sobre los determinantes que intervienen (\textit{buscar info}), llegamos al hecho de que será necesario mantener los términos en $r_2$ incluso en la primera aproximación.\\
+
+La solución de las ecuaciones anteriores para $\rho_2$ tiene la forma:
+\[
+\Delta\rho_2=P+\frac{Q}{r_2^3},
+\]
+
+\noindent donde $\Delta$ será el determinante formado por los coeficientes de las incógnitas de $\rho_i$, y $P$ y $Q$ serán funciones de los valores $\lambda_i$, $\mu_i$, $\nu_i$, $X_i$, $Y_i$, $Z_i$ para $i=1,2,3$.\\
+
+En cualquier instante $t_i$, $E$, $S$ y $C$ formarán un triángulo. Si tomamos $i=2$, los valores de $\rho_2$ y $r_2$ satisfarán la ecuación:
+\[
+r_2^2=\rho_2^2+R_2^2-2\rho_2R_2\cos{\psi_2}
+\]
+
+Con el valor de $\rho_2$ y $r_2$ determinado, tenemos que la solución para $\rho_1$ y $\rho_3$ para dos ecuaciones cualesquiera de las del principio es:
+\[
+\left\{
+\begin{array}{l}
+	M\rho_1=P_1\rho_2[1-\frac{1}{6}\frac{\theta_2^2-\theta_1^2}{r_2^3}+...]+Q_1\\
+	M\rho_3=P_3\rho_2[1-\frac{1}{6}\frac{\theta_2^2-\theta_3^2}{r_2^3}+...]+Q_3
+\end{array}
+\right.
+\]
+
+\noindent donde $M$, $P_1$ y $P_3$ son funciones de valores ya conocido y $Q_1$ y $Q_3$ solo involucrarán la incógnita $r_2$, que ya ha podido ser calculada.\\
+
+\subsection{\normalfont{\textit{Determinar $\rho_1$ y $\rho_3$}}}
+Notar que el cálculo de $\rho_2$ y $r_2$ realizado anteriormente es exactamente lo mismo que el tercer paso del método de Laplace. Por tanto, solo bastará calcular $\rho_1$ y $\rho_3$ con la última ecuación que hemos visto en el paso anterior.\\
+
+\subsection{\normalfont{\textit{Determinar los elementos de la órbita a partir de las posiciones conocidas de $C$ en los momentos $t_1$ y $t_3$}}}
+Estas dos posiciones y la de $C$ definirán el plano de la órbita sin mucho más trabajo. En su desarrollo, Gauss resolvió el problema de determinación de los elementos restantes mediante dos ecuaciones que solo involucraban las dos incógnitas. Una de ellas se obtiene de la proporción del triángulo formado por $S$, $E$ y $C$ en $t_1$ y $t_3$ con el área comprendida entre $r_1$, $r_3$ y el arco de la órbita descrito en el intervalo $[t_1,t_3]$; la otra ecuación deriva de la ecuación de Kepler en los momentos $t_1$ y $t_3$.\\
+
+Aunque estas fórmulas sean complejas, el método de resolución para cada una de ellas es un proceso rápido de aproximaciones sucesivas, y tras resolver estas ecuaciones los elementos son de terminados fácilmente de manera única.\\
+
+
+\end{document}
