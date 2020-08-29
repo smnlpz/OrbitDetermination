@@ -4,7 +4,19 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish, es-tabla]{babel}
 
+
+
+
 \usepackage[Bjornstrup]{fncychap}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.5pt}
+\fancyfoot[LE,RO]{\thepage}
+\fancyhead[RO]{\slshape\nouppercase{\rightmark}}
+\fancyhead[LE]{\slshape{\leftmark}}
+
 
 \usepackage{indentfirst}	% Tabular tras un section
 \usepackage[linktocpage]{hyperref}
@@ -29,29 +41,44 @@
 \newtheorem{proposition}[theorem]{Proposición}
 \newtheorem{definition}[theorem]{Definición}
 
+
+% Fracciones más grandes
 \newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+% Línea vertical para separar imágenes
 \newcommand{\rulesep}{\unskip\ \vrule\ }
+
+% Para solucionar el problema de títulos de secciones muy largos
+\newcommand{\markedsection}[2]{\section[#2]{#2%
+\sectionmark{#1}}
+\sectionmark{#1}}
 
 
 
 \begin{document}
 \input{portada/portada}
+\thispagestyle{empty}
 
-\begingroup
-	\let\cleardoublepage\relax
-	\let\clearpage\relax
+%\begingroup
+	%\newpage
+	%\let\cleardoublepage\relax
+	%\let\clearpage\relax
 	\tableofcontents  % para generar el índice de contenidos
+	\thispagestyle{empty}
 	\listoffigures    % para generar el índice de las imágenes
-	\newpage
-\endgroup
+	\thispagestyle{empty}
+	%\newpage
+%\endgroup
 
 \chapter{Introducción}
 \label{chap:introduction}
-En este trabajo nos vamos a centrar en el problema de determinación de órbitas, que consiste en determinar los elementos orbitales de un cuerpo observado a partir de $N$ observaciones y así poder situar dicho cuerpo en la bóveda celeste en cualquier momento. Concretamente, se estudiará el método de determinación Laplaciano, el cuál fue desarrollado en 1780 y que sirvió como base para los métodos que se fueron apareciendo posteriormente.	Tras ello, discutiremos el número de soluciones del problema de determinación visto, teniendo en cuenta que no todas las soluciones son válidas para nuestro problema físico. Por último, se desarrollará un programa que sea capaz de calcular la órbita de un cuerpo a partir de los datos introducidos de sus observaciones desde la Tierra, facilitando así la aplicación del método de Laplace.\\
+En este trabajo nos vamos a centrar en el problema de determinación de órbitas, que consiste en determinar los elementos orbitales de un cuerpo observado a partir de $N$ observaciones y así poder situar dicho cuerpo en la bóveda celeste en cualquier momento. Concretamente, se estudiará el método de determinación Laplaciano, el cuál fue desarrollado en 1780 y que sirvió como base para los métodos que fueron apareciendo posteriormente.	Dado que vamos a trabajar con observaciones tomadas desde la Tierra, no conoceremos una parametrización del movimiento real del cuerpo cuya órbita determinar y por tanto nos serviremos del cálculo numérico con el fin de aproximar las cantidades que necesitemos para nuestro trabajo. Además, haremos un repaso de la mecánica celeste comentando los principales elementos que necesitaremos para nuestro estudio de determinación.\\
+
+Una vez estudiado el método de Laplace, discutiremos el número de soluciones del problema que podemos obtener, buscando asegurar la unicidad y teniendo en cuenta que no todas las soluciones son válidas para nuestro problema físico. Por último, se desarrollará un programa que sea capaz de calcular la órbita de un cuerpo a partir de los datos introducidos de sus observaciones desde la Tierra, facilitando así la aplicación del método de Laplace.\\
 
 El trabajo desarrollado en esta memoria está basado principalmente en el estudio de ``\textit{An Introduction to Celestial Mechanics}'', escrito por Forest Ray Moulton\cite{moulton}, así como en ``\textit{Introducción a la Mecánica Celeste}'' de Rafael Ortega Ríos\cite{ortega} y en los conocimientos adquiridos durante la carrera de cálculo numérico. Todas las imágenes utilizadas han sido construidas utilizando la herramienta online que proporciona el software matemático \href{https://www.geogebra.org/classic?lang=es}{Geogebra}. Para el desarrollo informático se ha utilizado el lenguaje de programación Python, estudiado durante la carrera.\\
 
-Antes de entrar de lleno en las matemáticas, veamos un poco de historia sobre la determinación de órbitas.\\
+Pero, antes de entrar de lleno en las matemáticas, veamos un poco de historia sobre la determinación de órbitas.\\
 
 
 \section{Una breve historia de la determinación de órbitas.}
@@ -69,7 +96,7 @@ Todos estos métodos son de hace siglos, por lo que la tecnología en ese entonc
 La determinación de órbitas es un campo de estudio que tiene continuidad y actualmente sigue en uso, aunque con métodos mucho más modernos que los que desarrollaremos en este trabajo. Uno de sus usos es para cartografiar el cinturón de asteroides, trabajo que (aparte de ser bonito) será muy importante en un futuro cuando comience la navegación espacial.\\
 
 
-\section{Familiarizándos con el problema.}
+\section{Familiarizándonos con el problema.}
 Como hemos comentado anteriormente, el método de Laplace fue desarrollado en el siglo XVIII, por lo que la instrumentación para la observación era limitada y surge una dificultad: observando un cuerpo desde la Tierra, la cuál se encuentra en continuo movimiento, podremos obtener la dirección del objeto percibida por el observador, sin ninguna información sobre su distancia. Al no disponer de esta distancia no podremos determinar su posición exacta, por lo que las componentes de la velocidad no podrán ser calculadas. Así, habremos de tomar observaciones complementarias. Pero, ¿cuántas necesitaremos, como poco, para obtener todos los elementos de la órbita?\\
 
 A lo largo de esta memoria veremos que una órbita se define por seis elementos, por lo que nos bastará con que las observaciones nos proporcionen al menos seis valores independientes entre ellos. A partir de una observación completa obtenemos dos cantidades, referentes a las coordenadas angulares del cuerpo observado; por lo tanto, serán suficientes tres observaciones del objeto a determinar su órbita para comenzar nuestro proceso. Por otra parte, tener en cuenta que, previo a nuestro estudio, podemos conocer algunos elementos de la órbita, por ejemplo, si la órbita es parabólica, conocemos su excentricidad ($e=1$), por lo que no serán necesarios seis elementos, sino cinco, y de esta manera una de las observaciones realizada puede ser dejada a medias, proporcionando solo una de las coordenadas angulares.\\
@@ -84,7 +111,7 @@ Comencemos viendo cuáles son los distintos elementos de una órbita, así como 
 
 \section{Elementos Orbitales y Coordenadas Ecuatoriales}
 \label{sec:orbital_elements_equatorial_coordinates}
-En este apartado estudiaremos los diferentes parámetros que identifican una órbita (de manera única) así como las coordenadas ecuatoriales, elementos que forman un sistema que nos permite ubicar el objeto observado respecto al \textit{ecuador celeste} y al \textit{equinoccio vernal}, que definiremos más adelante, en un momento preciso.\\
+En este apartado estudiaremos los diferentes parámetros que identifican una órbita (de manera única) así como las coordenadas ecuatoriales, elementos que forman un sistema que nos permite ubicar el objeto observado respecto al ecuador celeste y al equinoccio vernal (que definiremos más adelante) en un momento preciso.\\
 
 \subsection{Elementos Orbitales}
 \label{subsec:orbital_elements}
@@ -95,8 +122,7 @@ Comencemos por los elementos orbitales, los cuales necesitarán sostenerse en la
 \item \textit{Cada objeto barre áreas iguales en tiempos iguales.}
 \end{enumerate}
 
-Pues bien, con esto comencemos a desarrollar nuestros elementos entendiendo qué es una elipse y como se comporta matemáticamente.\\
-
+Pues bien, con esto comencemos a desarrollar nuestros elementos entendiendo qué es una elipse y como se comporta matemáticamente.
 \begin{definition}
 La elipse es una curva plana, simple y cerrada, que consta de dos focos (puntos fijos) de manera que para cualquier punto de la curva que tomemos, la suma de las distancias de los focos a dicho punto es la misma.
 \end{definition}
@@ -194,15 +220,15 @@ Una vez hayamos definido el plano de movimiento con estos dos valores, encontram
 \label{fig:omega_i}
 \end{figure}
 
-Al conjunto de estas cinco coordenadas lo llamaremos coordenadas astronómicas, y están bien definidas y son unívocas en la región $i\in]0,\pi[$, $e\in]0,1[$, excluyendo así las órbitas circulares y las definidas sobre el plano de la eclíptica.\\
+Al conjunto de estas cinco coordenadas lo llamaremos \textbf{Coordenadas Astronómicas}, y están bien definidas y son unívocas en la región $i\in]0,\pi[$, $e\in]0,1[$, excluyendo así las órbitas circulares y las definidas sobre el plano de la eclíptica.\\
 
 %El espacio de todas las elipses con foco en el origen es una variedad de cinco elementos.
 
 A estas cinco coordenadas podremos añadirle una sexta que determine la posición del planeta para un momento $t$. Ese sexto elemento puede ser el valor $T$, que se define como el momento de paso por el perihelio, la fecha concreta del momento en el que el objeto está en el perihelio de su órbita. Para calcular su valor utilizaremos la ecuación de Kepler. También es usada la anomalía media, $M=n(t-T)$, con $n=\frac{2\pi}{p}$ el movimiento medio y $p$ el período de la órbita. Ésta representa la fracción del período de una órbita que transcurre desde que el cuerpo pasa por el perihelio hasta el momento $t$; obteniendo este ángulo podemos situar el objeto en el punto exacto de la órbita en el que se encuentra.\\
 
-Cuando añadamos un sexto elemento a las coordenadas astronómicas tendremos que señalar una diferencia. Cuando disponemos de cinco elementos estaremos tratando la órbita como un lugar geométrico, mientras que añadiendo el paso por el perihelio (o la anomalía media) la estaremos tratando como una curva parametrizada donde se está describiendo el movimiento. Aún así, dado que para nuestro estudio lo que queremos es cartografiar las elipses, no necesitaremos el momento exacto del planeta en su órbita y utilizaremos solo cinco elementos. Veamos a continuación como, dadas estas coordenadas, podemos situar la elipse en el espacio.\\
+Cuando añadamos un sexto elemento a las coordenadas astronómicas tendremos que señalar una diferencia: si disponemos de cinco elementos estaremos tratando la órbita como un lugar geométrico, mientras que añadiendo el paso por el perihelio (o la anomalía media) la estaremos tratando como una curva parametrizada donde se está describiendo el movimiento del cuerpo observado. Aún así, dado que para nuestro estudio lo que queremos es cartografiar las elipses, no necesitaremos el momento exacto del planeta en su órbita y utilizaremos solo cinco elementos. Veamos a continuación como, dadas estas coordenadas, podemos situar la elipse en el espacio.\\
 
-\subsection{Situando la elipse que describe un objeto mediante sus coordenadas astronómicas.}
+\subsection{Situando la elipse que describe un cuerpo mediante sus coordenadas astronómicas.}
 \label{subsec:set_ellipse_position}
 Supongamos que se nos dan las coordenadas astronómicas $(a,e,i,\omega,\Omega)$ de un objeto y queremos situar su órbita en el espacio. Comenzaremos dibujando la elipse que forma su movimiento en el plano de la eclíptica, teniendo en cuenta que hemos de desplazar uno de sus focos para que éste se corresponda con el origen. Así, la ecuación para todos los puntos de la elipse en el plano se corresponderá con:
 \[
@@ -211,7 +237,7 @@ Supongamos que se nos dan las coordenadas astronómicas $(a,e,i,\omega,\Omega)$ 
 
 \noindent donde $a$ será el semieje mayor, $b=a\sqrt{1-e^2}$ el semieje menor y $c=ae$ la distancia de cada uno de los focos al centro de la elipse.\\
 
-Por otra parte, $i$, $\Omega$, $\omega$ serán los ángulos de Euler, un conjunto de coordenadas angulares que utilizaremos para especificar la orientación del sistema de referencia del cuerpo con dichas coordenadas astronómicas en términos del sistema de referencia $\{e_1,e_2,e_3\}$ del plano de la eclíptica. Así, llamaremos $R$ al producto de las tres matrices de rotación siguientes:
+Por otra parte, $i$, $\Omega$, $\omega$ serán los ángulos de Euler\cite{euler_angles}, un conjunto de coordenadas angulares que utilizaremos para especificar la orientación del sistema de referencia del cuerpo con dichas coordenadas astronómicas en términos del sistema de referencia $\{e_1,e_2,e_3\}$ del plano de la eclíptica. Así, llamaremos $R$ al producto de las tres matrices de rotación siguientes:
 \[
 R=
 \left(
@@ -237,9 +263,9 @@ R=
 \right)
 \]
 
-\noindent y para situar la elipse en su plano de rotación nos bastará multiplicar cada punto de ésta por la matriz $R$, obteniendo así que la elipse sobre la que rota nuestro objeto en el espacio será:
+\noindent y para situar la elipse en su plano de movimiento nos bastará multiplicar cada punto de ésta por la matriz $R$, obteniendo así que la órbita que sigue nuestro objeto en el espacio será:
 \[
-\text{Elipse}=R
+\text{Órbita}=R
 \left(
 \begin{array}{c}
 a\cos{\theta}+c \\ b\sin{\theta} \\ 0
@@ -254,7 +280,7 @@ Finalmente, si quisiéramos conocer el punto exacto de la elipse donde se encuen
 \label{subsec:equatorial_coordinates}
 Cada lugar en la Tierra puede ser localizado conociendo su latitud (ángulo en grados sobre el ecuador) y su longitud (ángulo en grados sobre el meridiano cero, el meridiano de Greenwich). De la misma manera, podemos definir ciertos valores para fijar la localización de todo objeto en la bóveda celeste, a los que llamaremos ascensión recta, $\alpha$, equivalente a la longitud, y declinación, $\delta$, equivalente a la latitud. A dichas coordenadas les acompañará un valor $\rho$ que determinará la distancia desde el observador hasta el objeto observado, aunque, como es de esperar, éste no puede ser obtenido con una simple observación del cuerpo.\\
 
-Al igual que utilizamos una localización física en la Tierra como referencia para la longitud, utilizaremos el equinoccio vernal como referencia para la ascensión recta, que se encontrará en el punto de la eclíptica donde el Sol pasa del hemisferio sur al hemisferio norte. A partir de la recta que une el centro de la Tierra con este punto se tomará el ángulo que forma con nuestro objeto observado. Para la declinación tomaremos el ecuador celeste, un gran círculo en la bóveda celeste en el mismo plano que el ecuador terrestre.\\
+Al igual que utilizamos una localización física en la Tierra como referencia para la longitud, utilizaremos el equinoccio vernal como referencia para la ascensión recta, que se encontrará en el punto de la eclíptica donde el Sol pasa del hemisferio sur al hemisferio norte, es decir, en la intersección del plano que pasa por el ecuador de la Tierra y del plano de la eclíptica. En dicho punto, la ascensión recta y declinación son nulas. A partir de la recta que une el centro de la Tierra con este punto se tomará el ángulo que forma con nuestro objeto observado. Para la declinación tomaremos el ecuador celeste, un gran círculo en la bóveda celeste en el mismo plano que pasa por el ecuador de la Tierra\cite{right_ascension_declination}.\\
 
 \begin{figure}[H]
 \centering
@@ -265,9 +291,9 @@ Al igual que utilizamos una localización física en la Tierra como referencia p
 
 La declinación es medida en grados, como la latitud. Pero, a diferencia de la longitud, la ascensión recta es medida en horas, minutos y segundos en dirección este. Como en un día hay 24 horas, cada hora de ascensión recta corresponderá a una veinticuatroava parte de la rotación total de la Tierra, y por tanto, una hora será igual a $\frac{360}{24}=15º$.\\
 
-Al conjunto de estas dos coordenadas junto a la distancia al objeto se les llama Coordenadas Ecuatoriales, y con ellas podremos definir la posición exacta de un objeto en cierto momento.\\
+Al conjunto de estas dos coordenadas junto a la distancia al objeto se les llama \textbf{Coordenadas Ecuatoriales}, y con ellas podremos definir la posición exacta de un objeto en cierto momento.\\
 
-Dado que en ocasiones necesitaremos la posición del objeto en coordenadas cartesianas, tenemos unas simples ecuaciones con las que pasaremos de coordenadas ecuatoriales a cartesianas.
+Dado que en ocasiones necesitaremos la posición del objeto en coordenadas cartesianas, veamos unas simples ecuaciones con las que pasaremos de coordenadas ecuatoriales a cartesianas.
 \[
 \left\{
 \begin{array}{l}
@@ -282,18 +308,15 @@ Notar que antes de aplicar estas ecuaciones deberemos pasar $\delta$ y $\alpha$ 
 
 \section{Caminos e ideas para desarrollar el método de determinación}
 \label{sec:ideas_for_develope_method}
-
-\textit{ESTO HAY QUE REPASARLO}\\
-
 Una vez obtenidas las coordenadas ecuatoriales de un objeto mediante tres observaciones, las podemos escribir como un grupo de funciones de los elementos orbitales del cuerpo en el momento de las observaciones, $t_1, t_2, t_3$. Así, obtenemos lo siguiente:
 \begin{align}
 \left\{\begin{array}{l}
-	\alpha_1 = \phi(a, e, \omega, i, \Omega; t_1)\\ 
-	\alpha_2 = \phi(a, e, \omega, i, \Omega; t_2)\\ 
-	\alpha_3 = \phi(a, e, \omega, i, \Omega; t_3)\\ 
-	\delta_1 = \psi(a, e, \omega, i, \Omega; t_1)\\ 
-	\delta_2 = \psi(a, e, \omega, i, \Omega; t_2)\\
-	\delta_3 = \psi(a, e, \omega, i, \Omega; t_3)
+	\alpha_1 = \phi(a, e, \omega, i, \Omega, T; t_1)\\ 
+	\alpha_2 = \phi(a, e, \omega, i, \Omega, T; t_2)\\ 
+	\alpha_3 = \phi(a, e, \omega, i, \Omega, T; t_3)\\ 
+	\delta_1 = \psi(a, e, \omega, i, \Omega, T; t_1)\\ 
+	\delta_2 = \psi(a, e, \omega, i, \Omega, T; t_2)\\
+	\delta_3 = \psi(a, e, \omega, i, \Omega, T; t_3)
 \end{array}
 \right.
 \label{eq:ascension_declinacion}
@@ -301,11 +324,11 @@ Una vez obtenidas las coordenadas ecuatoriales de un objeto mediante tres observ
 
 Pues bien, el problema de determinación de órbitas consistirá en resolver todas estas ecuaciones para los seis elementos desconocidos, pero, las funciones de ascensión recta y declinación involucran a los elementos muy enrevesadamente, además de que son altamente trascendentales.\\
 
-La órbita a determinar podrá ser una elipse, una hipérbola o una parábola. Para el primer caso, encontraremos la posición de la órbita utilizando la ecuación de Kepler (\textit{hablar sobre esto en algún punto}), y de manera similar para el segundo caso. Por otra parte, si la órbita es una parábola, hemos de utilizar una ecuación cúbica. Por tanto, ya que en los tres casos las coordenadas se obtienen mediante una serie de transformaciones trigonométricas, no dispondremos de soluciones directas para estas ecuaciones mediante métodos ordinarios.\\
+La órbita a determinar podrá ser una elipse, una hipérbola o una parábola, y en los tres casos las coordenadas respecto a la Tierra se obtendrán mediante una serie de transformaciones trigonométricas, de manera que no dispondremos de soluciones directas para estas ecuaciones mediante métodos ordinarios.\\
 
-\textit{(Aquí puede que ponga algo más)}\\
+El objetivo final del método de determinación es obtener la órbita del cuerpo observado, es decir, las coordenadas astronómicas que definen su movimiento. Pero, antes de todo, habremos de tratar el problema de encontrar cantidades intermedias con las que definir estas coordenadas, y como veremos más adelante (en \ref{subsec:orbital_elements}), a partir de la posición y la velocidad de un objeto en un instante $t$ se podrán obtener todos los elementos orbitales de éste.\\
 
-Volvamos a las ecuaciones \eqref{eq:ascension_declinacion}, y supongamos que queremos las coordenadas polares y sus derivadas, por ejemplo, en $t=t_2$. Estas ecuaciones cambian a:
+Volvamos a las ecuaciones \eqref{eq:ascension_declinacion}, y supongamos que queremos encontrar las coordenadas polares y sus derivadas, por ejemplo, en $t=t_2$. Podemos reescribir las ecuaciones como:
 \begin{align}
 \left\{\begin{array}{l}
 	\alpha_1 = f(\alpha_2, \delta_2, \rho_2, \alpha_2', \delta_2', \rho_2'; t_1, t_2)\\ 
@@ -319,12 +342,12 @@ Volvamos a las ecuaciones \eqref{eq:ascension_declinacion}, y supongamos que que
 \label{eq:idea_laplace}
 \end{align}
 
-\noindent donde $\rho$ es la distancia al origen en $t_2$ y:
+\noindent donde $\rho$ es la distancia al planeta en $t_2$ y:
 \[
 \alpha_2'=\frac{d\alpha}{dt}, \; \; \; \delta_2'=\frac{d\delta}{dt}, \; \; \; \rho_2'=\frac{d\rho}{dt} \; \; \;  \text{en} \; \; t=t_2
 \]
 
-Así, solo tendremos que resolver cuatro ecuaciones para cuatro incógnitas, pues $\alpha_2$ y $\delta_2$ son conocidas. Pero, además, podemos modificar estas ecuaciones para hacer que sean más fáciles de determinar, y de esta manera aparece el método de \textbf{Laplace}, que fue desarrollado y aplicado por primera vez para determinar una órbita en 1780.\\
+Así, solo tendremos que resolver cuatro ecuaciones para cuatro incógnitas, pues $\alpha_2$ y $\delta_2$ son conocidas. Podremos modificar estas ecuaciones para hacer que sean más manejables a la hora de determinarlas, y, de hecho, este es el camino que toma \textbf{Laplace} a la hora de desarrollar su método, que fue aplicado por primera vez en 1780.\\
 
 Por otra parte, podemos tomar tres coordenadas en dos momentos diferentes, $t_1$ y $t_3$, para así obtener otro conjunto de elementos a determinar, y haciéndonos así con dos ecuaciones con solamente dos incógnitas, que podrán ser resueltas.
 \begin{align}
@@ -352,6 +375,11 @@ En el equinoccio de primavera, que se corresponde con el punto Aries como coment
 
 Por otra parte, la observación del objeto cuya órbita queremos determinar también puede ser afectada por la aberración de la luz, es decir, la diferencia entre la posición observada del objeto y su posición real, causada por la combinación de la velocidad del observador (por la rotación de la Tierra) y la velocidad de la luz. Tendremos que corregir dos aberraciones: la anual, debida a la rotación de la Tierra alrededor del Sol, y la aberración diurna, debida a la rotación de la Tierra sobre su eje. Aún así, debido a que la velocidad de rotación sobre su eje es muy pequeña en comparación con la velocidad de traslación, la aberración diurna será relativamente pequeña, y podrá ser obviada, especialmente en el caso de que las observaciones tomadas no sea demasiado precisas.\\
 
+Aunque no veamos la manera de hacer las correcciones sobre nuestras observaciones en este trabajo, es un paso a la hora de determinación muy importante y que deberá de ser gestionado en el momento que se quiera hacer una determinación de la órbita de un objeto mediante observaciones por telescopio.\\
+
+
+\iffalse
+\begin{comment}
 Definamos como $\alpha_0$ y $\delta_0$ la ascensión recta y declinación del cuerpo observado en cierto momento, sin ninguna corrección previa. Entonces, sus valores referidos al equinoccio medio del comienzo del año, y corregidos para la aberración lumínica anual, son:
 \[
 \left\{
@@ -377,13 +405,15 @@ Por último, tendremos que corregir la aberración diurna a través de las sigui
 \noindent donde $\phi$ representará la latitud del observador y $\theta-\alpha_0$ representa el ángulo horario del objeto en el momento de la observación (\textit{???}). La primera corrección será pequeña mientras que $\delta_0$ no sea cercano a $\pm90º$, y la segunda no podrá exceder el valor de $0''.322$.\\
 
 \textit{DUDAS: como se utilizan las dos correciones a la vez???? $0''.322$ se refiere a 0.322 segundos??}\\
+\end{comment}
+\fi
 
 
 \section{Argumentación General para la Determinación}
-Los dos métodos que vamos a estudiar a continuación (Laplace y Gauss) siguen una estrategia similar, que expondremos a continuación. Para empezar, supongamos que solo disponemos de tres observaciones de nuestro objeto en tres momentos diferentes, $t_1, t_2, t_3$, de manera que conocemos la ascensión recta y declinación en cada uno de estos instantes. A continuación, definamos algunos términos:
+Los dos métodos más importantes para la determinación (Laplace y Gauss) siguen una estrategia similar, que expondremos a continuación. Para empezar, supongamos que solo disponemos de tres observaciones de nuestro objeto en tres momentos diferentes, $t_1, t_2, t_3$, de manera que conocemos la ascensión recta y declinación en cada uno de estos instantes. A continuación, definamos algunos términos:
 \begin{itemize}
 \item Definimos $C$, $S$ y $E$ como el cuerpo observado, el Sol (alrededor del cual gira $C$) y la Tierra respectivamente.
-\item Sean $(\xi,\eta,\zeta)$ las coordenadas (cartesianas) de $C$ respecto a $S$, $(X,Y,Z)$ las coordenadas de $S$ respecto a $E$, $(x,y,z)$ coordenadas de $C$.
+\item Sean $(\xi,\eta,\zeta)$ las coordenadas (cartesianas) de $C$ respecto a $E$, $(X,Y,Z)$ las coordenadas de $S$ respecto a $E$, y $(x,y,z)$ coordenadas de $C$ respecto a $S$.
 \item $\rho$ es la distancia de $E$ a $C$, $r$ la distancia de $S$ a $C$ y $R$ la distancia de $E$ a $S$.
 \end{itemize}
 
@@ -405,28 +435,42 @@ Con todo esto, podemos escribir:
 \right.
 \label{eq:terminologia}
 \end{align}
+\noindent donde $(\lambda,\mu,\nu)$ es un vector unitario conocido que apunta de la Tierra al cuerpo observado, y el fin del estudio del problema será determinar $\rho$.\\
+\newpage
+\thispagestyle{empty}
 
-Ya que conocemos el valor de $\alpha$ y $\delta$, ascensión recta y declinación, en $t_1$, $t_2$ y $t_3$, también conoceremos el valor en dichos momentos de $\lambda, \mu$ y $\nu$, que son los cosenos directores del vector que va de $E$ a $C$. Por tanto, habremos de determinar la distancia $\rho$.\\
+
+
+
+
+
+
+
+
+
 
 
 
 \chapter{Método Laplaciano de Determinación}
-%Determinar el valor de la primera y segunda derivada de $\lambda$, $\mu$, $\nu$, $X$, $Y$, $Z$ en algún momento $t$.
-\subsection{\normalfont{\textit{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ en algún momento $t$.}}}
-\label{subsec:primera_segunda_derivada}
+En este capítulo se estudiará el método de Laplace para determinar la posición y velocidad de un objeto en un instante a utilizando tres observaciones, y a partir de ellas determinaremos los elementos orbitales del cuerpo, pudiendo obtener así la elipse que describe en el espacio.\\
+
+Los pasos a seguir consistirán en aproximar las derivadas del vector unitario $(\lambda,\mu,\nu)$, así como las del vector $\vec{SE}$, determinar las distancias entre los tres cuerpos $S$, $E$, $C$, y con todo ello poder determinar la posición y velocidad del cuerpo respecto al Sol.\\
+
+\section{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ en algún momento $t$.}
+\label{sec:primera_segunda_derivada}
 Dado que no podemos calcular el valor exacto de las derivadas de $\lambda$, $\mu$, $\nu$, utilizaremos fórmulas de derivación numérica con dos nodos para obtener un valor aproximado de éstas. Tomemos, por ejemplo, $t=t_2$, que por el momento nos bastará para demostrar que se puede realizar una buena aproximación. Supongamos que el valor de $\lambda'$ no cambia muy rápido; entonces, el valor de la derivada en $t_2$ en el intervalo $[t_1,t_2]$ será muy cercano al valor de:
 \[
 \lambda_{12}'=\frac{\lambda(t_2)-\lambda(t_1)}{t_2-t_1},
 \]
 
-\noindent y dado que los nodos elegidos cumplen $t_2>t_1$, estaremos ante una diferencia regresiva. Análogamente podremos aproximar el valor de la derivada en $t_2$ mediante una diferencia progresiva, a la que llamaremos $\lambda_{23}'$.\\
+\noindent y ya que los nodos elegidos cumplen $t_2>t_1$, estaremos ante una diferencia regresiva. Análogamente podremos aproximar el valor de la derivada en $t_2$ mediante una diferencia progresiva, a la que llamaremos $\lambda_{23}'$.\\
 
 El error de estas aproximaciones, suponiendo que $\lambda$ sea de clase 2 en el intervalo de aproximación, es del orden de $(t_2-t_1)$ y $(t_3-t_2)$ para $\lambda_{12}'$ y $\lambda_{23}'$ respectivamente. Por tanto, cuanto más pequeño sea el intervalo donde realizamos las operaciones, es de esperar que la aproximación obtenida sea mejor. Además, si la longitud del intervalo $[t_1,t_2]$ es igual a la longitud de $[t_2,t_3]$, podremos calcular el valor aproximado de $\lambda'$ en $t_2$ mediante una diferencia centrada, obteniendo:
 \[
 \lambda'_2=\frac{\lambda_{12}'+\lambda_{23}'}{2}
 \]
 
-Si los intervalos tienen una longitud diferente, podremos ajustar la disparidad entre ellos para realizar la aproximación o utilizar un método diferente para aproximar la derivada, como veremos en \ref{subsec:series_potencias}.\\
+Si los intervalos tienen una longitud diferente, podremos ajustar la disparidad entre ellos para realizar la aproximación o utilizar un método diferente para aproximar la derivada, como veremos en \ref{sec:series_potencias}.\\
 
 Análogamente podremos definir la derivada segunda de $\lambda$ en $t_2$, en la que utilizaremos los valores de la primera derivada obtenidos anteriormente:
 \[
@@ -450,13 +494,11 @@ Finalmente, necesitaremos tener los valores de la primera y segunda derivada de 
 \label{eq:ley_gravitacion_S_E}
 \end{align}
 
-\noindent donde $k^2=GM$, parámetro gravitacional estándar, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol. Tomamos solo la masa del Sol, $M$, ya que la masa de nuestro cuerpo es despreciable en comparación con ésta usando como modelo el problema de Kepler.\\
+\noindent donde $k^2=GM$\footnote{Es más común ver este valor como $\mu$, pero para evitar confusiones con la segunda coordenada del vector unitario $\vec{EC}$ utilizaremos el nombre de $k^2$.}, parámetro gravitacional estándar, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol. Tomamos solo la masa del Sol, $M$, ya que la masa de nuestro cuerpo es despreciable en comparación con ésta usando como modelo el problema de Kepler.\\
 
 
-
-%Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.
-\subsection{\normalfont{\textit{Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}}}
-\label{subsec:ley_gravitacion}
+\markedsection{$C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}{Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}
+\label{sec:ley_gravitacion}
 Asumiendo que el cuerpo observado $C$ no está alterado por la interacción con otros cuerpos cercanos, podemos asegurar que cumplirá el problema de Kepler, dando lugar a las siguientes ecuaciones diferenciales:
 \begin{align}
 \left\{
@@ -521,8 +563,8 @@ Utilizando el resultado \eqref{eq:ley_gravitacion_S_E}, sustituyendo en la ecuac
 
 
 
-\subsection{\normalfont{\textit{Determinación de las distancias de $C$ a $E$ y $S$.}}}
-\label{subsec:distancias}
+\section{Determinación de las distancias de $C$ a $E$ y $S$.}
+\label{sec:distancias}
 Actualmente disponemos de un vector unitario $(\lambda,\mu,\nu)$ que apunta desde la Tierra hacia el cuerpo observado, pero desconocemos la distancia que hay entre estos dos cuerpos. Para determinar tanto esta distancia como la que hay desde $S$ hasta $C$, utilizaremos las ecuaciones fundamentales obtenidas al final del paso anterior, \eqref{eq:fundamental_equations}, y una condición geométrica que cumplirán los tres cuerpos. Para llevar a cabo esto, tomaremos el sistema \eqref{eq:fundamental_equations} como un sistema lineal en $\rho$, $\rho'$ y $\rho''$ y resolveremos utilizando la regla de Cramer. Comencemos definiendo el siguiente determinante:
 \[
 D =
@@ -577,10 +619,10 @@ Dado que disponemos de los valores $\overrightarrow{SE}=(X,Y,Z)$ y $\overrightar
 \cos{\psi}=\frac{\langle\overrightarrow{SE},\overrightarrow{EC}\rangle}{|\overrightarrow{SE}||\overrightarrow{EC}|}=\frac{\langle(X,Y,Z),(\lambda,\mu,\nu)\rangle}{R}
 \]
 
-Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valores de $\rho$ y $r$, habiendo terminado este paso. Más adelante discutiremos la unicidad de la solución en el sistema con $r,\rho>0$ (\ref{subsec:unicidad}). Al encontrar la solución de este sistema podremos calcular las coordenadas de $C$ mediante las ecuaciones \eqref{eq:relacion_C_S_E} de las relaciones entre $S$, $E$ y $C$.\\
+Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valores de $\rho$ y $r$, habiendo terminado este paso. Más adelante discutiremos la unicidad de la solución en el sistema con $r,\rho>0$ (\ref{chap:soluciones_admisibles}). Al encontrar la solución de este sistema podremos calcular las coordenadas de $C$ mediante las ecuaciones \eqref{eq:relacion_C_S_E} de las relaciones entre $S$, $E$ y $C$.\\
 
-\subsection{\normalfont{\textit{Determinación de las componentes de velocidad de $C$.}}}
-\label{subsec:velocity_component}
+\section{Determinación de las componentes de velocidad de $C$.}
+\label{sec:velocity_component}
 Se sigue de las ecuaciones \eqref{eq:relacion_C_S_E} que:
 \[
 \left\{
@@ -610,8 +652,8 @@ Notar que en $D_2$ también hemos realizado la operación $C_3-\frac{k^2\lambda}
 
 Dado que ya conocemos el valor de $r$ podremos calcular directamente $\rho'$, y de esta manera $x'$, $y'$ y $z'$ se vuelven conocidas.\\
 
-\subsection{\normalfont{\textit{Determinación de los elementos orbitales a partir de la posición y velocidad del cuerpo observado.}}}
-\label{subsec:elements_determination}
+\markedsection{Determinación de los elementos orbitales.}{Determinación de los elementos orbitales a partir de la posición y velocidad del cuerpo observado.}
+\label{sec:elements_determination}
 Una vez conocida tanto la posición como la velocidad del cuerpo en un instante determinado, nos dispondremos a calcular los elementos orbitales mediante las distintas fórmulas estudiadas en el manual de Mecánica Celeste\cite{ortega}. Denotemos por $r(t)=(x,y,z)(t)$ la posición del objeto y $v(t)$ su derivada, la velocidad.\\
 
 Comencemos determinando la energía que tiene nuestro cuerpo en un instante $t$. Para ello utilizaremos:
@@ -654,9 +696,9 @@ Sabemos que el vector del momento angular, del que disponemos, es el vector norm
 Finalmente usaremos el vector de excentricidad $\vec{e}$ para calcular $\omega$, utilizando el nodo ascendente como eje de rotación.\\
 
 
-\subsection{\normalfont{\textit{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ mediante interpolación.}}}
-\label{subsec:series_potencias}
-Tal y como hemos visto en la sección \ref{subsec:primera_segunda_derivada}, hemos de calcular la primera y segunda derivada de las coordenadas angulares $\lambda$, $\mu$, $\nu$. El problema es que no siempre los intervalos de tiempo en los que hacemos la medida del objeto en el cielo son equiespaciados, y por tanto no podremos obtener una aproximación mediante diferencias centradas. Por tanto, busquemos un nuevo método para obtener las derivadas aproximadas de nuestras coordenadas angulares.\\
+\markedsection{Derivadas de $\lambda$, $\mu$, $\nu$ mediante interpolación.}{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ mediante interpolación.}
+\label{sec:series_potencias}
+Tal y como hemos visto en la sección \ref{sec:primera_segunda_derivada}, hemos de calcular la primera y segunda derivada de las coordenadas angulares $\lambda$, $\mu$, $\nu$. El problema es que no siempre los intervalos de tiempo en los que hacemos la medida del objeto en el cielo son equiespaciados, y por tanto no podremos obtener una aproximación mediante diferencias centradas. Por tanto, busquemos un nuevo método para obtener las derivadas aproximadas de nuestras coordenadas angulares.\\
 
 Comencemos recordando las ecuaciones \eqref{eq:ley_gravitacion_S_C}:
 \begin{align}
@@ -764,17 +806,6 @@ Utilizando un mayor número de observaciones dispondremos de más nodos; así, s
 \label{eq:interpolation_error_n_observations}
 \end{align}
 
-
-%%%
-%Considerando esta serie geométricamente podemos definir una curva que llamaremos $C$; por otra parte definiremos la curva $C_2$ como la que produce el polinomio de interpolación \eqref{eq:lambda_value}. Representando las dos en una misma gráfica podemos visualizar la diferencia entre el valor real y el aproximado mediante interpolación de las funciones estudiadas:
-%\begin{figure}[H]
-%\centering
-%\includegraphics[scale=0.5]{images/fig_31.png}
-%\end{figure}
-%Dichas curvas se intersecan en $\tau_1$, $\tau_2$ y $\tau_3$, y en general en ningún otro punto; tomando valores pequeños de $\tau$ las dos curvas casi coincidirán.\\
-%%%
-
-
 Con el estudio del error y todo lo visto anteriormente, podemos justificar que la diferencia entre los valores de $t$ ha de ser pequeña en la práctica para que las cantidades aproximadas calculadas sean lo más cercanas a su valor original. Además, no tendría sentido una diferencia de tiempo muy grande entre las observaciones del objeto, pues pasaríamos mucho tiempo para determinar una única órbita.\\
 
 Por último, ya que necesitamos la primera y segunda derivada de $\lambda$, nos bastará con derivar del polinomio \eqref{eq:lambda_value}.
@@ -787,14 +818,27 @@ Por último, ya que necesitamos la primera y segunda derivada de $\lambda$, nos 
 +\frac{2}{(t_3-t_1)(t_3-t_2)}\lambda(t_3)
 \end{align*}
 
-Tal y como comentamos anteriormente, se procederá al cálculo de $\mu$ y $\nu$ y al estudio de su error de aproximación de manera similar a la desarrollada en este apartado.
+Tal y como comentamos anteriormente, se procederá al cálculo de $\mu$ y $\nu$ y al estudio de su error de aproximación de manera similar a la desarrollada en este apartado.\\
+
+\newpage
+\thispagestyle{empty}
 
 
-\chapter{Estudio del número de soluciones admisibles}
 
-\subsection{\normalfont{\textit{Ecuaciones fundamentales en el método de Laplace.}}}
-\label{subsec:fundamental_equations}
-Para terminar la explicación del método de determinación con tres observaciones, recapitulemos viendo las principales ecuaciones utilizadas para obtener la órbita del objeto observado. Las ecuaciones fundamentales serán las de \eqref{eq:fundamental_equations}, que involucrarán las coordenadas angulares $\lambda$, $\mu$, $\nu$ y sus derivadas, las cuáles conocemos su valor aproximado por \ref{subsec:primera_segunda_derivada} o \ref{subsec:series_potencias}. Por otra parte, el valor de $\rho$ y sus derivadas se obtendrá resolviendo las ecuaciones fundamentales utilizando la regla de Cramer, como vimos en anteriores apartados, aunque discutiremos más adelante otro método para su cálculo.\\
+
+
+
+
+
+\chapter{Número de soluciones admisibles}
+\label{chap:soluciones_admisibles}
+Tal y como comentamos en \ref{sec:distancias}, al obtener el valor de $\rho$ y $r$ puede que obtengamos más de una solución posible, por lo que es conveniente estudiar cuál de estas soluciones es válida para nuestro problema y cuál no, y dentro de las válidas determinar cuál es la solución que nos lleva a la órbita real del cuerpo observado.\\
+
+También trataremos de acotar el intervalo de valores donde la solución del problema de determinación es única.\\
+
+\section{Ecuaciones fundamentales en el método de Laplace.}
+\label{sec:fundamental_equations}
+Para terminar la explicación del método de determinación con tres observaciones, recapitulemos viendo las principales ecuaciones utilizadas para obtener la órbita del objeto observado. Las ecuaciones fundamentales serán las de \eqref{eq:fundamental_equations}, que involucrarán las coordenadas angulares $\lambda$, $\mu$, $\nu$ y sus derivadas, las cuáles conocemos su valor aproximado por \ref{sec:primera_segunda_derivada} o \ref{sec:series_potencias}. Por otra parte, el valor de $\rho$ y sus derivadas se obtendrá resolviendo las ecuaciones fundamentales utilizando la regla de Cramer, como vimos en anteriores apartados, aunque discutiremos más adelante otro método para su cálculo.\\
 
 Hasta ahora disponemos de $\rho$ y $\rho'$; nos faltaría por calcular $\rho''$. Comencemos definiendo el determinante $D_3$:
 \[
@@ -857,8 +901,8 @@ Así, tenemos que los valores de $\rho$ y sus derivadas pueden ser calculados me
 Notar que los determinantes $D$, $D_1$, $D_2$, $D_3$ están sujetos a pequeños errores dado que los valores implicados en ellos no pueden ser calculados de forma exacta, procediendo a obtenerlos de manera aproximada. Además, trabajamos bajo el supuesto de que las observaciones al objeto son realizadas desde el centro de la Tierra, y no desde un punto concreto de ella. Tras haber calculado de forma aproximada las distancias podremos corregir dichas observaciones por los efectos de la posición del observador sobre un punto en la superficie de la Tierra.\\
 
 
-\subsection{\normalfont{\textit{Ecuaciones para la determinación de las distancias $r$ y $\rho$.}}}
-\label{subsec:distancias_r_rho}
+\section{Ecuaciones para la determinación de las distancias $r$ y $\rho$.}
+\label{sec:distancias_r_rho}
 Recordemos la imagen \ref{fig:notation} en la que mostrábamos el triángulo formado por los tres cuerpos $S$, $E$ y $C$ junto a sus distancias. Definamos $\psi$ y $\phi$, ángulos formados en $E$ y $C$ respectivamente.
 
 \begin{figure}[H]
@@ -992,8 +1036,8 @@ Como consecuencia de toda esta discusión concluimos que, en determinadas situac
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\normalfont{\textit{Aproximación numérica mediante el método de Newton.}}}
-\label{subsec:newton_rhapson}
+\section{Aproximación numérica mediante el método de Newton.}
+\label{sec:newton_rhapson}
 Tras haber realizado un estudio teórico de la ecuación \eqref{eq:phi_solution}, pasemos a buscar un método de resolución para ésta. Dado que no podemos encontrar valores exactos de $\phi$ que satisfagan la ecuación, pues no hay una fórmula explícita para la solución, utilizaremos el método de Newton para obtener un valor aproximado.\\
 
 Considerando una función $f$ derivable y $x_0$ un valor inicial, definimos el método de Newton para cada $n$ como:
@@ -1038,7 +1082,7 @@ Tomamos, por ejemplo, el intervalo $[0,\frac{\pi}{8}]$ en el que nuestra funció
 \centering
 \def\arraystretch{1.5}
 \setlength{\tabcolsep}{20pt}
-\begin{tabular}{ccc}
+\begin{tabular}{cc|c}
       &                       & $x_i-x_{i-1}$                   \\ \hline
 $x_0$ & $\pi/16$              &                                 \\ \hline
 $x_1$ & $0.2904116552751586$  & $0.0940621144257965$            \\ \hline
@@ -1052,8 +1096,8 @@ Por tanto, en cuatro iteraciones del método la diferencia entre las soluciones 
 
 Tras aplicar el método de Newton y haber obtenido todas las soluciones de \eqref{eq:phi_solution} en el intervalo $[0,\pi]$, nos faltará comprobar cuál de las soluciones obtenidas es igual a $\pi-\psi$, pudiendo determinar así si hay o no unicidad para el problema físico. Aún así, es posible determinar la unicidad de la solución sin necesidad de resolver la ecuación \eqref{eq:phi_solution}, como veremos a continuación.\\
 
-\subsection{\normalfont{\textit{Unicidad de la solución.}}}
-\label{subsec:unicidad}
+\section{Unicidad de la solución.}
+\label{sec:unicidad}
 Tal y como hemos visto en la sección anterior, la solución del problema físico será única si $\phi_2=\pi-\psi$, independientemente del signo de $\frac{D_1}{D}$; en otro caso, la solución será doble o no existirá.\\
 
 Fijémonos en la figura \ref{fig:phi_solution_m_negative_M_near_1}, donde aparecen tres intersecciones entre las curvas $y_1$ e $y_2$. La observación fundamental en esta gráfica reside en el hecho de que $\phi_2$ es un cero positivo, entendiendo por esto que la derivada en dicho punto es positiva, es decir, la función es creciente, y $\phi_1$ y $\phi_3$ son ceros negativos. Podemos ver esto más fácilmente en la siguiente imagen:
@@ -1193,8 +1237,8 @@ Por tanto, el problema físico tiene solución única en los casos que vemos en 
 
 
 
-\subsection{\normalfont{\textit{Límites en $m$ y $M$.}}}
-\label{subsec:limites_m_M}
+\section{Límites en $m$ y $M$.}
+\label{sec:limites_m_M}
 A la hora de determinar una órbita en un problema real, hemos de tener en cuenta que los valores $m$ y $M$ han de cumplir que las soluciones reales de la ecuación \eqref{eq:phi_solution} estén entre $0$ y $\pi$, pues sino el Sol, la Tierra y el objeto observado no formarían un triángulo. Por tanto, hemos de determinar los límites para que esta condición se satisfaga, y dichos límites pueden ser determinados mediante las condiciones para que obtengamos raíces dobles.\\
 
 Para empezar, supongamos que $M$ es un valor fijo mientras $m$ varía. En el primer caso, que podemos ver en \ref{fig:phi_solution_m_negative_M_near_1}, se observan tres intersecciones de las curvas. Mientras $m$ vaya disminuyendo, la curva $y_2$ irá desplazándose hacia la derecha hasta que $\phi_1$ y $\phi_2$ pasen a ser iguales, teniendo así una raíz doble. De la misma manera, en \ref{fig:phi_solution_m_positive_M_near_1} observamos tres soluciones y, conforme $m$ aumente y desplace $y_2$ a la izquierda, $\phi_2$ y $\phi_3$ se igualarán.\\
@@ -1314,6 +1358,7 @@ orbit determination}, University of Pisa (Italy), Cambridge University Press.
 
 \bibitem{MNII} \textsc{Garralda Guillem, A.I.}, \textit{Métodos Numéricos II}, Universidad de Granada (España), apuntes de clase.
 
+\bibitem{euler_angles} \textsc{Curtis, H.D.}, (2014), \textit{Orbital Mechanics for Engineering Students}, Oxford (United Kingdom), Butterworth-Heinemann (third edition).
 \end{thebibliography}
 
 \end{document}
