@@ -8,7 +8,7 @@ Created on Fri Aug 21 11:42:17 2020
 
 import numpy as np
 
-def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
+def isclose(a, b, rel_tol=1e-06, abs_tol=0.0):
 	'''
 	rel_tol is a relative tolerance, it is multiplied by
 	the greater of the magnitudes of the two arguments;

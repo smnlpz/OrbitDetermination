@@ -52,3 +52,11 @@ Neptune = OrbitalObject(name='Neptune',
 						Omega=131.794310,
 						omega=265.646853,
 						p=60190, degree=True)
+
+Mars = OrbitalObject(name='Mars',
+					 a=1.523679,
+					 e=0.093315,
+					 i=1.850,
+					 Omega=49.562,
+					 omega=286.537,
+					 p=686.971, degree=True)

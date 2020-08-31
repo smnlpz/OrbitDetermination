@@ -15,7 +15,7 @@ sys.path.insert(1, '../scripts')
 from orbital_elements import getOrbitalElements
 from orbital_plot import plotOrbit
 
-sys.path.insert(1, '../utils')
+sys.path.insert(1, '../util')
 
 import my_constants as const
 

@@ -12,7 +12,7 @@ from orbital_object import OrbitalObject
 
 # Para modificar en ejecución el directorio desde el que importar
 import sys
-sys.path.insert(1, '../utils')
+sys.path.insert(1, '../util')
 
 import my_constants as const
 
