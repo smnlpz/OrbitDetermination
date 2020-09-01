@@ -31,7 +31,6 @@ def main():
 	VX= 7.090666373969929E-03
 	VY= 1.355900871701440E-02
 	VZ= 1.101801802943566E-04
-	'''
 	
 	# Urano
 	# 2020-Jul-28 00:00:00.0000
@@ -82,27 +81,24 @@ def main():
 	
 	Neowise=getOrbitalElements(r,v,name='Neowise')
 	print(Neowise)
+	'''
 	
 	# Comet 1P/Halley
-	# 2020-Aug-19 01:20:00.0000
+	# 2020-Jul-28 20:00:00.0000
 	# Coordinate Origin [change] : 	Sun (body center) [500@10]
-	X =-2.025155302422777E+01
-	Y = 2.671705015412066E+01
-	Z =-9.978044112706311E+00
-	VX= 2.573598999305888E-04
-	VY= 5.427428636675992E-04
-	VZ=-2.100916318710593E-05
+	X =-2.025698473131967E+01
+	Y = 2.847066495399530E+01
+	Z = 1.468581796636691E+00
+	VX= 2.545294303785508E-04
+	VY= 5.102892122612086E-04
+	VZ= 1.967386200776545E-04
 	
 	r=np.array([X,Y,Z])
 	v=np.array([VX,VY,VZ])
 	
 	Halley=getOrbitalElements(r,v,name='Halley')
-	print(Halley)
 	
-	
-	
-	orbits=list([Uranus,Pluto, Halley,const.Saturn,const.Jupiter,const.Neptune])
-	
+	orbits=list([const.Earth, const.Mars, const.Ceres, const.Jupiter, const.Saturn, const.Neptune])
 	plotOrbit(orbits)
 	
 if __name__ == '__main__':

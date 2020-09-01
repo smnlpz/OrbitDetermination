@@ -21,12 +21,12 @@ from orbital_plot import plotOrbit
 sys.path.insert(1, '../util')
 
 import my_constants as const
+from utilities import ICRS_to_ecliptic
 
 
 
 def main():
 	# NEPTUNE
-	
 	'''
 	ascension_1=Angle('23 24 35.15 hours')
 	declination_1=Angle('-05 01 22.3 degrees')
@@ -39,13 +39,11 @@ def main():
 	ascension_3=Angle(' 23 24 29.24 hours')
 	declination_3=Angle('-05 02 01.8  degrees')
 	t_3='2020-08-20 02:00'
-	'''
-	
 	
 	# Con estos valores m=0.1295350258220578, y dicho valor es erróneo
 	# ya que obtenemos solución única que al utilizarla para calcular
 	# $\rho$ y $r$ nos da un valor que no se corresponde al real
-	'''
+	
 	ascension_1=Angle('23 26 17.98 hours')
 	declination_1=Angle('-04 49 41.3 degrees')
 	t_1='2020-07-28 00:00'
@@ -57,11 +55,9 @@ def main():
 	ascension_3=Angle('23 26 16.73 hours')
 	declination_3=Angle('-04 49 50.0  degrees')
 	t_3='2020-07-28 07:52'
-	'''
 	
 	# Con estos valores, m=-0.034911329608047485, solución válida,
 	# pero obtenemos una solución doble
-	'''
 	ascension_1=Angle('23 26 17.98 hours')
 	declination_1=Angle('-04 49 41.3 degrees')
 	t_1=2459058.5
@@ -73,10 +69,8 @@ def main():
 	ascension_3=Angle('23 26 16.71 hours')
 	declination_3=Angle('-04 49 50.2 degrees')
 	t_3=2459058.833333333
-	'''
 	
 	# Con estos valores, m=0.0030083783084677513
-	'''
 	ascension_1=Angle('23 26 17.98 hours')
 	declination_1=Angle('-04 49 41.3 degrees')
 	t_1=2459058.5
@@ -89,7 +83,6 @@ def main():
 	declination_3=Angle('-04 50 35.5 degrees')
 	t_3=2459060.5 # 30 de julio 00:00
 	'''
-	
 	
 	
 	# MARTE
@@ -111,20 +104,6 @@ def main():
 	t_3=2459059.333333333
 	'''
 	
-	'''
-	ascension_1=Angle('15 43 47.21 hours')
-	declination_1=Angle('-19 23 07.0 degrees')
-	t_1=2458849.500000000 
-	
-	ascension_2=Angle('15 43 49.52 hours')
-	declination_2=Angle('-19 23 15.0  degrees')
-	t_2=2458849.513888889
-	
-	ascension_3=Angle('15 43 51.83 hours')
-	declination_3=Angle('-19 23 22.9 degrees')
-	t_3=2458849.527777778
-	'''
-	
 	# Saturno
 	'''
 	ascension_1=Angle('19 59 52.46 hours')
@@ -139,7 +118,6 @@ def main():
 	declination_3=Angle('-20 51 33.9 degrees')
 	t_3=2459060.333333333
 	'''
-	
 	
 	# Halley
 	'''
@@ -156,7 +134,9 @@ def main():
 	t_3=2459060.500000000
 	'''
 	
-	# Neowise
+	
+	# Neowise (Funciona pero no plotea)
+	'''
 	ascension_1=Angle('11 51 12.49 hours')
 	declination_1=Angle('+35 21 52.1 degrees')
 	t_1=2459058.666666667
@@ -170,12 +150,68 @@ def main():
 	t_3=2459060.500000000
 	
 	
+	ascension_1=Angle('14 18 02.55 hours')
+	declination_1=Angle('-01 13 53.6 degrees')
+	t_1=2459089.833333333
+	
+	ascension_2=Angle('14 18 57.96 hours')
+	declination_2=Angle('-01 29 33.8 degrees')
+	t_2=2459090.333333333
+	
+	ascension_3=Angle('14 20 10.65 hours')
+	declination_3=Angle('-01 50 00.1 degrees')
+	t_3=2459091.000000000 
+	'''
+	
+	
+	# Ceres (Funciona)
+	
+	ascension_1=Angle('23 13 15.59 hours')
+	declination_1=Angle('-20 17 00.5 degrees')
+	t_1=2459058.666666667
+	
+	ascension_2=Angle('23 13 01.31 hours')
+	declination_2=Angle('-20 21 27.5 degrees')
+	t_2=2459059.333333333
+	
+	ascension_3=Angle('23 12 34.89 hours')
+	declination_3=Angle('-20 29 18.9 degrees')
+	t_3=2459060.500000000
+	
+	
+	# Pluto
+	'''
+	ascension_1=Angle('19 40 42.26 hours')
+	declination_1=Angle('-22 27 23.7 degrees')
+	t_1=2459058.666666667
+	
+	ascension_2=Angle('19 40 38.29 hours')
+	declination_2=Angle('-22 27 36.7 degrees')
+	t_2=2459059.333333333
+	
+	ascension_3=Angle('19 40 31.38 hours')
+	declination_3=Angle('-22 27 59.2 degrees')
+	t_3=2459060.500000000
+	'''
+	
+	# Venus
+	'''
+	ascension_1=Angle('05 20 48.73 hours')
+	declination_1=Angle('+18 55 07.9 degrees')
+	t_1=2459058.666666667
+	
+	ascension_2=Angle('05 23 03.88 hours')
+	declination_2=Angle('+18 58 56.9 degrees')
+	t_2=2459059.333333333
+	
+	ascension_3=Angle('05 27 03.93 hours')
+	declination_3=Angle('+19 05 30.7 degrees')
+	t_3=2459060.500000000
+	'''
 	
 	coordinates=list([(ascension_1,declination_1),
 				      (ascension_2,declination_2),
 					  (ascension_3,declination_3)])
-					  #(ascension_4,declination_4),
-					  #(ascension_5,declination_5)])
 	t=[t_1,t_2,t_3]
 	
 	if type(t_1) == str:
@@ -183,13 +219,21 @@ def main():
 	else:
 		times = Time(t, format='jd')
 	
+	# Obtenemos la posición y velocidad del objeto
 	r,v=Laplace(coordinates,times)
-	Object=getOrbitalElements(r,v,name='Approximate Mars')
+	
+	# Pasamos las coordenadas de ICRS a eclíptica
+	r=ICRS_to_ecliptic(r)
+	v=ICRS_to_ecliptic(v)
+	
+	# Obtenemos los elementos orbitales
+	Object=getOrbitalElements(r,v,name='Approximate Ceres')
 	print('Elementos orbitales obtenidos:')
 	print(Object)
+	print(const.Ceres)
 	print('')
 	
-	#plotOrbit(list([Object,const.Mars,const.Earth]))
+	plotOrbit(list([Object,const.Ceres,const.Mars,const.Earth]))
 	
 	
 	

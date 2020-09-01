@@ -81,12 +81,12 @@ def plotOrbit(orbita):
 		color_i+=1
 		ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
 	
-	
+	'''
 	line_of_nodes=np.array([np.zeros(2),
 						    np.linspace(-40,40,2),
 							np.zeros(2)])
 	ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
-	
+	'''
 	
 	# Establecemos los límites para los ejes
 	Xlim=np.asarray(ax.get_xlim3d())

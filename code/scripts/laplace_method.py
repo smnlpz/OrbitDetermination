@@ -173,7 +173,7 @@ def get_rho_r(pos,vel,second_deriv,pos_sun,R):
 	print('')
 	
 	
-	phi_values=approximate_phi(M,m,plot=True)
+	phi_values=approximate_phi(M,m,plot=False)
 	phi=discuss_phi(phi_values,psi)	
 	
 	rho=R*np.sin(psi+phi)/np.sin(phi)	
@@ -215,9 +215,11 @@ def Laplace(coordinates, times):
 	
 	pos,vel=getPosVel(E_C,E_C_deriv,E_C_deriv_2,rho,S_E,S_E_deriv,R,r)
 	
-	
-	#vel=np.array([5.865829038500923E-04,3.104449796577703E-03,-7.769220675952629E-05])
-	
+	print('\nPosición calculada = ' +str(pos))
+	print('Norma = ' +str(np.linalg.norm(pos)))
+	print('Velocidad calculada = ' +str(vel))
+	print('Norma = ' +str(np.linalg.norm(vel)))
+	print('')
 	return pos,vel
 	
 

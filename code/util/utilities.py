@@ -8,6 +8,8 @@ Created on Fri Aug 21 11:42:17 2020
 
 import numpy as np
 
+import my_constants as const
+
 def isclose(a, b, rel_tol=1e-06, abs_tol=0.0):
 	'''
 	rel_tol is a relative tolerance, it is multiplied by
@@ -32,7 +34,6 @@ def reduce_to_0_2pi(x):
 	-------
 	x : float
 		Ángulo en radianes en [0,2\pi]
-
 	'''
 	
 	while x<0 or x>2*np.pi:
@@ -41,3 +42,21 @@ def reduce_to_0_2pi(x):
 		else:
 			x-=2*np.pi
 	return x
+
+def ICRS_to_ecliptic(pos):
+	'''
+	Parameters
+	----------
+	pos : np.array
+	      Vector (x,y,z) en el sistema de coordenadas ICRF
+
+	Returns
+	-------
+	tmp : np.array
+	      Vector (x,y,z) en el sistema de coordenadas de la eclítpica
+	'''
+	x=pos[0]
+	y=pos[1]*np.cos(const.mean_obliquity)+pos[2]*np.sin(const.mean_obliquity)
+	z=-pos[1]*np.sin(const.mean_obliquity)+pos[2]*np.cos(const.mean_obliquity)
+	return np.array([x,y,z])
+	
