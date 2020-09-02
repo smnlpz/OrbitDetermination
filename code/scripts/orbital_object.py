@@ -33,4 +33,4 @@ class OrbitalObject:
 	
 	def __str__(self):
 		deg_angles=self.getDegAngles()
-		return '(\''+str(self.name)+'\', '+str(self.a)+', '+str(self.e)+', '+str(deg_angles[0])+', '+str(deg_angles[1])+', '+str(deg_angles[2])+', '+str(self.p)+')'
+		return 'Nombre = \''+str(self.name)+'\'\na = '+str(self.a)+' UA\ne = '+str(self.e)+'\ni = '+str(deg_angles[0])+' grados\nΩ = '+str(deg_angles[1])+' grados\nω = '+str(deg_angles[2])+' grados\nPeríodo = '+str(self.p)+' días'

@@ -61,5 +61,6 @@ def approximate_phi(M,m,tol=0.000000001,max_tries=64,plot=False):
 		plt.plot(t,np.sin(t)**4, color='blue')
 		plt.plot(t,M*np.sin(t+m),color='green')
 		plt.plot(phi_values,np.sin(phi_values)**4,'ro')
+		plt.show()
 	
 	return phi_values

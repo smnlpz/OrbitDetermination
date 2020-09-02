@@ -29,6 +29,23 @@ mean_obliquity=2.343776036355538E+01*np.pi/180
 # tomadas a día 2020-Jul-28 20:00:00.0000 en la web de JPL.
 # (2459059.333333333)
 
+Mercury = OrbitalObject(name='Mercury',
+					    a=3.870983668423151E-01,
+					    e=2.056324574435540E-01,
+					    i=7.003700031428785E+00,
+					    Omega=4.830522172401749E+01,
+					    omega=2.918622484111233E+01,
+					    p=8.796915076159155E+01, degree=True)
+
+Venus = OrbitalObject(name='Venus',
+					  a=7.233285085724335E-01,
+					  e=6.780656400927397E-03 ,
+					  i=3.394552870751427E+00,
+					  Omega=7.662327384352011E+01,
+					  omega=5.514122646705786E+01,
+					  p=2.246990668138898E+02, degree=True)
+
+
 Earth = OrbitalObject(name='Earth',
 					  a=9.997843564797363E-01,
 					  e=1.707168344231522E-02,
@@ -51,7 +68,7 @@ Ceres = OrbitalObject(name='Ceres',
 					  i=1.058814721891299E+01,
 					  Omega=8.028170111757919E+01,
 					  omega=7.371338812354641E+01,
-					  p=1683.145708012431, degree=True)
+					  p=1.681281862025212E+03, degree=True)
 
 Jupiter = OrbitalObject(name='Jupiter',
 						a=5.203735240082719E+00,
@@ -63,12 +80,19 @@ Jupiter = OrbitalObject(name='Jupiter',
 
 Saturn = OrbitalObject(name='Saturn',
 					   a=9.580378603925364E+00,
+					   e=4.573830934737452E-02,
+					   i=7.679928274896487E-01,
+					   Omega=7.422636249705366E+01,
+					   omega=9.800287460118255E+01,
+					   p=3.071331260399070E+04, degree=True)
+
+Uranus = OrbitalObject(name='Uranus',
+					   a=1.919368996885909E+01,
 					   e=5.144638213206364E-02,
 					   i=2.488361866097358E+00,
 					   Omega=1.135993676796563E+02,
 					   omega=3.370164030770658E+02,
 					   p=10759.22, degree=True)
-
 
 Neptune = OrbitalObject(name='Neptune',
 						a=3.023754274903354E+01,
@@ -76,7 +100,16 @@ Neptune = OrbitalObject(name='Neptune',
 						i=1.773029846579799E+00,
 						Omega=1.318449993586480E+02,
 						omega=2.436715746298982E+02,
-						p=60190, degree=True)
+						p=6.073051814008412E+04, degree=True)
 
+Pluto = OrbitalObject(name='Pluto',
+					  a=3.943085597722086E+01,
+					  e=2.486586629355636E-01,
+					  i=1.701691381428098E+01,
+					  Omega=1.102804444543798E+02,
+					  omega=1.134201399602920E+02,
+					  p=9.043837137342972E+04, degree=True)
+
+SolarSystem = list([Mercury,Venus,Earth,Mars,Jupiter,Saturn,Uranus,Neptune,Pluto])
 
 

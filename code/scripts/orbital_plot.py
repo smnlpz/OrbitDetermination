@@ -23,8 +23,8 @@ def rotation_matrix(axis,ang):
 					      [0,           1, 0          ],
 						  [np.sin(ang), 0, np.cos(ang)]])
 	if axis=='z':
-		return np.matrix([[np.cos(ang),-np.sin(ang), 0],
-					      [np.sin(ang), np.cos(ang), 0],
+		return np.matrix([[np.cos(ang),np.sin(ang), 0],
+					      [-np.sin(ang), np.cos(ang), 0],
 						  [0,           0,           1]])
 	return float('NaN')
 		
@@ -33,24 +33,18 @@ def rotation_matrix(axis,ang):
 def rotate(obj, omega, i, Omega):
 	obj=np.transpose(obj)
 	
-	# https://en.wikipedia.org/wiki/Orbital_elements#Euler_angle_transformations
 	rot_matrix=np.dot(np.dot(rotation_matrix('z',omega),rotation_matrix('x',i)),rotation_matrix('z',Omega))
 	
 	for ind in range(len(obj)):
 		obj[ind]=np.dot(rot_matrix,obj[ind])
-		'''
-		obj[ind]=np.dot(rotation_matrix('z',omega),obj[ind])
-		obj[ind]=np.dot(rotation_matrix('y',i),obj[ind])
-		obj[ind]=np.dot(rotation_matrix('z',Omega),obj[ind])
-		'''
 	
 	return np.transpose(obj)
 	
 
 
-def plotOrbit(orbita):
+def plotOrbit(orbita,sun_center=True):
 	# Creamos la figura
-	fig = plt.figure(figsize=(10, 10))
+	fig = plt.figure(figsize=(8,5))
 	ax = fig.add_subplot(111, projection='3d')
 	
 	# Dibujamos el Sol
@@ -79,7 +73,7 @@ def plotOrbit(orbita):
 		
 		ax.plot3D(ellipse[0],ellipse[1],ellipse[2], color=colors[color_i],label=orb.name)
 		color_i+=1
-		ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
+		ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=(0, (1,2)))
 	
 	'''
 	line_of_nodes=np.array([np.zeros(2),
@@ -91,7 +85,10 @@ def plotOrbit(orbita):
 	# Establecemos los límites para los ejes
 	Xlim=np.asarray(ax.get_xlim3d())
 	Xlim_mid=np.asarray([-(Xlim[1]-Xlim[0])/2,(Xlim[1]-Xlim[0])/2])	
-	ax.set_xlim3d(Xlim)
+	if sun_center:
+		ax.set_xlim3d(Xlim_mid)
+	else:
+		ax.set_xlim3d(Xlim)
 	ax.set_ylim3d(Xlim_mid)
 	ax.set_zlim3d(Xlim_mid * 3/4)
 	try:
@@ -101,3 +98,5 @@ def plotOrbit(orbita):
 	
 	# Finalmente, añadimos la leyenda a la gráfica
 	ax.legend(loc='upper right', frameon=False)
+	
+	plt.show()

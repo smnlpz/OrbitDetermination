@@ -36,18 +36,16 @@ def getOrbitalElements(x,vx,name='NotAssigned'):
 	p=2*np.pi/np.sqrt(const.mu)*a**(3/2)
 	
 	# Calculamos la inclinación, el nodo ascendente y el argumento
-	# del perihelio
+	# del periastro
 	nodo_asc=np.cross([0,0,1],c)
-	i=np.arccos(np.dot(np.array([0,0,1]),c)/np.linalg.norm(c))
-	Omega=np.arccos(np.dot(np.array([1,0,0]),nodo_asc)/np.linalg.norm(nodo_asc))
-	omega=np.arccos(np.dot(e_vec,nodo_asc)/np.linalg.norm(nodo_asc)*e)
+	i=np.arccos(np.dot(np.array([0,0,1]),c)/(np.linalg.norm(c)))
+	Omega=np.arccos(np.dot(np.array([1,0,0]),nodo_asc)/(np.linalg.norm(nodo_asc)))
+	omega=np.arccos(np.dot(nodo_asc,e_vec)/(np.linalg.norm(nodo_asc)*e))
 	
-	'''
-	if c[1]<0:
-		Omega = 2*np.pi-Omega
+	
 	if e_vec[2]<0:
 		omega = 2*np.pi-omega
-	'''
+	
 	
 	orbital = OrbitalObject(name=name,a=a,e=e,i=i,Omega=Omega,omega=omega,p=p)
 	

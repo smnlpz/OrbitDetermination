@@ -10,15 +10,20 @@ Created on Fri Aug 21 11:14:28 2020
 from astropy.coordinates import Angle
 from astropy.time import Time
 
+import os
+
+os.chdir('..')
+
 # Para modificar en ejecución el directorio desde el que importar
 import sys
-sys.path.insert(1, '../scripts')
+sys.path.insert(1, './scripts')
 
 from laplace_method import Laplace
 from orbital_elements import getOrbitalElements
 from orbital_plot import plotOrbit
+from error_rate import getApproximationError
 
-sys.path.insert(1, '../util')
+sys.path.insert(1, './util')
 
 import my_constants as const
 from utilities import ICRS_to_ecliptic
@@ -225,6 +230,11 @@ def main():
 	# Pasamos las coordenadas de ICRS a eclíptica
 	r=ICRS_to_ecliptic(r)
 	v=ICRS_to_ecliptic(v)
+	
+	# Comprobamos el error
+	print(getApproximationError(r,v,t_2,'Ceres'))
+	
+	
 	
 	# Obtenemos los elementos orbitales
 	Object=getOrbitalElements(r,v,name='Approximate Ceres')

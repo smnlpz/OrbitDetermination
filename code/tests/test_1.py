@@ -48,24 +48,9 @@ def main():
 	Uranus=getOrbitalElements(r,v,name='Uranus')
 	print(Uranus)
 	
+	'''
 	
-	
-	# Pluto (134340)
-	# 2020-Aug-19 03:00:00.0000
-	# Coordinate Origin [change] : 	Sun (body center) [500@10]
-	X = 1.366284276939564E+01
-	Y =-3.124021192243405E+01
-	Z =-6.083561990226184E-01
-	VX= 2.963878185732496E-03
-	VY= 6.017113459089684E-04
-	VZ=-9.111348138954932E-04
-	
-	r=np.array([X,Y,Z])
-	v=np.array([VX,VY,VZ])
-	
-	Pluto=getOrbitalElements(r,v,name='Pluto')
-	print(Pluto)
-	
+	'''
 	# C/2020 F3 (Neowise)
 	# 2020-Jul-28 00:00:00.0000
 	# Coordinate Origin [change] : 	Sun (body center) [500@10]
@@ -83,23 +68,51 @@ def main():
 	print(Neowise)
 	'''
 	
-	# Comet 1P/Halley
-	# 2020-Jul-28 20:00:00.0000
+	# Pluto (134340)
+	# 2020-Jul-30 00:00:00
 	# Coordinate Origin [change] : 	Sun (body center) [500@10]
-	X =-2.025698473131967E+01
-	Y = 2.847066495399530E+01
-	Z = 1.468581796636691E+00
-	VX= 2.545294303785508E-04
-	VY= 5.102892122612086E-04
-	VZ= 1.967386200776545E-04
+	X = 1.360331705206759E+01
+	Y =-3.125206011232465E+01
+	Z =-5.899308701769594E-01
+	VX= 2.957116648122905E-03
+	VY= 5.918881094962256E-04
+	VZ=-9.034849073268278E-04
 	
 	r=np.array([X,Y,Z])
 	v=np.array([VX,VY,VZ])
 	
-	Halley=getOrbitalElements(r,v,name='Halley')
+	Pluto=getOrbitalElements(r,v,name='Pluto')
+	print(Pluto)
 	
-	orbits=list([const.Earth, const.Mars, const.Ceres, const.Jupiter, const.Saturn, const.Neptune])
-	plotOrbit(orbits)
+	
+	# Comet 1P/Halley
+	# 2020-Jul-30 00:00:00
+	# Coordinate Origin [change] : 	Sun (body center) [500@10]
+	X =-2.025668768956410E+01
+	Y = 2.670613007527469E+01
+	Z =-9.977608854116756E+00
+	VX= 2.546850007825364E-04
+	VY= 5.462369075113827E-04
+	VZ=-2.239645875253460E-05
+	
+	r=np.array([X,Y,Z])
+	v=np.array([VX,VY,VZ])
+	print(r)
+	
+	Halley=getOrbitalElements(r,v,name='Halley')
+	print(Halley)
+	
+	
+	r=np.array([ 2.53436621,-1.48439324,-0.51379219])
+	v=np.array([ 0.00478149,0.00826443,-0.0006202 ])
+	Ceres=getOrbitalElements(r,v,name='Ceres')
+	print(Ceres)
+	
+	
+	
+	
+	orbits=list([Pluto,Halley,const.Earth, const.Mars, const.Ceres, const.Jupiter, const.Saturn, const.Neptune])
+	plotOrbit(orbits,sun_center=False)
 	
 if __name__ == '__main__':
 	main()
