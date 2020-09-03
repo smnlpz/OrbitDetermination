@@ -1,0 +1,327 @@
+\documentclass[11pt]{book}
+\usepackage{amssymb,graphicx,amsmath,mathtools,float,subfig}
+\usepackage{lscape}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+
+
+
+
+\usepackage[Bjornstrup]{fncychap}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.5pt}
+\fancyfoot[LE,RO]{\thepage}
+\fancyhead[RO]{\slshape\nouppercase{\rightmark}}
+\fancyhead[LE]{\slshape{\leftmark}}
+
+
+\usepackage{indentfirst}	% Tabular tras un section
+\usepackage[linktocpage]{hyperref}
+\hypersetup{
+	colorlinks=false,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=red,
+	urlcolor=black,
+	pdfborderstyle={/S/U/W 1}
+}
+
+\usepackage[svgnames]{xcolor}
+\definecolor{griscaption}{RGB}{100,100,100}
+\usepackage{caption}
+\usepackage[font={color=griscaption},figurename=Fig.,labelfont={bf}]{caption}
+
+
+\newtheorem{theorem}{Teorema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{definition}[theorem]{Definición}
+
+
+% Fracciones más grandes
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+% Línea vertical para separar imágenes
+\newcommand{\rulesep}{\unskip\ \vrule\ }
+
+% Para solucionar el problema de títulos de secciones muy largos
+\newcommand{\markedsection}[2]{\section[#2]{#2%
+\sectionmark{#1}}
+\sectionmark{#1}}
+
+\newcommand{\markedchapter}[2]{\chapter[#2]{#2%
+\chaptermark{#1}}
+\chaptermark{#1}}
+
+\definecolor{background}{rgb}{1.0, 0.96, 0.96}
+\definecolor{emphasis}{rgb}{0.2,0.0,0.0}
+
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+\definecolor{gray30}{gray}{.97}
+
+\lstset{
+	frame=Ltb,
+	framerule=0.5pt,
+	aboveskip=0.5cm,
+	framextopmargin=3pt,
+	framexbottommargin=3pt,
+	framexleftmargin=0.1cm,
+	framesep=0pt,
+	rulesep=.4pt,
+	rulesepcolor=\color{black},
+	%
+	stringstyle=\ttfamily,
+	showstringspaces = false,
+	basicstyle=\scriptsize\ttfamily,
+	commentstyle=\color{gray45},
+	keywordstyle={\color{emphasis}\bfseries},
+	%
+	numbers=left,
+	numbersep=6pt,
+	numberstyle=\tiny,
+	numberfirstline = false,
+	breaklines=true,
+}
+
+ 
+ 
+% minimizar fragmentado de listados
+\lstnewenvironment{listing}[1][]{\lstset{#1}\pagebreak[0]}{
+	\pagebreak[0]
+}
+
+\lstdefinestyle{PythonCode}{
+	basicstyle=\small,
+	frame=single,
+	backgroundcolor=\color{background},
+	language=Python,
+	numbers=left,
+	emph={%  
+		Para, cada, en, Desde, hasta, Si, Sino, Devuelve %
+	},emphstyle={\color{emphasis}\bfseries}
+}
+
+ 
+\lstdefinestyle{Consola}{
+	basicstyle=\scriptsize\bf\ttfamily,
+	backgroundcolor=\color{gray30},
+	frame=single,
+	numbers=none
+}
+
+
+
+
+
+\begin{document}
+\markedchapter{Implementación}{Implementación de un software para la aproximación de órbitas}
+Una vez hemos estudiado el método de Laplace para la determinación de órbitas mediante tres observaciones, nos centraremos en desarrollar un programa que sea capaz de realizar estos cálculos y mostrar los resultados de manera visual para hacer más fácil la aproximación. Además, éste nos servirá de ayuda para comprobar la precisión con la que se determina una órbita mediante el método laplaciano.\\
+
+Antes de hablar sobre el programa y todas sus funcionalidades, centrémonos en las herramientas que se han utilizado para todo el desarrollo.\\
+
+\section{Herramientas utilizadas.}
+\label{sec:herramientas}
+Tal y como comentamos en la introducción, todo el código implementado para el funcionamiento de nuestro software está en lenguaje Python. Uno de los motivos por los que se ha tomado la decisión de elegir este lenguaje de programación es el hecho de que durante la carrera nos hemos familiarizado con él dado que en muchas asignaturas hemos requerido su uso. En primer momento se pensó en utilizar C++ por su velocidad y optimización, además de que también se ha utilizado durante la carrera, pero dado que solo necesitábamos hacer unos cálculos sin ninguna carga computacional alta, se decidió tomar Python.\\
+
+Aún así hay un motivo más importante por el que se ha elegido Python, concretamente dos, llamados \textit{Numpy} \cite{numpy} y \textit{Matplotlib} \cite{matplotlib}. Mediante estas dos bibliotecas matemáticas el desarrollo del método de determinación y la posterior visualización de resultados se hace mucho más fácil, y su instalación (como la de la mayoría de bibliotecas de Python) es fácil y rápida, por lo que el código podrá ser utilizado fácilmente en diferentes ordenadores.\\
+
+Junto a estas dos librerías, básicas en Python, hemos utilizado también \textit{seaborn} \cite{seaborn} (basada en \textit{Matplotlib}) para mejorar la visualización de datos, \textit{Astropy} \cite{astropy} para ayudarnos con las conversiones de ángulos y fechas, \textit{requests} \cite{requests} para hacer web scraping (método del que hablaremos más adelante) y \textit{scipy} \cite{numpy} y \textit{sympy} \cite{sympy} para ayudarnos con las aproximaciones numéricas.\\
+
+Por otra parte, hemos utilizado el paquete \textit{Tkinter} \cite{tkinter}, el cuál suele venir por defecto en la instalación de Python, para realizar una interfaz y facilitar el uso del software de determinación de órbitas implementado.\\
+
+Dado que no se conocía por completo el funcionamiento de cada una de estas librerías, se ha utilizado la documentación oficial de cada una de ellas (citada junto al nombre del paquete) para el desarrollo del programa informático por completo.\\
+
+Durante el desarrollo de esta memoria, hemos utilizado GIT y la plataforma GitHub para mantener las versiones del proyecto y facilitar el acceso al código a quien lo necesite. Respecto a este documento, está desarrollado por completo en \LaTeX, elegido porque nos proporciona un formato consistente y elegante. Finalmente, el código ha sido desarrollado utilizando el entorno de desarrollo (IDE) Spyder.\\
+
+Una vez comentadas las distintas herramientas con las que hemos implementado nuestro software, pasemos a ver el funcionamiento del núcleo de éste.\\
+
+\section{Núcleo de la aplicación.}
+\label{sec:kernel}
+A la hora de desarrollar el código que se encargue de la determinación de órbitas, se ha ido separando el código en función de cuál es su cometido en diferentes archivos y carpetas. Así, la aplicación estará dividida en los directorios \texttt{scripts}, que se encargará de la base para la determinación, \texttt{utils} que contendrá código útil para utilizar en diferentes momentos, y \texttt{test} que contendrá archivos con los que comprobar el correcto funcionamiento del programa. Dado que finalmente acabaremos utilizando una interfaz gráfica, no será necesario comentar el contenido del directorio \texttt{test}. Comentemos a continuación las principales funcionalidades de cada uno de estos archivos.\\
+
+\subsection{Elementos orbitales a partir de la posición y velocidad.}
+\label{subsec:orbital_elements_code}
+Si disponemos de los valores de la posición y velocidad de un cuerpo en un momento determinado, podremos obtener los elementos orbitales de éste tal y como comentamos en \ref{sec:elements_determination}. Por tanto, será lo primero en lo que nos centremos a la hora de implementar el código, y más tarde nos centraremos en el método de Laplace.\\
+
+Para empezar, se ha creado una clase \texttt{OrbitalObject} que contendrá los elementos orbitales $(a,e,i,\Omega,\omega)$ que definen la órbita de un objeto junto a su nombre y su período $p$. En dicha clase se implementarán diferentes funciones para disponer de los ángulos en grados o radianes, así como la sobrecarga del método \texttt{\_\_str\_\_} para mostrar adecuadamente los valores de un objeto de esta clase por pantalla. Una vez creada la clase, definimos distintos objetos que guardaremos en \texttt{utils/my\_constants.py} para un uso futuro, y así de paso comprobamos su correcto funcionamiento.\\
+\begin{lstlisting}[style=PythonCode]
+Earth = OrbitalObject(name='Earth',
+                      a=9.997843564797363E-01,
+                      e=1.707168344231522E-02,
+                      i=1.982259124359018E-03,
+                      Omega=2.194445465875467E+02,
+                      omega=2.426369002793497E+02,
+                      p=365.256363, degree=True)
+\end{lstlisting}
+
+El parámetro \texttt{degree} sirve para ``avisar'' de que los ángulos están en grados y es necesario almacenarlos en radianes. Todos los valores de las coordenadas astronómicas están tomados de la web de JPL \cite{jpl} para el día 2020-Jul-28 20:00:00.0000.\\
+
+Ahora que ya disponemos de objetos astronómicos, nos encargaremos de desarrollar un método para poder dibujar su órbita por pantalla. El código para esta funcionalidad se encuentra en el archivo \texttt{scripts/orbital\_plot.py} y está basado al completo en \ref{subsec:set_ellipse_position}. La función \texttt{plotOrbit(...)} recibirá como parámetros una lista con las coordenadas astronómicas de distintos objetos y un \texttt{bool} que simplemente servirá para centrar o no la gráfica en el Sol, que dibujaremos con un punto amarillo\footnote{Si no se centra la gráfica en el Sol, se centrará en los límites de la elipse más grande que se dibuje.}. Se irán tomando los elementos de dicha lista uno a uno, se determinará y rotará la elipse que forman y mediante \textit{Matplotlib} dibujaremos las órbitas en 3D. A continuación podemos ver un pseudocódigo de esta funcionalidad:
+\begin{lstlisting}[style=PythonCode]
+def plotOrbit(orbitas,sol_centrado=True):
+   # Creamos la figura
+   ax = crear_figura('3D')
+   
+   # Dibujamos el Sol
+   ax.anyadir_punto((0,0,0),color='yellow')
+   
+   Para cada orb en orbitas:
+      # Semieje menor y distancia de los focos
+      b = a * raiz_cuadrada(1 - e*e)
+      centro = a * e
+      
+      # Dibujamos la elipse y la rotamos
+      ellipse = (a * cos(x) + centro, b * sin(x), 0)
+      ellipse = rotar(i, Omega, omega)
+      ax.dibuja(ellipse)
+   
+   # Establecemos los limites para los ejes
+   Si sol_centrado:
+      centrar_sol()
+   Sino:
+      centrar_orbita()
+      
+   mostrar_figura()
+\end{lstlisting}
+
+Dado que ya tenemos una estructura para almacenar las coordenadas astronómicas de un objeto y un método que es capaz de representar la elipse definida por dichos elementos, es momento de ponernos a trabajar en la función que nos calcule los elementos orbitales a partir de la posición y velocidad. El código encargado de esta funcionalidad se encontrará en \texttt{scripts/orbital\_elements.py}, y simplemente seguirá los pasos descritos en \ref{sec:elements_determination} para realizar todos los cálculos a partir de la posición y velocidad pasadas como parámetros. Tras hacer los cálculos pertinentes, devolverá un objeto de la clase \texttt{OrbitalObject} con todos los valores obtenidos y como nombre el que se le haya pasado a la función.\\
+
+Así, ya podemos hacer distintas comprobaciones del funcionamiento del código. Nos basta con ir a la efemérides de JPL \cite{jpl}, seleccionar el cuerpo que queramos y anotar su posición y velocidad en un instante $t$. A continuación, utilizamos la función \texttt{getOrbitalElements} pasándole los valores escogidos anteriormente, y podremos dibujar la órbita del objeto que nos devuelva con el método \texttt{plotOrbit}. Un ejemplo de este proceso lo podemos ver en el archivo \texttt{test/test\_1.py}.\\
+
+Una vez explicado el funcionamiento para la representación de datos, pasemos a la parte importante del trabajo, el método de Laplace.\\
+
+\subsection{Implementación del método de Laplace.}
+\label{subsec:laplace_method_code}
+El desarrollo informático del método de Laplace está basado en una función a la que, pasada una serie de parámetros que contendrán las observaciones de un cuerpo, llamará a una serie de sub-funciones, cada una correspondiente a uno de los pasos vistos en \ref{chap:laplace_method}, y devolverá la posición y velocidad de ese cuerpo en el momento correspondiendo a la segunda observación. Podemos entenderlo mejor con el siguiente pseudocódigo.
+\begin{lstlisting}[style=PythonCode]
+def Laplace(coordinates, times):
+   # Pasamos de ascension recta y declinacion a cartesianas
+   # Calculamos las derivadas (aproximadas)
+   EC,EC`,EC`` = aproximaDerivadas(coordinates,times)
+   
+   # Tomamos de la web de JPL el vector Tierra-Sol
+   SE,SE`,SE``,R = vectorSE(times[1])
+   
+   # Calculamos las distancias $\rho$ y $r$
+   rho, r = get_rho_r(EC,EC`,EC``,SE,R)
+   
+   # Obtenemos los vectores de posicion y velocidad
+   pos, vel = getPosVel(EC,EC`,EC``,SE,SE`,R,r,rho)
+   
+   Devuelve pos, vel
+\end{lstlisting}
+
+La primera función, \texttt{aproximarDerivadas}, hará exactamente lo que dice su nombre. Tomando los valores pasados en ascensión recta y declinación, los transformará a ecuaciones cartesianas mediante \eqref{eq:equatorial_to_cartesian} y utilizando interpolación de Lagrange, aproximará la primera y segunda derivada del vector $\overrightarrow{EC}$, como hicimos en \ref{sec:series_potencias}.\\
+
+Antes de continuar con el funcionamiento de estas funciones, recordemos las ecuaciones \eqref{eq:relacion_C_S_E}:
+\[
+\left\{
+\begin{array}{l}
+	x=\rho\lambda-X\\
+	y=\rho\mu-Y\\
+	z=\rho\nu-Z
+\end{array}
+\right.
+\]
+
+Tal y como vimos, estas ecuaciones representaban las relaciones entre los tres cuerpos que nos interesan, $C$, $E$ y $S$. Pero para poder resolverlas, necesitamos conocer el valor del vector $(X,Y,Z)$. Dado que sería muy cansado tener que tomar la posición (y la velocidad) del Sol de la efemérides cada vez que quisiéramos hacer una aproximación, nos encargaremos de que nuestro programa tome ese valor automáticamente. Y de aquí surge otro problema, no podemos almacenar junto al programa la posición del Sol respecto a la Tierra en todo momento, pues aumentaría el tamaño de este considerablemente. De ahí surge la necesidad de realizar web scraping.\\
+
+\subsubsection{Web Scraping}
+La técnica de web scraping es un proceso mediante el cuál podemos obtener información de Internet de manera automatizada. Es una herramienta potente con la que incluso podemos rellenar formularios de manera automática y obtener en formato HTML la página resultante \cite{webscraping}. Para nuestro caso no tendremos que profundizar tanto en las funcionalidades del web scraping, ya que la web de JPL \cite{jpl} nos facilita la obtención de la información del cuerpo que queramos a partir de la URL.\\
+
+De esta manera, definimos en \texttt{util/utilities.py} una función llamada \texttt{getVectorsFromEphemeris} que reutilizaremos a lo largo de la implementación. A dicho método le pasaremos como parámetros los nombres de los cuerpos que $A$ y $B$ que formarán el vector $\overrightarrow{AB}$, el momento en el que queremos tomar el valor del vector y el plano de referencia utilizado (ICRF o eclíptica). Con estos valores formará una \texttt{string} que se corresponderá con la URL que nos devolverá la información requerida. Tras ello, con los paquetes \textit{requests} y \textit{csv} extraeremos la información de la web a la vez que gestionamos los distintos errores que pueden ocurrir. Tras esto, si todo ha salido bien, se devolverán los vectores de posición y velocidad requeridos y una variable \texttt{True}, y si ha habido algún error, se devolverán vectores de ceros y una variable \texttt{False}.\\
+
+Utilizaremos esta función al llamar al método \texttt{vectorSE}, obteniendo la posición y velocidad del Sol visto desde la Tierra utilizando el plano de referencia ICRF. También se obtendrá el valor de la segunda derivada mediante \eqref{eq:ley_gravitacion_S_E} y la distancia Tierra-Sol, devolviendo finalmente estos cuatro elementos.\\
+
+\subsubsection{Determinación de $\rho$ y $r$ : método de Newton.}
+El código desarrollado para determinar $r$ y $\rho$ es el más complejo. Para el cálculo de estos dos valores utilizaremos las secciones \ref{sec:distancias_r_rho} y \ref{sec:newton_rhapson}.\\
+
+La función consistirá en ir calculando los valores de $D$, $D_1$, $N$ y $\psi$ para así llegar a las cantidades $m$ y $M$ de la ecuación \eqref{eq:phi_solution}:
+\[
+\sin^4{\phi}=M\sin{(\phi+m)}
+\]
+
+Una vez tengamos estos valores, iremos utilizando el método de separación de raíces en $[0,\pi]$ para encontrar los intervalos con una raíz en ellos, y aplicando en su valor intermedio el método de Newton, tal y como vimos en \ref{sec:newton_rhapson}, obtenemos así todas las raíces.
+\begin{lstlisting}[style=PythonCode]
+def approximate_phi(M,m,tol=1E-09,max_tries=64,plot=False):	
+   f = sin(x)^4 - M * sin(x+m)
+   
+   # Aplicamos el metodo de separacion de raices de Bolzano
+   Desde i = 0 hasta max_tries:
+      alpha_i= (i*pi) / max_tries
+      alpha_{i+1}= ((i+1) * pi) / max_tries
+      
+      # Si encontramos una raiz en el intervalo ...
+      Si signo(f(alpha_i)) != signo(f(alpha_{i+1})):
+         # ... tomamos el valor intermedio ...
+         x_0=(alpha_i + alpha_{i+1}) / 2
+         
+         # ... aplicamos el metodo de Newton ...
+         phi,n_iters=newton(f, x_0, tol)
+         
+         # ... y anyadimos la raiz al resto
+         phi_values.anyade(phi)
+   
+   Si plot:
+      dibuja(sin(x)^4)
+      dibuja(M * sin(x+m))
+      dibuja(phi_values)
+   
+   Devuelve phi_values
+\end{lstlisting}
+
+Además, podremos mostrar si queremos una gráfica por pantalla de la intersección de las funciones junto a las raíces aproximadas, como vemos en el siguiente ejemplo:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{images/example_newton.png}
+\caption{Ejemplo de la gráfica que muestra la función \texttt{approximate\_phi} junto a los valores de $\phi$ aproximados.}
+\end{figure}
+
+Tras obtener todos los posibles valores de $\phi$ en el intervalo $[0,\pi]$, comprobaremos cuál de ellos es igual a $\pi-\psi$ para discernir entre cuál de los dos restantes es la solución del problema físico, como hicimos en la parte final de \ref{sec:distancias_r_rho}. En el caso de que la solución sea única, se devolverá el valor dicho valor, y si la solución es doble se avisará de ello por pantalla, dando la opción al usuario de elegir entre uno de los dos valores como solución del problema. Se deja para una futura implementación la posibilidad de añadir una cuarta observación para determinar en el caso de una solución doble cuál de las dos es la correcta.\\
+
+Finalmente, con este valor de $\phi$ obtendremos las distancias $r$ y $\rho$ usando \eqref{eq:triangle_relations_2}, y devolveremos estos valores.\\
+
+\subsubsection{Posición y velocidad del cuerpo.}
+Una vez hemos obtenido los vectores $\overrightarrow{EC}$ y $\overrightarrow{SE}$ y sus derivadas junto a las distancias $R$, $r$ y $\rho$, solo tendremos que utilizar \eqref{eq:relacion_C_S_E} y \eqref{eq:relacion_C_S_E_derivada} para obtener la posición y velocidad del cuerpo observado.\\
+
+Nótese que los valores obtenidos están respecto al plano ICRF, por lo que usaremos la función \texttt{ICRS\_to\_ecliptic} para pasarlos al plano de la eclíptica, tal y como se ha visto en \ref{sec:reference_plane}.\\
+
+\subsection{Estudio del error.}
+Para obtener una estimación de cómo de buena ha sido la aproximación del objeto mediante el método de Laplace, se implementarán una serie de funciones para estudiar la diferencia de estas aproximaciones con el valor real.\\
+
+El método \texttt{getApproximationError} tomará como parámetros la posición y velocidad aproximada mediante el método laplaciano de un cuerpo en un instante $t$, así como el nombre del cuerpo que se ha decidido aproximar. Mediante dicho nombre, llamaremos a la función \texttt{getVectorsFromEphemeris} comentada anteriormente para obtener el valor real de la posición y velocidad del cuerpo en el instante $t$ pasado como parámetro. Obtenidos los valores reales, bastará con comprobar la diferencia con los valores aproximados y sus normas, que la función almacenará en una variable \texttt{string}\footnote{Se ha escogido una variable del tipo \texttt{string} para facilitar la impresión por pantalla para la interfaz gráfica.} y devolverá al terminar.\\
+
+\section{Desarrollo de una interfaz gráfica de usuario.}
+
+\newpage
+
+\begin{thebibliography}{99}
+
+\bibitem{numpy} \textsc{Oliphant, T.E. et al.}, (2020), Numpy (1.18.5) and Scipy (1.4.1) [library documentation]. Obtenido de \href{https://docs.scipy.org/doc/}{link}.
+
+\bibitem{matplotlib} \textsc{Hunter, J.D. \& Droettboom, M}, (2020), Matplotlib (3.0.3) [library documentation]. Obtenido de \href{https://matplotlib.org/3.0.3/index.html}{link}.
+
+\bibitem{seaborn} \textsc{Waskom, M.}, (2020), Seaborn (0.9.1) Color Palette [library documentation]. Obtenido de \href{https://seaborn.pydata.org/tutorial/color_palettes.html}{link}.
+
+\bibitem{astropy} \textsc{The Astropy Developers}, (2020) Astropy (3.2.3) [library documentation]. Obtenido de \href{https://docs.astropy.org/en/stable/index.html}{link}.
+
+\bibitem{requests} \textsc{Reitz, K.}, (2020), Requests (2.9.1) [library documentation]. Obtenido de \href{https://requests.readthedocs.io/_/downloads/es/es/latest/pdf/}{link}.
+
+\bibitem{sympy} \textsc{SymPy development team}, (2020), Sympy (1.6.2) [library documentation]. Obtenido de \href{https://docs.sympy.org/latest/index.html}{link}.
+
+\bibitem{tkinter} \textsc{Lundh, F.}, (2020), Tkinter (3.5.1-1) [library documentation]. Obtenido de \href{https://docs.python.org/3/library/tk.html}{link}.
+
+\bibitem{webscraping} \textsc{Alonso Burgos, S.}, (2020), \textit{"Teoría" de Web Scraping} [Archivo de vídeo]. Recuperado de [vídeo oculto].
+
+\end{thebibliography}
+
+\end{document}
+

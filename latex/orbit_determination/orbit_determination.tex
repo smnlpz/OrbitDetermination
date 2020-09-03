@@ -294,7 +294,7 @@ La declinación es medida en grados, como la latitud. Pero, a diferencia de la l
 Al conjunto de estas dos coordenadas junto a la distancia al objeto se les llama \textbf{Coordenadas Ecuatoriales}, y con ellas podremos definir la posición exacta de un objeto en cierto momento.\\
 
 Dado que en ocasiones necesitaremos la posición del objeto en coordenadas cartesianas, veamos unas simples ecuaciones con las que pasaremos de coordenadas ecuatoriales a cartesianas.
-\[
+\begin{align}
 \left\{
 \begin{array}{l}
 	x = \rho \cos{\delta}\cos{\alpha}\\
@@ -302,7 +302,8 @@ Dado que en ocasiones necesitaremos la posición del objeto en coordenadas carte
 	z = \rho \sin{\delta}
 \end{array}
 \right.
-\]
+\label{eq:equatorial_to_cartesian}
+\end{align}
 
 Nótese que antes de aplicar estas ecuaciones deberemos pasar $\delta$ y $\alpha$ a radianes para utilizar las funciones trigonométricas. Las coordenadas $(x,y,z)$ tendrán la misma unidad que la distancia $\rho$.\\
 
@@ -436,6 +437,26 @@ Con todo esto, podemos escribir:
 \label{eq:terminologia}
 \end{align}
 \noindent donde $(\lambda,\mu,\nu)$ es un vector unitario conocido que apunta de la Tierra al cuerpo observado, y el fin del estudio del problema será determinar $\rho$.\\
+
+\section{Cambios en el plano de referencia.}
+\label{sec:reference_plane}
+Actualmente, la IAU (\textit{International Astronomical Union}) utiliza como sistema de coordenadas estándar el sistema ICRS (\textit{International Celestial Reference System}), del cuál deriva el plano ICRF (\textit{International Celestial Reference Frame}). De esta manera, a la hora de tomar la ascensión recta y declinación de un cuerpo lo obtendremos en el plano de referencia de la efemérides, es decir, en ICRF. El problema surge de que nuestro sistema de coordenadas tiene como base el plano de la eclíptica, que difiere de plano ICRF, y por tanto, tras obtener la posición y velocidad del cuerpo observado habremos de modificar las coordenadas para disponer de ellas en función del plano de la eclíptica \cite{ICRF}.\\
+
+Para ser coherente con el ICRS y el origen de este (el baricentro del Sistema Solar), definimos el plano de la eclíptica como un plano que pasa por el origen del ICRS con una inclinación $\varepsilon_0$, que se corresponderá con la oblicuidad media, la inclinación del eje de la Tierra respecto al plano de la eclíptica \cite{ICRF} ($\approx23.4375º$ \cite{jpl}). Así, la transformación de las coordenadas del plano ICRF $(x,y,z)$ al plano de la eclíptica $(X,Y,Z)$ será:
+\begin{align}
+\left\{
+\begin{array}{l}
+	X=x\\
+	Y=y\cos{\varepsilon_0}+z\sin{\varepsilon_0}\\
+	Z=-y\sin{\varepsilon_0}+z\cos{\varepsilon_0}\\
+\end{array}
+\right.
+\label{eq:ICRS_to_ecliptic}
+\end{align}
+
+
+
+
 \newpage
 \thispagestyle{empty}
 
@@ -452,6 +473,7 @@ Con todo esto, podemos escribir:
 
 
 \chapter{Método Laplaciano de Determinación}
+\label{chap:laplace_method}
 En este capítulo se estudiará el método de Laplace para determinar la posición y velocidad de un objeto en un instante a utilizando tres observaciones, y a partir de ellas determinaremos los elementos orbitales del cuerpo, pudiendo obtener así la elipse que describe en el espacio.\\
 
 Los pasos a seguir consistirán en aproximar las derivadas del vector unitario $(\lambda,\mu,\nu)$, así como las del vector $\overrightarrow{SE}$, determinar las distancias entre los tres cuerpos $S$, $E$, $C$, y con todo ello poder determinar la posición y velocidad del cuerpo respecto al Sol.\\
@@ -624,15 +646,16 @@ Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valore
 \section{Determinación de las componentes de velocidad de $C$.}
 \label{sec:velocity_component}
 Se sigue de las ecuaciones \eqref{eq:relacion_C_S_E} que:
-\[
+\begin{align}
 \left\{
 \begin{array}{l}
 	x'=\rho'\lambda+\rho\lambda'-X'\\
 	y'=\rho'\mu+\rho\mu'-Y'\\
 	z'=\rho'\nu+\rho\nu'-Z'
 \end{array}
-\right.	
-\]
+\right.
+\label{eq:relacion_C_S_E_derivada}
+\end{align}
 
 En estas ecuaciones solo tenemos una incógnita, $\rho'$, que podremos determinar resolviendo por Cramer en \eqref{eq:fundamental_equations} a partir de:
 \[
@@ -1364,7 +1387,7 @@ orbit determination}, University of Pisa (Italy), Cambridge University Press.
 
 \bibitem{euler_angles} \textsc{Curtis, H.D.}, (2014), \textit{Orbital Mechanics for Engineering Students}, Oxford (United Kingdom), Butterworth-Heinemann (third edition).
 
-\bibitem{ICRF} \textsc{Seidelmann, P.K. \& Kovalevsky, J.}, (2002), \textit{Application of the new concepts and definitions (ICRS, CIP and CEO) in fundamental astronomy}, University of Virginia (USA) \& Observatoire de la Côte d'Azur (France), EDP Sciences.
+\bibitem{ICRF} \textsc{Seidelmann, P.K. \& Kovalevsky, J.}, (2002), \textit{Application of the new concepts and definitions (ICRS, CIP and CEO) in fundamental astronomy}, University of Virginia (USA) \& Observatoire de la Côte d'Azur (France), EDP Sciences, \href{https://www.aanda.org/articles/aa/full/2002/34/aa2452/aa2452.html}{link}.
 
 \bibitem{jpl} \textsc{Park, R.S. (Site Manager) \& Chamberlin A.B. (Webmaster)}, (2020), \textit{HORIZONS Web-Interface} [ephemerides], NASA (USA), \href{https://ssd.jpl.nasa.gov/horizons.cgi}{link}.
 
