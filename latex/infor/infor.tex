@@ -203,22 +203,24 @@ El desarrollo informático del método de Laplace está basado en una función a
 \begin{lstlisting}[style=PythonCode]
 def Laplace(coordinates, times):
    # Pasamos de ascension recta y declinacion a cartesianas
+   position = toCartesian(toRadian(coordinates))
+   # Transformamos a dias Julianos
+   times = toJulian(times)
    # Calculamos las derivadas (aproximadas)
-   EC,EC`,EC`` = aproximaDerivadas(coordinates,times)
-   
+   EC,EC`,EC`` = approximateDeriv(coordinates,times)
    # Tomamos de la web de JPL el vector Tierra-Sol
    SE,SE`,SE``,R = vectorSE(times[1])
-   
    # Calculamos las distancias $\rho$ y $r$
    rho, r = get_rho_r(EC,EC`,EC``,SE,R)
-   
    # Obtenemos los vectores de posicion y velocidad
    pos, vel = getPosVel(EC,EC`,EC``,SE,SE`,R,r,rho)
    
    Devuelve pos, vel
 \end{lstlisting}
 
-La primera función, \texttt{aproximarDerivadas}, hará exactamente lo que dice su nombre. Tomando los valores pasados en ascensión recta y declinación, los transformará a ecuaciones cartesianas mediante \eqref{eq:equatorial_to_cartesian} y utilizando interpolación de Lagrange, aproximará la primera y segunda derivada del vector $\overrightarrow{EC}$, como hicimos en \ref{sec:series_potencias}.\\
+Para empezar, tomaremos los valores que se han pasado por parámetro, los cuáles están en ascensión recta y declinación y en formato fecha y hora (año-mes-día hora:minuto), y los pasamos a ecuaciones cartesianas mediante \eqref{eq:equatorial_to_cartesian} y a días julianos \cite{julian}, respectivamente.\\
+
+Continuamos con la función \texttt{approximateDeriv}, que hará exactamente lo que dice su nombre. Utilizando interpolación de Lagrange, se aproximará la primera y segunda derivada del vector $\overrightarrow{EC}$, como hicimos en \ref{sec:series_potencias}.\\
 
 Antes de continuar con el funcionamiento de estas funciones, recordemos las ecuaciones \eqref{eq:relacion_C_S_E}:
 \[
@@ -231,12 +233,12 @@ Antes de continuar con el funcionamiento de estas funciones, recordemos las ecua
 \right.
 \]
 
-Tal y como vimos, estas ecuaciones representaban las relaciones entre los tres cuerpos que nos interesan, $C$, $E$ y $S$. Pero para poder resolverlas, necesitamos conocer el valor del vector $(X,Y,Z)$. Dado que sería muy cansado tener que tomar la posición (y la velocidad) del Sol de la efemérides cada vez que quisiéramos hacer una aproximación, nos encargaremos de que nuestro programa tome ese valor automáticamente. Y de aquí surge otro problema, no podemos almacenar junto al programa la posición del Sol respecto a la Tierra en todo momento, pues aumentaría el tamaño de este considerablemente. De ahí surge la necesidad de realizar web scraping.\\
+Tal y como vimos, estas ecuaciones representaban las relaciones entre los tres cuerpos que nos interesan, $C$, $E$ y $S$. Pero para poder resolverlas necesitamos conocer el valor del vector $(X,Y,Z)$. Dado que sería muy cansado tener que tomar la posición (y la velocidad) del Sol de la efemérides cada vez que quisiéramos hacer una aproximación, nos encargaremos de que nuestro programa pueda tomar ese valor automáticamente. Y aquí surge otro problema: no podemos almacenar junto al programa la posición del Sol respecto a la Tierra en todo momento, pues aumentaría el tamaño de este considerablemente. De ahí surge la necesidad de realizar web scraping.\\
 
 \subsubsection{Web Scraping}
 La técnica de web scraping es un proceso mediante el cuál podemos obtener información de Internet de manera automatizada. Es una herramienta potente con la que incluso podemos rellenar formularios de manera automática y obtener en formato HTML la página resultante \cite{webscraping}. Para nuestro caso no tendremos que profundizar tanto en las funcionalidades del web scraping, ya que la web de JPL \cite{jpl} nos facilita la obtención de la información del cuerpo que queramos a partir de la URL.\\
 
-De esta manera, definimos en \texttt{util/utilities.py} una función llamada \texttt{getVectorsFromEphemeris} que reutilizaremos a lo largo de la implementación. A dicho método le pasaremos como parámetros los nombres de los cuerpos que $A$ y $B$ que formarán el vector $\overrightarrow{AB}$, el momento en el que queremos tomar el valor del vector y el plano de referencia utilizado (ICRF o eclíptica). Con estos valores formará una \texttt{string} que se corresponderá con la URL que nos devolverá la información requerida. Tras ello, con los paquetes \textit{requests} y \textit{csv} extraeremos la información de la web a la vez que gestionamos los distintos errores que pueden ocurrir. Tras esto, si todo ha salido bien, se devolverán los vectores de posición y velocidad requeridos y una variable \texttt{True}, y si ha habido algún error, se devolverán vectores de ceros y una variable \texttt{False}.\\
+De esta manera, definimos en \texttt{util/utilities.py} una función llamada \texttt{getVectorsFromEphemeris} que reutilizaremos a lo largo de la implementación. A dicho método le pasaremos como parámetros los nombres de los cuerpos que $A$ y $B$ que formarán el vector $\overrightarrow{AB}$, el momento en el que queremos tomar el valor del vector y el plano de referencia utilizado (ICRF o eclíptica). Con estos valores formará una \texttt{string} que se corresponderá con la URL que nos devolverá la información requerida. Tras ello, con los paquetes \textit{requests} y \textit{csv} extraeremos la información de la web con dicha URL, a la vez que gestionamos los distintos errores que pueden ocurrir. Finalmente, si todo ha salido bien, se devolverán los vectores de posición y velocidad requeridos y una variable \texttt{True}, y si ha habido algún error, se devolverán vectores de ceros y una variable \texttt{False}.\\
 
 Utilizaremos esta función al llamar al método \texttt{vectorSE}, obteniendo la posición y velocidad del Sol visto desde la Tierra utilizando el plano de referencia ICRF. También se obtendrá el valor de la segunda derivada mediante \eqref{eq:ley_gravitacion_S_E} y la distancia Tierra-Sol, devolviendo finalmente estos cuatro elementos.\\
 
@@ -248,23 +250,23 @@ La función consistirá en ir calculando los valores de $D$, $D_1$, $N$ y $\psi$
 \sin^4{\phi}=M\sin{(\phi+m)}
 \]
 
-Una vez tengamos estos valores, iremos utilizando el método de separación de raíces en $[0,\pi]$ para encontrar los intervalos con una raíz en ellos, y aplicando en su valor intermedio el método de Newton, tal y como vimos en \ref{sec:newton_rhapson}, obtenemos así todas las raíces.
+Una vez tengamos estos valores, iremos utilizando el método de separación de raíces en $[0,\pi]$ para encontrar los subintervalos con una raíz en ellos, y aplicando en su valor intermedio el método de Newton, tal y como vimos en \ref{sec:newton_rhapson}, podremos obtener todas las raíces.
 \begin{lstlisting}[style=PythonCode]
 def approximate_phi(M,m,tol=1E-09,max_tries=64,plot=False):	
    f = sin(x)^4 - M * sin(x+m)
    
    # Aplicamos el metodo de separacion de raices de Bolzano
    Desde i = 0 hasta max_tries:
-      alpha_i= (i*pi) / max_tries
-      alpha_{i+1}= ((i+1) * pi) / max_tries
+      alpha_i = (i*pi) / max_tries
+      alpha_{i+1} = ((i+1) * pi) / max_tries
       
       # Si encontramos una raiz en el intervalo ...
       Si signo(f(alpha_i)) != signo(f(alpha_{i+1})):
          # ... tomamos el valor intermedio ...
-         x_0=(alpha_i + alpha_{i+1}) / 2
+         x_0 = (alpha_i + alpha_{i+1}) / 2
          
          # ... aplicamos el metodo de Newton ...
-         phi,n_iters=newton(f, x_0, tol)
+         phi, n_iters = newton(f, x_0, tol)
          
          # ... y anyadimos la raiz al resto
          phi_values.anyade(phi)
@@ -287,12 +289,12 @@ Además, podremos mostrar si queremos una gráfica por pantalla de la intersecci
 
 Tras obtener todos los posibles valores de $\phi$ en el intervalo $[0,\pi]$, comprobaremos cuál de ellos es igual a $\pi-\psi$ para discernir entre cuál de los dos restantes es la solución del problema físico, como hicimos en la parte final de \ref{sec:distancias_r_rho}. En el caso de que la solución sea única, se devolverá el valor dicho valor, y si la solución es doble se avisará de ello por pantalla, dando la opción al usuario de elegir entre uno de los dos valores como solución del problema. Se deja para una futura implementación la posibilidad de añadir una cuarta observación para determinar en el caso de una solución doble cuál de las dos es la correcta.\\
 
-Finalmente, con este valor de $\phi$ obtendremos las distancias $r$ y $\rho$ usando \eqref{eq:triangle_relations_2}, y devolveremos estos valores.\\
+Finalmente, con este valor de $\phi$ calcularemos las distancias $r$ y $\rho$ usando \eqref{eq:triangle_relations_2}, y devolveremos estos valores.\\
 
 \subsubsection{Posición y velocidad del cuerpo.}
 Una vez hemos obtenido los vectores $\overrightarrow{EC}$ y $\overrightarrow{SE}$ y sus derivadas junto a las distancias $R$, $r$ y $\rho$, solo tendremos que utilizar \eqref{eq:relacion_C_S_E} y \eqref{eq:relacion_C_S_E_derivada} para obtener la posición y velocidad del cuerpo observado.\\
 
-Nótese que los valores obtenidos están respecto al plano ICRF, por lo que usaremos la función \texttt{ICRS\_to\_ecliptic} para pasarlos al plano de la eclíptica, tal y como se ha visto en \ref{sec:reference_plane}.\\
+Nótese que los valores obtenidos están respecto al plano ICRF, por lo que una vez que hayamos aplicado por completo el método de Laplace, usaremos la función \texttt{ICRS\_to\_ecliptic} para pasarlos al plano de la eclíptica, tal y como se ha visto en \ref{sec:reference_plane}.\\
 
 \subsection{Estudio del error.}
 Para obtener una estimación de cómo de buena ha sido la aproximación del objeto mediante el método de Laplace, se implementarán una serie de funciones para estudiar la diferencia de estas aproximaciones con el valor real.\\
@@ -300,6 +302,51 @@ Para obtener una estimación de cómo de buena ha sido la aproximación del obje
 El método \texttt{getApproximationError} tomará como parámetros la posición y velocidad aproximada mediante el método laplaciano de un cuerpo en un instante $t$, así como el nombre del cuerpo que se ha decidido aproximar. Mediante dicho nombre, llamaremos a la función \texttt{getVectorsFromEphemeris} comentada anteriormente para obtener el valor real de la posición y velocidad del cuerpo en el instante $t$ pasado como parámetro. Obtenidos los valores reales, bastará con comprobar la diferencia con los valores aproximados y sus normas, que la función almacenará en una variable \texttt{string}\footnote{Se ha escogido una variable del tipo \texttt{string} para facilitar la impresión por pantalla para la interfaz gráfica.} y devolverá al terminar.\\
 
 \section{Desarrollo de una interfaz gráfica de usuario.}
+Todo el código descrito anteriormente es completamente funcional, pero su uso a través de los ficheros en \texttt{tests/} es complicado y poco elegante. Es por ello que nos disponemos a realizar una interfaz gráfica para que la aplicación sea accesible a un mayor número de personas.\\
+
+Como se ha comentado anteriormente, para desarrollar la GUI requerida utilizaremos únicamente el paquete \textit{Tkinter} que viene por defecto en la instalación de Python. La interfaz gráfica implementada se compone básicamente de un formulario en el que introducir los valores de las observaciones y el nombre del cuerpo observado, una serie de botones para realizar distintas funciones con dichos valores y una caja de texto donde mostrar los resultados.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{images/gui.png}
+\caption{Interfaz gráfica de usuario desarrollada para el método de Laplace.}
+\label{fig:gui}
+\end{figure}
+
+Para empezar, creamos el directorio \texttt{gui/} que contendrá en su interior un fichero con la definición clase \texttt{OrbitTroya}. En el constructor de esta clase inicializaremos todos los elementos del paquete \textit{Tkinter} que vamos a mostrar en la interfaz y los posicionaremos en el \texttt{grid}.
+\begin{itemize}
+\item \texttt{Label} para poner los títulos (``Nombre del Cuerpo'', ``Salida:'', etc).
+\item \texttt{Entry} para introducir los valores (casillas bajo ascensión recta, declinación y fecha).
+\item \texttt{Text} para mostrar los resultados (bajo ``Salida'').
+\item \texttt{Checkbutton} para elegir entre los distintos planetas a dibujar (Mercurio, Venus, Tierra, etc).
+\item \texttt{Button} para realizar distintas funcionalidades (Buscar, Laplace, Error, Dibujar).
+\end{itemize}
+
+Los elementos realmente interesantes para explicar su implementación son los \texttt{Button}, los cuáles contendrán un atributo \texttt{command} y al pulsar sobre ellos llamarán a la función de dicho atributo. Veamos su funcionamiento uno a uno.\\
+
+El botón ``Buscar'' se encargará de tomar el nombre introducido a su izquierda\footnote{Para que funcione correctamente, el nombre debe de ser el oficial proporcionado por el JPL.} y buscar en la efemérides su posición y velocidad respecto al Sol con la función \texttt{getVectorsFromEphemeris} comentada anteriormente. Además, con estos valores calculará las coordenadas astronómicas del objeto buscado. En caso de que se encuentre en la efemérides, se mostrará un mensaje de éxito en el cuadro de texto y se dará la opción de dibujar la órbita de dicho objeto, poniendo el nombre del cuerpo en el \texttt{Checkbutton} ``Vacío'' de la imagen \ref{fig:gui} y haciendo éste botón seleccionable. En caso contrario, se mostrará un mensaje de error en el cuadro de texto y el \texttt{Checkbutton} seguirá igual. Esta funcionalidad está realmente pensada para comparar la órbita real y la aproximada del objeto una vez hayamos aplicado el método de Laplace.\\
+
+Si pulsamos en el botón ``Laplace'', el programa tomará los valores introducidos en el formulario y llamará al método \texttt{Laplace} que vimos en \ref{subsec:laplace_method_code}. Tras ello, pasará las coordenadas de ICRF a la eclíptica, calculará las coordenadas astronómicas, mostrará toda esta información en el cuadro de texto y dará la opción de pinchar en el bóton ``Error''. Finalmente, comprobará si la órbita se puede dibujar (es decir, que $a>0$) y si es así hará seleccionable el \texttt{Checkbutton} ``Órbita Aprox.''.\\
+
+Respecto al botón ``Error'', simplemente tomará los valores de la posición y velocidad aproximados mediante Laplace y mostrará por pantalla el resultado del método \texttt{getApproximationError}.\\
+
+Finalmente, el botón ``Dibujar'' se ocupará de comprobar cuáles de los \texttt{Checkbutton} de su izquierda están seleccionados, añadiéndolos a una lista y llamando al método \texttt{plotOrbit}. Los valores para dibujar los planetas del Sistema Solar estarán almacenados en \texttt{utils/my\_constants.py}.\\
+
+Aunque este programa esté hecho para aplicar el método de Laplace, es curioso que sin darnos cuenta hemos desarrollado un programa capaz de dibujar la órbita de cualquier objeto del Sistema Solar junto a los principales planetas (y Plutón). Bastará con introducir el nombre del cuerpo que queramos dibujar su órbita y darle al botón ``Buscar'', obteniendo de tal manera la posibilidad de dibujar la elipse que forma su movimiento alrededor del Sol.\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \newpage
 
@@ -320,6 +367,10 @@ El método \texttt{getApproximationError} tomará como parámetros la posición 
 \bibitem{tkinter} \textsc{Lundh, F.}, (2020), Tkinter (3.5.1-1) [library documentation]. Obtenido de \href{https://docs.python.org/3/library/tk.html}{link}.
 
 \bibitem{webscraping} \textsc{Alonso Burgos, S.}, (2020), \textit{"Teoría" de Web Scraping} [Archivo de vídeo]. Recuperado de [vídeo oculto].
+
+\bibitem{julian} \textsc{Cirillo, J.}, (2015), Día Juliano. Lugar de publicación: \textit{El manual de KStars}, \href{https://docs.kde.org/trunk5/es/extragear-edu/kstars/ai-julianday.html#:~:text=El%20n%C3%BAmero%20de%20d%C3%ADas%20se,n%C3%BAmeros%20de%20sus%20d%C3%ADas%20julianos.}{link}
+
+
 
 \end{thebibliography}
 
