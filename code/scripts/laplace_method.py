@@ -81,6 +81,7 @@ def discuss_phi(phi_values,psi):
 	print('\nψ = ' +str(psi)+' ('+str(psi*180/np.pi)+')')
 	print('π-ψ = ' +str(np.pi-psi)+' ('+str((np.pi-psi)*180/np.pi)+')')
 	print('')
+	
 	for i in range(len(phi_values)):
 		if isclose(np.pi-psi,phi_values[i]):
 			index=i
@@ -124,11 +125,8 @@ def get_rho_r(pos,vel,second_deriv,pos_sun,R):
 	m=np.arcsin(R*np.sin(psi)/N)
 	
 	'''
-	print('\nD1 =' +str(D1)+' ; D = ' +str(D))
 	print('M = ' +str(M))
-	print('m = ' +str(m))
-	print('N = ' +str(N))
-	print('')
+	print('m = ' +str(m)+ '\n')
 	'''
 	
 	phi_values=approximate_phi(M,m,plot=False)

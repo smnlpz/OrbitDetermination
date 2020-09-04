@@ -6,6 +6,8 @@ import numpy as np
 from astropy.coordinates import Angle
 from astropy.time import Time
 
+from math import isnan
+
 # Para modificar en ejecución el directorio desde el que importar
 import sys
 sys.path.insert(1, './scripts')
@@ -72,7 +74,8 @@ class OrbitTroya:
 		self.t3.grid(column='4', pady='5', row='4')
 		
 		
-		
+		# CERES (funciona ok)
+		'''
 		self.object_name.insert('end', 'Ceres')
 		
 		self.asc1.insert('end', '23 13 15.59')
@@ -86,9 +89,165 @@ class OrbitTroya:
 		self.asc3.insert('end', '23 12 34.89')
 		self.dec3.insert('end', '-20 29 18.9')
 		self.t3.insert('end', '2020-07-30 00:00')
+		'''
+		
+		# NEPTUNO (no hay solución)
+		'''
+		self.object_name.insert('end', '899')
+		
+		self.asc1.insert('end', '23 24 35.15')
+		self.dec1.insert('end', '-05 01 22.3')
+		self.t1.insert('end', '2020-08-19 00:00')
+		
+		self.asc2.insert('end', '23 24 30.99')
+		self.dec2.insert('end','-05 01 50.1')
+		self.t2.insert('end', '2020-08-19 18:20')
+		
+		self.asc3.insert('end', '23 24 29.24')
+		self.dec3.insert('end', '-05 02 01.8')
+		self.t3.insert('end', '2020-08-20 02:00')
+		'''
+		
+		# NEOWISE (error muy pequeño pero elementos orbitales no válidos)
+		'''
+		self.object_name.insert('end', 'DES=2020 F3')
+		
+		self.asc1.insert('end', '14 18 02.55')
+		self.dec1.insert('end', '-01 13 53.6')
+		self.t1.insert('end', '2020-08-28 08:00')
+		
+		self.asc2.insert('end', '14 18 57.96')
+		self.dec2.insert('end','-01 29 33.8')
+		self.t2.insert('end', '2020-08-28 20:00')
+		
+		self.asc3.insert('end', '14 20 10.65')
+		self.dec3.insert('end', '-01 50 00.1')
+		self.t3.insert('end', '2020-08-29 12:00')
+		'''
+		
+		self.object_name.insert('end', 'DES=2020 F3')
+		
+		self.asc1.insert('end', '07 26 49.96')
+		self.dec1.insert('end', '+45 48 56.0')
+		self.t1.insert('end', '2020-07-14 03:00')
+		
+		self.asc2.insert('end', '07 32 17.26')
+		self.dec2.insert('end','+46 09 10.3')
+		self.t2.insert('end', '2020-07-14 11:00')
+
+		self.asc3.insert('end', '07 44 28.60')
+		self.dec3.insert('end', '+46 47 56.1')
+		self.t3.insert('end', '2020-07-15 04:00')
+		
+		  
 		
 		
 		
+		
+		# JUPITER (no aproxima bien)
+		'''
+		self.object_name.insert('end', '599')
+		
+		self.asc1.insert('end', '19 16 10.72')
+		self.dec1.insert('end', '-22 41 27.7')
+		self.t1.insert('end', '2020-08-28 03:00')
+		
+		self.asc2.insert('end', '19 16 05.95')
+		self.dec2.insert('end','-22 41 37.9')
+		self.t2.insert('end', '2020-08-28 12:00')
+		
+		self.asc3.insert('end', '19 15 52.32')
+		self.dec3.insert('end', '-22 42 07.0')
+		self.t3.insert('end', '2020-08-29 15:00')
+		'''
+		
+		# MARTE (funciona ok)
+		'''
+		self.object_name.insert('end', '499')
+		
+		self.asc1.insert('end', '01 45 29.60')
+		self.dec1.insert('end', '+06 21 40.2')
+		self.t1.insert('end', '2020-08-28 13:00')
+		
+		self.asc2.insert('end', '01 45 51.85')
+		self.dec2.insert('end','+06 23 34.0')
+		self.t2.insert('end', '2020-08-29 03:00')
+		
+		self.asc3.insert('end', '01 46 23.34')
+		self.dec3.insert('end', '+06 26 15.9')
+		self.t3.insert('end', '2020-08-30 00:00')
+		'''
+		
+		# 2020 BT14
+		'''
+		self.object_name.insert('end', 'DES=2020 BT14')
+		
+		self.asc1.insert('end', '18 38 16.60')
+		self.dec1.insert('end', '-23 48 42.7')
+		self.t1.insert('end', '2020-08-28 10:00')
+		
+		self.asc2.insert('end', '18 38 28.67')
+		self.dec2.insert('end',' -23 47 30.8')
+		self.t2.insert('end', '2020-08-28 17:00')
+
+		self.asc3.insert('end', '18 39 04.04')
+		self.dec3.insert('end', '-23 44 06.8')
+		self.t3.insert('end', '2020-08-29 13:00')
+		'''
+		
+		# HILDA
+		'''
+		self.object_name.insert('end', 'A875 VC')
+		
+		self.asc1.insert('end', '09 05 02.13')
+		self.dec1.insert('end', '+10 00 48.7')
+		self.t1.insert('end', '2020-08-28 15:00')
+		
+		self.asc2.insert('end', '09 05 42.02')
+		self.dec2.insert('end','+09 57 31.0')
+		self.t2.insert('end', '2020-08-29 07:00')
+		
+		self.asc3.insert('end', '09 06 24.33')
+		self.dec3.insert('end', '+09 54 00.3')
+		self.t3.insert('end', '2020-08-30 00:00')
+		'''
+		
+		# PLUTON (well)
+		'''
+		self.object_name.insert('end', '999')
+		
+		self.asc1.insert('end', '19 37 05.57')
+		self.dec1.insert('end', '-22 39 28.4')
+		self.t1.insert('end', '2020-09-14 04:00')
+		
+		self.asc2.insert('end', '19 37 04.10')
+		self.dec2.insert('end','-22 39 34.2')
+		self.t2.insert('end', '2020-09-14 19:00')
+		
+		self.asc3.insert('end', '19 37 01.93')
+		self.dec3.insert('end', '-22 39 43.0')
+		self.t3.insert('end', '2020-09-15 18:00')
+		'''
+		
+		# PLUTON (intervalos pequeños)
+		'''
+		self.object_name.insert('end', '999')
+		
+		self.asc1.insert('end', '19 37 05.57')
+		self.dec1.insert('end', '-22 39 28.4')
+		self.t1.insert('end', '2020-09-14 04:00')
+		
+		self.asc2.insert('end', '19 37 05.37')
+		self.dec2.insert('end','-22 39 29.2')
+		self.t2.insert('end', '2020-09-14 06:00')
+		
+		self.asc3.insert('end', '19 37 05.17')
+		self.dec3.insert('end', '-22 39 30.0')
+		self.t3.insert('end', '2020-09-14 08:00')
+		'''
+		
+		
+
 		output_label = ttk.Label(mainwindow)
 		output_label.config(font='{FreeMono} 12 {bold underline}', text='Salida:')
 		output_label.grid(column='0', padx='5', pady=(20, 5), row='5', sticky='w',columnspan='2')
@@ -179,6 +338,7 @@ class OrbitTroya:
 			check.config(text=self.object_name.get(),state='enable')
 			self.textWindow.delete('1.0','end')
 			self.textWindow.insert('end','Órbita de '+self.object_name.get()+' obtenida.\nAhora puedes dibujar el objeto junto al resto.')
+			self.textWindow.insert('end','\n\n' +str(self.real_Object))
 		else:
 			self.textWindow.delete('1.0','end')
 			self.textWindow.insert('end','No se puede encontrar el objeto '+self.object_name.get()+'.')
@@ -206,21 +366,28 @@ class OrbitTroya:
 		self.Object=getOrbitalElements(self.r,self.v,name='Approximate ' + self.object_name.get())
 		
 		self.textWindow.delete('1.0','end')
-		self.textWindow.insert('end','Aproximación en t = '+str(self.times[1]))
-		self.textWindow.insert('end','\nPosición calculada: '+str(self.r))
-		self.textWindow.insert('end','\nVelocidad calculada: '+str(self.v))
 		
-		self.textWindow.insert('end','\n\nElementos orbitales obtenidos:\n')
-		self.textWindow.insert('end',str(self.Object))
-		
-		b_error.config(state='enable')
-		
-		if self.Object.a<=0:
-			self.textWindow.insert('end','\n\nSemieje mayor negativo, no se puede dibujar la órbita.')
+		if isnan(self.r[0]):
+			self.textWindow.insert('end','π - ψ = φ_1\nNo hay solución.')
 			check_value.set(0)
 			check.config(state='disabled')
+			b_error.config(state='disabled')
 		else:
-			check.config(state='enable')
+			self.textWindow.insert('end','Aproximación en t = '+str(self.times[1]))
+			self.textWindow.insert('end','\nPosición calculada: '+str(self.r))
+			self.textWindow.insert('end','\nVelocidad calculada: '+str(self.v))
+			
+			self.textWindow.insert('end','\n\nElementos orbitales obtenidos:\n')
+			self.textWindow.insert('end',str(self.Object))
+		
+			b_error.config(state='enable')
+		
+			if self.Object.a<0:
+				self.textWindow.insert('end','\n\nSemieje mayor negativo, no se puede dibujar la órbita.')
+				check_value.set(0)
+				check.config(state='disabled')
+			else:
+				check.config(state='enable')
 	
 	
 	def computeError(self):

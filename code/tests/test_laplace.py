@@ -106,7 +106,7 @@ def main():
 	'''
 	
 	# Saturno
-	'''
+	
 	ascension_1=Angle('19 59 52.46 hours')
 	declination_1=Angle('-20 49 49.6 degrees')
 	t_1=2459058.500000000
@@ -118,7 +118,7 @@ def main():
 	ascension_3=Angle('19 59 19.00 hours')
 	declination_3=Angle('-20 51 33.9 degrees')
 	t_3=2459060.333333333
-	'''
+	
 	
 	# Halley
 	'''
@@ -165,7 +165,7 @@ def main():
 	
 	
 	# Ceres (Funciona)
-	
+	'''
 	ascension_1=Angle('23 13 15.59 hours')
 	declination_1=Angle('-20 17 00.5 degrees')
 	t_1=2459058.666666667
@@ -177,7 +177,7 @@ def main():
 	ascension_3=Angle('23 12 34.89 hours')
 	declination_3=Angle('-20 29 18.9 degrees')
 	t_3=2459060.500000000
-	
+	'''
 	
 	# Pluto
 	'''
@@ -227,12 +227,12 @@ def main():
 	v=ICRS_to_ecliptic(v)
 	
 	# Comprobamos el error
-	print(getApproximationError(r,v,t_2,'Ceres'))
+	print(getApproximationError(r,v,t_2,'699'))
 	
 	
 	
 	# Obtenemos los elementos orbitales
-	Object=getOrbitalElements(r,v,name='Approximate Ceres')
+	Object=getOrbitalElements(r,v,name='Approximate')
 	print('Elementos orbitales obtenidos:')
 	print(Object)
 	print(const.Ceres)
