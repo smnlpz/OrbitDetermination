@@ -45,14 +45,7 @@ def toJulian(times):
 	return times.jd
 
 
-def aproximarDerivadas(position,times):
-	# Pasamos de coordenadas ecuatoriales a cartesianas
-	# Almacenamos los vectores lambda_i,mu_i,nu_i en una lista 
-	'''position=list()
-	for coord in coordinates:
-		position.append(toCartesian(toRadian(coord[0]),toRadian(coord[1])))
-	position=np.array(position)
-	'''
+def approximateDeriv(position,times):
 	velocity=np.zeros(3)
 	second_deriv=np.zeros(3)
 	
@@ -171,7 +164,7 @@ def Laplace(coordinates, times):
 	
 	# Pasamos de ascensión recta y declinación a cartesianas
 	# Calculamos las derivadas (aproximadas)
-	E_C,E_C_deriv,E_C_deriv_2=aproximarDerivadas(position,times)
+	E_C,E_C_deriv,E_C_deriv_2=approximateDeriv(position,times)
 	
 	# Tomamos de la web de JPL el vector Tierra-Sol
 	S_E,S_E_deriv,S_E_deriv_2,R=vectorSE(times[1])	
@@ -181,14 +174,6 @@ def Laplace(coordinates, times):
 	
 	# Obtenemos los vectores de posición y velocidad
 	pos,vel=getPosVel(E_C,E_C_deriv,E_C_deriv_2,S_E,S_E_deriv,R,r,rho)
-	
-	'''
-	print('\nPosición calculada = ' +str(pos))
-	print('Norma = ' +str(np.linalg.norm(pos)))
-	print('Velocidad calculada = ' +str(vel))
-	print('Norma = ' +str(np.linalg.norm(vel)))
-	print('')
-	'''
 	
 	return pos,vel
 	
