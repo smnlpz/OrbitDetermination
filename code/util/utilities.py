@@ -106,11 +106,11 @@ def getVectorsFromEphemeris(name, epoch, center='Sun', ref_plane='ECLIPTIC'):
 	except HTTPError as http_err:
 		print('HTTP error\n')
 		print(http_err)
-		sys.exit(0)
+		return np.zeros(3),np.zeros(3),False
 	except Exception as err:
 		print('No es posible obtener los valores del vector\n')
 		print(err)
-		sys.exit(0)
+		return np.zeros(3),np.zeros(3),False
 	
 	data = page.text[page.text.find('$$SOE\n')+len('$$SOE\n'):page.text.find('$$EOE')]
 	
@@ -118,7 +118,12 @@ def getVectorsFromEphemeris(name, epoch, center='Sun', ref_plane='ECLIPTIC'):
 	reader = csv.reader(lines)
 	row = list(reader)[0]
 	
-	pos=np.array([float(row[2]),float(row[3]),float(row[4])])
-	vel=np.array([float(row[5]),float(row[6]),float(row[7])])
+	try:
+		pos=np.array([float(row[2]),float(row[3]),float(row[4])])
+		vel=np.array([float(row[5]),float(row[6]),float(row[7])])
+	except Exception as err:
+		print('No se puede encontrar el objeto')
+		print(err)
+		return np.zeros(3),np.zeros(3),False
 	
-	return pos, vel
+	return pos, vel, True

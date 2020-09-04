@@ -15,6 +15,7 @@ from orbit_gui import OrbitTroya
 
 def main():
 	root = tk.Tk()
+	root.title('Orbit Troya')
 	troya = OrbitTroya(root)
 	troya.run()
 

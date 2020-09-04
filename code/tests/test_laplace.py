@@ -45,9 +45,6 @@ def main():
 	declination_3=Angle('-05 02 01.8  degrees')
 	t_3='2020-08-20 02:00'
 	
-	# Con estos valores m=0.1295350258220578, y dicho valor es erróneo
-	# ya que obtenemos solución única que al utilizarla para calcular
-	# $\rho$ y $r$ nos da un valor que no se corresponde al real
 	
 	ascension_1=Angle('23 26 17.98 hours')
 	declination_1=Angle('-04 49 41.3 degrees')
@@ -61,8 +58,7 @@ def main():
 	declination_3=Angle('-04 49 50.0  degrees')
 	t_3='2020-07-28 07:52'
 	
-	# Con estos valores, m=-0.034911329608047485, solución válida,
-	# pero obtenemos una solución doble
+	
 	ascension_1=Angle('23 26 17.98 hours')
 	declination_1=Angle('-04 49 41.3 degrees')
 	t_1=2459058.5
@@ -140,7 +136,7 @@ def main():
 	'''
 	
 	
-	# Neowise (Funciona pero no plotea)
+	# Neowise (El segundo funciona pero no plotea)
 	'''
 	ascension_1=Angle('11 51 12.49 hours')
 	declination_1=Angle('+35 21 52.1 degrees')
@@ -153,7 +149,6 @@ def main():
 	ascension_3=Angle('12 12 44.30 hours')
 	declination_3=Angle('+31 39 48.4 degrees')
 	t_3=2459060.500000000
-	
 	
 	ascension_1=Angle('14 18 02.55 hours')
 	declination_1=Angle('-01 13 53.6 degrees')

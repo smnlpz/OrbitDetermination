@@ -21,36 +21,6 @@ import my_constants as const
 
 
 def main():	
-	'''
-	# Marte
-	# 2020-Jul-28 00:00:00.0000
-	# Coordinate Origin [change] : 	Sun (body center) [500@10]
-	X = 1.220019371704684E+00
-	Y =-6.470577187040094E-01
-	Z =-4.348794194489423E-02
-	VX= 7.090666373969929E-03
-	VY= 1.355900871701440E-02
-	VZ= 1.101801802943566E-04
-	
-	# Urano
-	# 2020-Jul-28 00:00:00.0000
-	# Coordinate Origin [change] : 	Sun (body center) [500@10]
-	X = 1.573553246967107E+01
-	Y = 1.200453525995092E+01
-	Z =-1.592451238694909E-01
-	VX=-2.407903101224412E-03
-	VY= 2.946972796014599E-03
-	VZ= 4.194955948634716E-05
-	
-	r=np.array([X,Y,Z])
-	v=np.array([VX,VY,VZ])
-	
-	Uranus=getOrbitalElements(r,v,name='Uranus')
-	print(Uranus)
-	
-	'''
-	
-	'''
 	# C/2020 F3 (Neowise)
 	# 2020-Jul-28 00:00:00.0000
 	# Coordinate Origin [change] : 	Sun (body center) [500@10]
@@ -66,7 +36,7 @@ def main():
 	
 	Neowise=getOrbitalElements(r,v,name='Neowise')
 	print(Neowise)
-	'''
+	
 	
 	# Pluto (134340)
 	# 2020-Jul-30 00:00:00
@@ -97,7 +67,6 @@ def main():
 	
 	r=np.array([X,Y,Z])
 	v=np.array([VX,VY,VZ])
-	print(r)
 	
 	Halley=getOrbitalElements(r,v,name='Halley')
 	print(Halley)
@@ -105,13 +74,12 @@ def main():
 	
 	r=np.array([ 2.53436621,-1.48439324,-0.51379219])
 	v=np.array([ 0.00478149,0.00826443,-0.0006202 ])
+	
 	Ceres=getOrbitalElements(r,v,name='Ceres')
 	print(Ceres)
 	
 	
-	
-	
-	orbits=list([Pluto,Halley,const.Earth, const.Mars, const.Ceres, const.Jupiter, const.Saturn, const.Neptune])
+	orbits=list([const.Earth, Neowise, Halley, Pluto])
 	plotOrbit(orbits,sun_center=False)
 	
 if __name__ == '__main__':

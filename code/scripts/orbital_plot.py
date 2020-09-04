@@ -42,7 +42,7 @@ def rotate(obj, omega, i, Omega):
 	
 
 
-def plotOrbit(orbita,sun_center=True):
+def plotOrbit(orbitas,sun_center=True):
 	# Creamos la figura
 	fig = plt.figure(figsize=(8,5))
 	ax = fig.add_subplot(111, projection='3d')
@@ -50,13 +50,13 @@ def plotOrbit(orbita,sun_center=True):
 	# Dibujamos el Sol
 	ax.scatter(0,0,0,color='yellow')
 	
-	if type(orbita)!=list:
-		orbita=list([orbita])
+	if type(orbitas)!=list:
+		orbitas=list([orbitas])
 	
-	colors=sns.color_palette("bright", len(orbita))
+	colors=sns.color_palette("bright", len(orbitas))
 	color_i=0
 	
-	for orb in orbita:
+	for orb in orbitas:
 		# Semieje menor y distancia de los focos al centro de la elipse
 		b=orb.a*np.sqrt((1-orb.e**2))
 		center=orb.a*orb.e
@@ -74,13 +74,7 @@ def plotOrbit(orbita,sun_center=True):
 		ax.plot3D(ellipse[0],ellipse[1],ellipse[2], color=colors[color_i],label=orb.name)
 		color_i+=1
 		ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=(0, (1,2)))
-	
-	'''
-	line_of_nodes=np.array([np.zeros(2),
-						    np.linspace(-40,40,2),
-							np.zeros(2)])
-	ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=':')
-	'''
+		
 	
 	# Establecemos los límites para los ejes
 	Xlim=np.asarray(ax.get_xlim3d())

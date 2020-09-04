@@ -9,11 +9,6 @@ Created on Sun Aug  9 12:43:52 2020
 import numpy as np
 from scipy.interpolate import lagrange
 
-import requests
-from requests.exceptions import HTTPError
-
-import csv
-
 from newton import approximate_phi
 
 # Para modificar en ejecución el directorio desde el que importar
@@ -24,26 +19,40 @@ import my_constants as const
 from utilities import isclose, getVectorsFromEphemeris
 
 
-
-def toJulian(times):
-	return times.jd
-
 def toRadian(ang):
-	return ang.radian
+	# Pasamos una lista de coordenadas ecuatoriales en horas y grados
+	# y la devuelve en radianes
+	rad=list()
+	for a in ang:
+		rad.append((a[0].radian,a[1].radian))
+		
+	return rad
 
-def toCartesian(ascension,declination):
-	return np.array([np.cos(declination)*np.cos(ascension),
-				     np.cos(declination)*np.sin(ascension),
-					 np.sin(declination)])
-
-def get_EC(coordinates,times):
+def toCartesian(coordinates):
 	# Pasamos de coordenadas ecuatoriales a cartesianas
 	# Almacenamos los vectores lambda_i,mu_i,nu_i en una lista 
 	position=list()
 	for coord in coordinates:
+		tmp = np.array([np.cos(coord[1])*np.cos(coord[0]),
+				        np.cos(coord[1])*np.sin(coord[0]),
+						np.sin(coord[1])])
+		position.append(tmp)
+	
+	# Devolvemos el resultado como un np.array
+	return np.array(position)
+
+def toJulian(times):
+	return times.jd
+
+
+def aproximarDerivadas(position,times):
+	# Pasamos de coordenadas ecuatoriales a cartesianas
+	# Almacenamos los vectores lambda_i,mu_i,nu_i en una lista 
+	'''position=list()
+	for coord in coordinates:
 		position.append(toCartesian(toRadian(coord[0]),toRadian(coord[1])))
 	position=np.array(position)
-
+	'''
 	velocity=np.zeros(3)
 	second_deriv=np.zeros(3)
 	
@@ -51,9 +60,6 @@ def get_EC(coordinates,times):
 		# Dado que no sabemos si los intervalos son
 		# equiespaciados, utilizamos la derivada del
 		# polinomio de Lagrange
-		
-		#velocity[i]=(2*times[1]-(times[1]+times[2]))/((times[0]-times[1])*(times[0]-times[2]))*position[0][i]+(2*times[1]-(times[2]+times[0]))/((times[1]-times[2])*(times[1]-times[0]))*position[1][i]+(2*times[1]-(times[0]+times[1]))/((times[2]-times[0])*(times[2]-times[1]))*position[2][i]
-		#second_deriv[i]=2/((times[0]-times[1])*(times[0]-times[2]))*position[0][i]+2/((times[1]-times[2])*(times[1]-times[0]))*position[1][i]+2/((times[2]-times[0])*(times[2]-times[1]))*position[2][i]
 		
 		poly=lagrange(times, position[:,i])
 		velocity[i]=poly.deriv(m=1)(times[1])
@@ -66,8 +72,8 @@ def get_EC(coordinates,times):
 
 
 
-def get_SE(epoch):
-	position,velocity=getVectorsFromEphemeris(name='Sun',center='Earth',epoch=epoch,ref_plane='FRAME')
+def vectorSE(epoch):
+	position,velocity,result=getVectorsFromEphemeris(name='Sun',center='Earth',epoch=epoch,ref_plane='FRAME')
 	
 	R=np.linalg.norm(position)
 	second_deriv=-const.mu*position/R**3
@@ -77,10 +83,10 @@ def get_SE(epoch):
 
 def discuss_phi(phi_values,psi):
 	index=-1
-	print('\nPosibles phi = ' +str(phi_values))
-	print(np.array(phi_values)*180/np.pi)
-	print('psi = ' +str(psi)+' ('+str(psi*180/np.pi)+')')
-	print('pi-psi = ' +str(np.pi-psi))
+	print('\nPosibles φ:\n' +str(phi_values))
+	print('En grados:\n' +str(np.array(phi_values)*180/np.pi))
+	print('\nψ = ' +str(psi)+' ('+str(psi*180/np.pi)+')')
+	print('π-ψ = ' +str(np.pi-psi)+' ('+str((np.pi-psi)*180/np.pi)+')')
 	print('')
 	for i in range(len(phi_values)):
 		if isclose(np.pi-psi,phi_values[i]):
@@ -121,7 +127,6 @@ def get_rho_r(pos,vel,second_deriv,pos_sun,R):
 	if (D1/D>0 and N>0) or (D1/D<0 and N<0):
 		N=-N
 	
-	
 	M=(-N*D*R**3*np.sin(psi)**3)/D1
 	m=np.arcsin(R*np.sin(psi)/N)
 	
@@ -146,7 +151,7 @@ def get_rho_r(pos,vel,second_deriv,pos_sun,R):
 	
 	return rho,r
 
-def getPosVel(pos,vel,second_deriv,rho,pos_sun,vel_sun,R,r):
+def getPosVel(pos,vel,second_deriv,pos_sun,vel_sun,R,r,rho):
 	D_matrix=np.matrix([pos,vel,second_deriv])
 	D=2*np.linalg.det(D_matrix)
 	
@@ -157,21 +162,25 @@ def getPosVel(pos,vel,second_deriv,rho,pos_sun,vel_sun,R,r):
 		
 	return rho*pos-pos_sun,rho_deriv*pos+rho*vel-vel_sun
 
-def Laplace(coordinates, times):
+def Laplace(coordinates, times):	
+	# Transformamos a cartesianas los ángulos en radianes
+	position=toCartesian(toRadian(coordinates))
+	
 	# Transformamos a días Julianos
 	times=toJulian(times)
 	
 	# Pasamos de ascensión recta y declinación a cartesianas
 	# Calculamos las derivadas (aproximadas)
-	E_C,E_C_deriv,E_C_deriv_2=get_EC(coordinates,times)
+	E_C,E_C_deriv,E_C_deriv_2=aproximarDerivadas(position,times)
 	
-	# Tomamos de la web de JPL el vector Sol-Tierra
-	S_E,S_E_deriv,S_E_deriv_2,R=get_SE(times[1])	
+	# Tomamos de la web de JPL el vector Tierra-Sol
+	S_E,S_E_deriv,S_E_deriv_2,R=vectorSE(times[1])	
 	
 	# Calculamos las distancias $\rho$ y $r$
 	rho,r=get_rho_r(E_C,E_C_deriv,E_C_deriv_2,S_E,R)
 	
-	pos,vel=getPosVel(E_C,E_C_deriv,E_C_deriv_2,rho,S_E,S_E_deriv,R,r)
+	# Obtenemos los vectores de posición y velocidad
+	pos,vel=getPosVel(E_C,E_C_deriv,E_C_deriv_2,S_E,S_E_deriv,R,r,rho)
 	
 	'''
 	print('\nPosición calculada = ' +str(pos))

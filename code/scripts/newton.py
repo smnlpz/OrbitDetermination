@@ -29,7 +29,7 @@ def newton_method(f,x_0,max_iters,tol):
 
 
 
-def approximate_phi(M,m,tol=0.000000001,max_tries=64,plot=False):
+def approximate_phi(M,m,tol=1E-09,max_tries=64,plot=False):
 	max_iters=10000
 	
 	f = sin(x)**4-M*sin(x+m)

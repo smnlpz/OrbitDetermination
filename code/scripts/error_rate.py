@@ -15,7 +15,7 @@ sys.path.insert(1, '../util')
 from utilities import getVectorsFromEphemeris
 
 def getApproximationError(pos,vel,epoch,object_name):
-	real_pos,real_vel=getVectorsFromEphemeris(name=object_name,epoch=epoch)
+	real_pos,real_vel,result=getVectorsFromEphemeris(name=object_name,epoch=epoch)
 	
 	real_dist=np.linalg.norm(real_pos)
 	dist=np.linalg.norm(pos)

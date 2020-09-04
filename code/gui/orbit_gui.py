@@ -22,7 +22,6 @@ import my_constants as const
 from utilities import ICRS_to_ecliptic, getVectorsFromEphemeris
 
 class OrbitTroya:
-	
 	coordinates=list()
 	times=np.zeros(3)
 	
@@ -40,47 +39,55 @@ class OrbitTroya:
 		
 		name_label = ttk.Label(mainwindow, text='Nombre del Cuerpo: ')
 		name_label.grid(column='0', padx='5', pady='15', row='0', columnspan='2')
-		self.object_name = ttk.Entry(mainwindow,width='43')
-		self.object_name.insert('end', 'Ceres')
-		self.object_name.grid(column='2', columnspan='3', row='0', rowspan='1')
+		self.object_name = ttk.Entry(mainwindow,width='42')
+		self.object_name.grid(column='2', padx='5', columnspan='3', row='0', rowspan='1')
 		
 		asc_label = ttk.Label(mainwindow)
 		asc_label.config(text='Ascensión recta (horas)')
 		asc_label.grid(column='0', padx='5', pady='5', row='1',columnspan='2')
-		self.asc1 = ttk.Entry(mainwindow)
-		self.asc1.insert('end', '23 13 15.59')
+		self.asc1 = ttk.Entry(mainwindow)	
 		self.asc1.grid(column='0', pady='5', row='2',columnspan='2')
 		self.asc2 = ttk.Entry(mainwindow)
-		self.asc2.insert('end', '23 13 01.31')
 		self.asc2.grid(column='0', pady='5', row='3',columnspan='2')
 		self.asc3 = ttk.Entry(mainwindow)
-		self.asc3.insert('end', '23 12 34.89')
 		self.asc3.grid(column='0', pady='5', row='4',columnspan='2')
 		
 		dec_label = ttk.Label(mainwindow,text='Declinación (grados)')
 		dec_label.grid(column='2', padx='5', pady='5', row='1',columnspan='2')
 		self.dec1 = ttk.Entry(mainwindow)
-		self.dec1.insert('end', '-20 17 00.5')
 		self.dec1.grid(column='2', pady='5', row='2',columnspan='2')
 		self.dec2 = ttk.Entry(mainwindow)
-		self.dec2.insert('end','-20 21 27.5')
 		self.dec2.grid(column='2', pady='5', row='3',columnspan='2')
 		self.dec3 = ttk.Entry(mainwindow)
-		self.dec3.insert('end', '-20 29 18.9')
 		self.dec3.grid(column='2', pady='5', row='4',columnspan='2')
 		
 		t_label = ttk.Label(mainwindow)
-		t_label.config(text='Fecha observación')
+		t_label.config(text='   Fecha observación\n(AAAA-dd-mm hh:mm)')
 		t_label.grid(column='4', padx='5', pady='5', row='1')
 		self.t1 = ttk.Entry(mainwindow)
-		self.t1.insert('end', '2459058.666666667')
 		self.t1.grid(column='4', pady='5', row='2')
 		self.t2 = ttk.Entry(mainwindow)
-		self.t2.insert('end', '2459059.333333333')
 		self.t2.grid(column='4', pady='5', row='3')
 		self.t3 = ttk.Entry(mainwindow)
-		self.t3.insert('end', '2459060.500000000')
 		self.t3.grid(column='4', pady='5', row='4')
+		
+		
+		
+		self.object_name.insert('end', 'Ceres')
+		
+		self.asc1.insert('end', '23 13 15.59')
+		self.dec1.insert('end', '-20 17 00.5')
+		self.t1.insert('end', '2020-07-28 04:00')
+		
+		self.asc2.insert('end', '23 13 01.31')
+		self.dec2.insert('end','-20 21 27.5')
+		self.t2.insert('end', '2020-07-28 20:00')
+		
+		self.asc3.insert('end', '23 12 34.89')
+		self.dec3.insert('end', '-20 29 18.9')
+		self.t3.insert('end', '2020-07-30 00:00')
+		
+		
 		
 		output_label = ttk.Label(mainwindow)
 		output_label.config(font='{FreeMono} 12 {bold underline}', text='Salida:')
@@ -106,7 +113,7 @@ class OrbitTroya:
 		plot_label.config(font='{FreeMono} 12 {bold underline}', text='Planetas a dibujar:')
 		plot_label.grid(padx='5', pady=(20, 5),column='0', row='17', columnspan='2')
 		checkbutton_0 = ttk.Checkbutton(mainwindow,variable=check_0,onvalue=1,offvalue=0)
-		checkbutton_0.config(state='disabled', text='Órbita Aproximada')
+		checkbutton_0.config(state='disabled', text='Órbita Aprox.')
 		checkbutton_0.grid(padx='5', pady=(20, 5),column='2', row='17',sticky='w')
 		checkbutton_1 = ttk.Checkbutton(mainwindow,variable=check_1,onvalue=1,offvalue=0)
 		checkbutton_1.config(state='disabled', text='Vacío')
@@ -162,22 +169,34 @@ class OrbitTroya:
 		self.mainwindow = mainwindow
 		
 	def searchObject(self,check,check_value):
-		self.real_r,self.real_v=getVectorsFromEphemeris(name=self.object_name.get(),epoch=float(self.t2.get()))
-		self.real_Object=getOrbitalElements(self.real_r,self.real_v,name=self.object_name.get())
+		epoch=Time(self.t2.get(), format='iso').jd
+		pos,vel,result=getVectorsFromEphemeris(name=self.object_name.get(),epoch=epoch)
 		
-		check.config(text=self.object_name.get(),state='enable')
+		if result:
+			self.real_r=pos
+			self.real_v=vel
+			self.real_Object=getOrbitalElements(self.real_r,self.real_v,name=self.object_name.get())
+			check.config(text=self.object_name.get(),state='enable')
+			self.textWindow.delete('1.0','end')
+			self.textWindow.insert('end','Órbita de '+self.object_name.get()+' obtenida.\nAhora puedes dibujar el objeto junto al resto.')
+		else:
+			self.textWindow.delete('1.0','end')
+			self.textWindow.insert('end','No se puede encontrar el objeto '+self.object_name.get()+'.')
+			check_value.set(0)
+			check.config(text='Vacío',state='disabled')
+			
 		
 	def computeLaplace(self,b_error,check,check_value):
 		coordinates=list([(Angle(self.asc1.get()+' hours'),Angle(self.dec1.get()+' degrees')),
 						  (Angle(self.asc2.get()+' hours'),Angle(self.dec2.get()+' degrees')),
 						  (Angle(self.asc3.get()+' hours'),Angle(self.dec3.get()+' degrees'))])
 		
-		t=[float(self.t1.get()),float(self.t2.get()),float(self.t3.get())]
+		t=[self.t1.get(),self.t2.get(),self.t3.get()]
 		
-		times = Time(t, format='jd')
+		self.times = Time(t, format='iso')
 		
 		# Obtenemos la posición y velocidad del objeto
-		self.r,self.v=Laplace(coordinates,times)
+		self.r,self.v=Laplace(coordinates,self.times)
 		
 		# Pasamos las coordenadas de ICRS a eclíptica
 		self.r=ICRS_to_ecliptic(self.r)
@@ -187,7 +206,8 @@ class OrbitTroya:
 		self.Object=getOrbitalElements(self.r,self.v,name='Approximate ' + self.object_name.get())
 		
 		self.textWindow.delete('1.0','end')
-		self.textWindow.insert('end','Posición calculada: '+str(self.r))
+		self.textWindow.insert('end','Aproximación en t = '+str(self.times[1]))
+		self.textWindow.insert('end','\nPosición calculada: '+str(self.r))
 		self.textWindow.insert('end','\nVelocidad calculada: '+str(self.v))
 		
 		self.textWindow.insert('end','\n\nElementos orbitales obtenidos:\n')
@@ -206,8 +226,7 @@ class OrbitTroya:
 	def computeError(self):
 		# Comprobamos el error
 		self.textWindow.delete('1.0','end')
-		self.textWindow.insert('end',getApproximationError(self.r,self.v,self.times[1],self.object_name.get()))
-
+		self.textWindow.insert('end',getApproximationError(self.r,self.v,self.times[1].jd,self.object_name.get()))
 		
 	def plot(self,check_0,check_1,checkbuttons):
 		toPlot=list()
