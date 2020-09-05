@@ -1,0 +1,375 @@
+\chapter{Método Laplaciano de Determinación}
+\label{chap:laplace_method}
+En este capítulo se estudiará el método de Laplace para determinar la posición y velocidad de un objeto en un instante a utilizando tres observaciones, y a partir de ellas determinaremos los elementos orbitales del cuerpo, pudiendo obtener así la elipse que describe en el espacio.\\
+
+Los pasos a seguir consistirán en aproximar las derivadas del vector unitario $(\lambda,\mu,\nu)$, así como las del vector $\overrightarrow{SE}$, determinar las distancias entre los tres cuerpos $S$, $E$, $C$, y con todo ello poder determinar la posición y velocidad del cuerpo respecto al Sol.\\
+
+\section{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ en algún momento $t$.}
+\label{sec:primera_segunda_derivada}
+Dado que no podemos calcular el valor exacto de las derivadas de $\lambda$, $\mu$, $\nu$, utilizaremos fórmulas de derivación numérica con dos nodos para obtener un valor aproximado de éstas. Tomemos, por ejemplo, $t=t_2$, que por el momento nos bastará para demostrar que se puede realizar una buena aproximación. Supongamos que el valor de $\lambda'$ no cambia muy rápido; entonces, el valor de la derivada en $t_2$ en el intervalo $[t_1,t_2]$ será muy cercano al valor de:
+\[
+\lambda_{12}'=\frac{\lambda(t_2)-\lambda(t_1)}{t_2-t_1},
+\]
+
+\noindent y ya que los nodos elegidos cumplen $t_2>t_1$, estaremos ante una diferencia regresiva. Análogamente podremos aproximar el valor de la derivada en $t_2$ mediante una diferencia progresiva, a la que llamaremos $\lambda_{23}'$.\\
+
+El error de estas aproximaciones, suponiendo que $\lambda$ sea de clase 2 en el intervalo de aproximación, es del orden de $(t_2-t_1)$ y $(t_3-t_2)$ para $\lambda_{12}'$ y $\lambda_{23}'$ respectivamente. Por tanto, cuanto más pequeño sea el intervalo donde realizamos las operaciones, es de esperar que la aproximación obtenida sea mejor. Además, si la longitud del intervalo $[t_1,t_2]$ es igual a la longitud de $[t_2,t_3]$, podremos calcular el valor aproximado de $\lambda'$ en $t_2$ mediante una diferencia centrada, obteniendo:
+\[
+\lambda'_2=\frac{\lambda_{12}'+\lambda_{23}'}{2}
+\]
+
+Si los intervalos tienen una longitud diferente, podremos ajustar la disparidad entre ellos para realizar la aproximación o utilizar un método diferente para aproximar la derivada, como veremos en \ref{sec:series_potencias}.\\
+
+Análogamente podremos definir la derivada segunda de $\lambda$ en $t_2$, en la que utilizaremos los valores de la primera derivada obtenidos anteriormente:
+\[
+\lambda''_2=\frac{\lambda_{23}'-\lambda_{12}'}{\frac{1}{2}(t_3-t_1)}
+\]
+
+Dicha aproximación será de orden $(t_3-t_1)^2$ siempre que $\lambda\in\mathcal{C}^4[t_1,t_3]$. Mediante este mismo método calcularemos la primera y segunda derivada de $\mu$ y $\nu$; además, podemos suponer que las tres funciones son de clase infinito en todo $\mathbb{R}$.\\
+
+Como hemos comentado antes, las aproximaciones obtenidas de esta manera es razonable que sean más cercanas cuanto menor sea la longitud de los intervalos entre las observaciones, y generalmente, en la práctica, los intervalos que utilizaremos serán cortos.\\
+
+Finalmente, necesitaremos tener los valores de la primera y segunda derivada de $X$, $Y$, $Z$, correspondientes al vector de $S$ a $E$, aunque no tendremos por qué calcularlos de manera aproximada. Para obtener dichas cantidades exactas utilizaremos la efemérides proporcionada por el \href{https://ssd.jpl.nasa.gov/horizons.cgi}{\textit{Jet Propulsion Laboratory}} en su página web, que nos dará el valor de estas variables para cualquier día del año, a cualquier hora y desde cualquier coordenada terrestre. Notar que aquí solo aparecerá la posición y velocidad, pero dado que $E$ gira alrededor de $S$ en concordancia con la ley de Gravitación Universal, podremos calcular la segunda derivada mediante:
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	X'' = -\ddfrac{k^2X}{R^3}\\
+	Y'' = -\ddfrac{k^2Y}{R^3}\\
+	Z'' = -\ddfrac{k^2Z}{R^3}
+\end{array}
+\right.
+\label{eq:ley_gravitacion_S_E}
+\end{align}
+
+\noindent donde $k^2=GM$\footnote{Es más común ver este valor como $\mu$, pero para evitar confusiones con la segunda coordenada del vector unitario $\overrightarrow{EC}$ utilizaremos el nombre de $k^2$.}, parámetro gravitacional estándar, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol. Tomamos solo la masa del Sol, $M$, ya que la masa de nuestro cuerpo es despreciable en comparación con ésta usando como modelo el problema de Kepler.\\
+
+
+\markedsection{$C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}{Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}
+\label{sec:ley_gravitacion}
+Asumiendo que el cuerpo observado $C$ no está alterado por la interacción con otros cuerpos cercanos, podemos asegurar que cumplirá el problema de Kepler, dando lugar a las siguientes ecuaciones diferenciales:
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	\ddfrac{d^2x}{dt^2}=-\ddfrac{k^2x}{r^3}\\
+	\ddfrac{d^2y}{dt^2}=-\ddfrac{k^2y}{r^3}\\
+	\ddfrac{d^2z}{dt^2}=-\ddfrac{k^2z}{r^3}
+\end{array}
+\right.
+\label{eq:ley_gravitacion_S_C}
+\end{align}
+
+\noindent análogas a las que hemos visto para $S$ y $E$ en \eqref{eq:ley_gravitacion_S_E}.\\
+
+Además, utilizando las \hyperref[eq:terminologia]{relaciones entre $E$, $C$ y $S$}, así como los resultados vistos anteriormente, llegamos a:
+\begin{align}
+\left\{
+\begin{array}{l}
+	x=\rho\lambda-X\\
+	y=\rho\mu-Y\\
+	z=\rho\nu-Z
+\end{array}
+\right.
+\label{eq:relacion_C_S_E}
+\end{align}
+
+\noindent y sustituyendo los valores obtenidos en las  ecuaciones \eqref{eq:ley_gravitacion_S_C}, obtenemos:
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	(\rho\lambda)'' - X'' = \ddfrac{-k^2(\rho\lambda-X)}{r^3}\\
+	(\rho\mu)'' - Y'' = \ddfrac{-k^2(\rho\mu-Y)}{r^3}\\
+	(\rho\nu)'' - Z'' = \ddfrac{-k^2(\rho\nu-Z)}{r^3}
+\end{array}
+\right.
+\label{eq:derivada_segunda}
+\end{align}
+
+Desarrollando la segunda derivada de $\rho\lambda$ llegamos a:
+\[
+(\rho\lambda)''=(\rho'\lambda+\rho\lambda')'=\rho''\lambda+2\rho'\lambda'+\rho\lambda'',
+\]
+
+\noindent valor que utilizaremos más adelante.\\
+
+Utilizando el resultado \eqref{eq:ley_gravitacion_S_E}, sustituyendo en la ecuación \eqref{eq:derivada_segunda} y desarrollando llegamos a lo siguiente:
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	\lambda\rho''+2\lambda'\rho'+[\lambda''+\ddfrac{k^2\lambda}{r^3}]\rho=-k^2X[\ddfrac{1}{R^3}-\ddfrac{1}{r^3}]\\
+	\mu\rho''+2\mu'\rho'+[\mu''+\ddfrac{k^2\mu}{r^3}]\rho=-k^2Y[\ddfrac{1}{R^3}-\ddfrac{1}{r^3}]\\
+	\nu\rho''+2\nu'\rho'+[\nu''+\ddfrac{k^2\nu}{r^3}]\rho=-k^2Z[\ddfrac{1}{R^3}-\ddfrac{1}{r^3}]
+\end{array}
+\right.
+\label{eq:fundamental_equations}
+\end{align}
+
+\noindent a las que llamaremos ecuaciones fundamentales. Así, las incógnitas de las ecuaciones a resolver pasan a ser $r, \; \rho, \; \rho'$ y $\rho''$.\\
+
+
+
+\section{Determinación de las distancias de $C$ a $E$ y $S$.}
+\label{sec:distancias}
+Actualmente disponemos de un vector unitario $(\lambda,\mu,\nu)$ que apunta desde la Tierra hacia el cuerpo observado, pero desconocemos la distancia que hay entre estos dos cuerpos. Para determinar tanto esta distancia como la que hay desde $S$ hasta $C$, utilizaremos las ecuaciones fundamentales obtenidas al final del paso anterior, \eqref{eq:fundamental_equations}, y una condición geométrica que cumplirán los tres cuerpos. Para llevar a cabo esto, tomaremos el sistema \eqref{eq:fundamental_equations} como un sistema lineal en $\rho$, $\rho'$ y $\rho''$ y resolveremos utilizando la regla de Cramer. Comencemos definiendo el siguiente determinante:
+\[
+D =
+\left|
+\begin{array}{ccc}
+	\lambda & 2\lambda' & \lambda''+\frac{k^2\lambda}{r^3}\\
+	\mu & 2\mu' & \mu''+\frac{k^2\mu}{r^3}\\
+	\nu & 2\nu' & \nu''+\frac{k^2\nu}{r^3}
+\end{array}
+\right|
+=
+2
+\left|
+\begin{array}{ccc}
+	\lambda & \lambda' & \lambda''\\
+	\mu & \mu' & \mu''\\
+	\nu & \nu' & \nu''
+\end{array}
+\right|
+=2W(\lambda,\mu,\nu)
+\]
+
+\noindent siendo $W(\lambda,\mu,\nu)$ el Wronskiano de las coordenadas angulares. La segunda forma del determinante ha sido obtenida mediante la transformación $C_3-\frac{k^2\lambda}{r^3}C_1$ sobre la matriz, donde $C_i$ representará la columna i-ésima. Una vez hayamos sustituido las derivadas exactas por su valor aproximado calculado anteriormente, conoceremos todas las cantidades de este determinante.\\
+
+Por otra parte, definiremos el determinante $D_1$, que utilizaremos para calcular $\rho$ mediante la regla de Cramer, reemplazando la tercera columna por los términos independientes del sistema \eqref{eq:fundamental_equations} y omitiendo el factor $[\frac{1}{R^3}-\frac{1}{r^3}]$, que añadiremos más adelante. De nuevo, conocemos todas las cantidades utilizadas. Así, obtenemos el siguiente determinante:
+\[
+D_1 = -2k^2
+\left|
+\begin{array}{ccc}
+\lambda & \lambda' & X\\
+\mu & \mu' & Y\\
+\nu & \nu' & Z
+\end{array}
+\right|
+\]
+
+Con todo esto, la distancia $\rho$ será determinada por:
+\[
+\rho = \frac{D_1}{D}[\frac{1}{R^3}-\frac{1}{r^3}],
+\]
+
+El valor de $r$ es desconocido, por lo que añadiremos la siguiente ecuación formando con la anterior un sistema de ecuaciones en $r$ y $\rho$.
+\begin{align}
+r^2=\rho^2+R^2-2\rho R\cos\psi,
+\label{eq:triangle_relations_1}
+\end{align}
+
+\noindent donde $\psi$ es el ángulo formado en $E$ trazando una línea imaginaria hasta el Sol y hasta el cuerpo observado, es decir, entre $R$ y $\rho$; esta ecuación expresa el hecho de que $S$, $E$ y $C$ forman un triángulo como vimos en la \hyperref[figure:1]{figura 1}.\\
+
+Dado que disponemos de los valores $\overrightarrow{SE}=(X,Y,Z)$ y $\overrightarrow{EC}=(\lambda,\mu,\nu)$, vector unitario, podremos obtener el coseno de $\psi$ con:
+\[
+\cos{\psi}=\frac{\langle\overrightarrow{SE},\overrightarrow{EC}\rangle}{|\overrightarrow{SE}||\overrightarrow{EC}|}=\frac{\langle(X,Y,Z),(\lambda,\mu,\nu)\rangle}{R}
+\]
+
+Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valores de $\rho$ y $r$, habiendo terminado este paso. Más adelante discutiremos la unicidad de la solución en el sistema con $r,\rho>0$ (\ref{chap:soluciones_admisibles}). Al encontrar la solución de este sistema podremos calcular las coordenadas de $C$ mediante las ecuaciones \eqref{eq:relacion_C_S_E} de las relaciones entre $S$, $E$ y $C$.\\
+
+\section{Determinación de las componentes de velocidad de $C$.}
+\label{sec:velocity_component}
+Se sigue de las ecuaciones \eqref{eq:relacion_C_S_E} que:
+\begin{align}
+\left\{
+\begin{array}{l}
+	x'=\rho'\lambda+\rho\lambda'-X'\\
+	y'=\rho'\mu+\rho\mu'-Y'\\
+	z'=\rho'\nu+\rho\nu'-Z'
+\end{array}
+\right.
+\label{eq:relacion_C_S_E_derivada}
+\end{align}
+
+En estas ecuaciones solo tenemos una incógnita, $\rho'$, que podremos determinar resolviendo por Cramer en \eqref{eq:fundamental_equations} a partir de:
+\[
+\rho'=+\frac{D_2}{D}[\frac{1}{R^3}-\frac{1}{r^3}],
+\; \; \; \; \; \; \; \; \; \text{ con } \;
+D_2 = -k^2
+\left|
+\begin{array}{ccc}
+\lambda & X & \lambda''\\
+\mu & Y & \mu''\\
+\nu & Z & \nu''
+\end{array}
+\right|
+\]
+
+Notar que en $D_2$ también hemos realizado la operación $C_3-\frac{k^2\lambda}{r^3}C_1$, como en $D$, para obtener un determinante más simple.\\
+
+Dado que ya conocemos el valor de $r$ podremos calcular directamente $\rho'$, y de esta manera $x'$, $y'$ y $z'$ se vuelven conocidas.\\
+
+\markedsection{Determinación de los elementos orbitales.}{Determinación de los elementos orbitales a partir de la posición y velocidad del cuerpo observado.}
+\label{sec:elements_determination}
+Una vez conocida tanto la posición como la velocidad del cuerpo en un instante determinado, nos dispondremos a calcular los elementos orbitales mediante las distintas fórmulas estudiadas en el manual de Mecánica Celeste\cite{ortega}. Denotemos por $r(t)=(x,y,z)(t)$ la posición del objeto y $v(t)$ su derivada, la velocidad.\\
+
+Comencemos determinando la energía que tiene nuestro cuerpo en un instante $t$. Para ello utilizaremos:
+\[
+h=\frac{|v(t)|^2}{2}-\frac{\mu}{|r(t)|}
+\]
+
+\noindent donde $\mu=GM$ una constante positiva. Con el valor de la energía podemos pasar a calcular la primera de nuestros elementos astronómicos, la longitud del semieje mayor, $a$, utilizando la siguiente ecuación:
+\[
+a=-\frac{\mu}{2h}
+\]
+
+Pasemos ahora a calcular el momento angular de nuestro objeto. Dado que la masa del objeto observado es despreciable frente a la masa del Sol, podremos obviar su valor, obteniendo así el vector del momento angular mediante:
+\[
+c=r(t)\wedge v(t)
+\]
+
+Calculado el momento angular, podremos obtener el vector de excentricidad para la órbita del cuerpo observado:
+\[
+\vec{e}=-\frac{r(t)}{|r(t)|}-\frac{1}{\mu}(c\wedge v(t))
+\]
+
+\noindent y la excentricidad de la órbita será $e=|\vec{e}|$.\\
+
+Una vez obtenidos estos valores, podemos utilizaremos la tercera ley de Kepler para obtener el período mínimo (suponiendo que nuestra órbita se corresponda con la de una elipse). Si el momento angular del objeto observado $c\neq0$ y su energía $h<0$, entonces la órbita es periódica y su período mínimo valdrá:
+\[
+p=\frac{2\pi}{\sqrt{\mu}}a^{3/2}
+\]
+
+Sabemos que el vector del momento angular, del que disponemos, es el vector normal al plano orientado de la órbita, pudiendo calcular así la inclinación del plano de movimiento. Además, calculando la intersección de éste con el plano de la eclíptica obtenemos la línea de nodos y con ella el nodo ascendente $\mathcal{N}_+$, con la que podremos determinar $\Omega$.
+\[
+\left\{
+\begin{array}{l}
+	i=\measuredangle(\vec{e}_3,\vec{n}), \; \; \; \; \; \; \; \; \; \; i\in]0,\pi[\\
+	\Omega=\measuredangle(\vec{e}_1, \mathcal{N}_+), \; \; \; \; \; \Omega\in\mathbb{R}/2\pi\mathbb{Z}
+\end{array}
+\right.
+\]
+
+Finalmente usaremos el vector de excentricidad $\vec{e}$ para calcular $\omega$, utilizando el nodo ascendente como eje de rotación.\\
+
+
+\markedsection{Derivadas de $\lambda$, $\mu$, $\nu$ mediante interpolación.}{Determinación de las derivadas de $\lambda$, $\mu$, $\nu$ mediante interpolación.}
+\label{sec:series_potencias}
+Tal y como hemos visto en la sección \ref{sec:primera_segunda_derivada}, hemos de calcular la primera y segunda derivada de las coordenadas angulares $\lambda$, $\mu$, $\nu$. El problema es que no siempre los intervalos de tiempo en los que hacemos la medida del objeto en el cielo son equiespaciados, y por tanto no podremos obtener una aproximación mediante diferencias centradas. Por tanto, busquemos un nuevo método para obtener las derivadas aproximadas de nuestras coordenadas angulares.\\
+
+Comencemos recordando las ecuaciones \eqref{eq:ley_gravitacion_S_C}:
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	\ddfrac{d^2x}{dt^2}=-\ddfrac{k^2x}{r^3}\\
+	\ddfrac{d^2y}{dt^2}=-\ddfrac{k^2y}{r^3}\\
+	\ddfrac{d^2z}{dt^2}=-\ddfrac{k^2z}{r^3}
+\end{array}
+\right.
+\label{eq:ley_gravitacion_C_2}
+\end{align}
+
+La solución para estas ecuaciones diferenciales de segundo orden puede ser expandida como serie de Taylor en $t$, y esta convergerá siempre que el valor de $t$ no sea especialmente grande.
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	x=x_0+x_0't+\ddfrac{1}{2}(\ddfrac{d^2x}{dt^2})_0t^2+...+\ddfrac{1}{n!}(\ddfrac{d^nx}{dt^n})_0t^n+...\\
+	y=y_0+y_0't+\ddfrac{1}{2}(\ddfrac{d^2y}{dt^2})_0t^2+...+\ddfrac{1}{n!}(\ddfrac{d^ny}{dt^n})_0t^n+...\\
+	z=z_0+z_0't+\ddfrac{1}{2}(\ddfrac{d^2z}{dt^2})_0t^2+...+\ddfrac{1}{n!}(\ddfrac{d^nz}{dt^n})_0t^n+...\\	
+\end{array}
+\right.
+\label{eq:series_taylor}
+\end{align}
+
+En las ecuaciones superiores el subíndice 0 indicará que tomamos el valor $t=0$ en la función. Podemos sustituir la segunda derivada que aparece en estas series por su valor en \eqref{eq:ley_gravitacion_C_2}, la tercera derivada por la derivada de ésta y a partir de la cuarta derivada repetimos este proceso, teniendo así que las series estarán solo en función de la $x$, $y$, $z$ y la primera derivada de cada una de estas, todos ellas tomadas en $t=0$.\\
+
+Los tres valores $x$, $y$, $z$, a los que en conjunto llamaremos $r(t)$, forman una solución del problema de Kepler. Además, sabemos que la fórmula de las soluciones para el problema de Kepler es:
+\[
+r(t)=a(\cos{u(t)}-e,\sqrt{1-e^2}\sin{u(t)})
+\]
+
+\noindent donde $u(t)$ es la anomalía. Dado que la ecuación está formada por funciones trigonométricas, que son analíticas, y la anomalía es una función analítica por el teorema de la función implícita, llegamos a que $r(t)$ será también una función analítica.\\
+
+Hemos de tener en cuenta que el valor de estas series no siempre tiene valor práctico, pues el intervalo de tiempo para la convergencia puede ser demasiado grande; notar que los límites serán más pequeños cuanto más pequeña sea la distancia del perihelio y más grande la excentricidad de nuestra órbita.\\
+
+En el caso de la Tierra, expandiendo sus coordenadas en series de potencias, obtendremos una convergencia durante largos intervalos de tiempo debido a la pequeña excentricidad de la órbita terrestre ($e\approx0.0167$). Así, se sigue de la ecuación \eqref{eq:relacion_C_S_E}, que relaciona las coordenadas de la Tierra, el Sol y el cuerpo observado que las ecuaciones de $\rho$, $\lambda$, $\mu$, $\nu$ también son funciones analíticas y por ello podrán ser expandidas como series de Taylor, con el mismo rango de utilidad que el de las series para $x$, $y$ y $z$.\\
+
+Veamos las series para $\lambda$, pues las de $\mu$ y $\nu$ serán simétricamente similares. Tomando los valores $t_1$, $t_2$ y $t_3$, las series para $\lambda$ serán:
+\begin{align}
+\left\{
+\begin{array}{l}
+	\lambda(t)=c_0+c_1t+c_2t^2+...\\
+	\lambda(t_1)=c_0+c_1t_1+c_2t_1^2+...\\
+	\lambda(t_2)=c_0+c_1t_2+c_2t_2^2+...\\
+	\lambda(t_3)=c_0+c_1t_3+c_2t_3^2+...
+\end{array}
+\right.
+\label{eq:series_lambda}
+\end{align}
+
+\noindent donde los valores $c_0, c_1, c_2, ...$ son constantes. Si estas series terminan tras los términos elevados al cuadrado, podremos determinar $c_0$, $c_1$ y $c_2$ resolviendo como un sistema de ecuaciones, ya que conocemos las cantidades $\lambda(t_1)$, $\lambda(t_2)$, $\lambda(t_3)$. Así, tenemos que cuantas más observaciones tengamos disponibles, más coeficientes podrán ser determinados.\\
+
+Tomamos ahora el sistema de ecuaciones \eqref{eq:series_lambda}; si queremos que sea compatible, su determinante ha de ser 0, pues tenemos tres incógnitas y cuatro ecuaciones, es decir, nos ``sobra'' una ecuación (sistema compatible indeterminado). Así, podemos obtener la siguiente igualdad:
+\begin{align}
+\left|
+\begin{array}{cccc}
+\lambda(t)   & 1 & t   & t^2  \\
+\lambda(t_1) & 1 & t_1 & t^2_1\\
+\lambda(t_2) & 1 & t_2 & t^2_2\\
+\lambda(t_3) & 1 & t_3 & t^2_3\\
+\end{array}
+\right|
+=0
+\label{eq:resultante}
+\end{align}
+
+Si resolvemos este determinante desarrollando por la primera columna y despejamos $\lambda$ obtenemos:
+\begin{align}
+\lambda(t)_L=
+\frac{(t-t_2)(t-t_3)}{(t_1-t_2)(t_1-t_3)}\lambda(t_1)
++\frac{(t-t_3)(t-t_1)}{(t_2-t_3)(t_2-t_1)}\lambda(t_2)
++\frac{(t-t_1)(t-t_2)}{(t_3-t_1)(t_3-t_2)}\lambda(t_3)
+\label{eq:lambda_value}
+\end{align}
+
+Utilizamos el subíndice $L$ para denotar que esta función es aproximada y no proporcionará el valor exacto de $\lambda$ (salvo en ciertos casos).\\
+
+Dicho polinomio corresponderá al polinomio de interpolación de Lagrange con el que obtendremos un valor aproximado de $\lambda$. Hemos de tener en cuenta que los valores en los nodos $t_1$, $t_2$, $t_3$ han de ser diferentes entre sí para que no se anulen los denominadores.\\
+
+Con esto, somos capaces de obtener $\lambda$ de manera exacta en $t_1$, $t_2$ y $t_3$; para otros valores diferentes de $t$ obtendremos $\lambda$ de forma aproximada. Para obtener un valor exacto de $\lambda$ habremos de tomar la primera ecuación de \eqref{eq:series_lambda}, una serie infinita, dentro de su rango de convergencia.\\
+
+Como comentamos anteriormente, el polinomio de interpolación de Lagrange obtenido nos proporcionará valores aproximados de $\lambda$, por lo que será conveniente estudiar el error de éste, que tomando la primera ecuación de \eqref{eq:series_lambda} será:
+\[
+|\lambda(t)-\lambda_L(t)|
+\]
+
+Dado que en anteriores secciones hemos supuesto que $\lambda$, $\mu$, $\nu$ son de clase infinito, podemos aplicar el teorema de error de interpolación, que nos dará una fórmula para obtener el error para todo $t$. Utilizando los tres nodos $t_1$, $t_2$, $t_3$ obtenemos:
+\begin{align}
+|\lambda(t)-\lambda_L(t)|=\ddfrac{\lambda^{\romannumeral 4}(\xi)}{4!}|t-t_1||t-t_2||t-t_3|
+\label{eq:interpolation_error}
+\end{align}
+
+\noindent donde $\min{(t,t_1,t_2,t_3)}<\xi<\max{(t,t_1,t_2,t_3)}$. El cálculo de $\xi$ es complicado, pero podremos tomar una cota superior para $\lambda^{\romannumeral 4}$. Sea $K_4$ dicha cota, con $|\lambda^{\romannumeral 4}(x)|\leq K_4$, entonces el error de la interpolación será:
+\begin{align}
+|\lambda(t)-\lambda_L(t)|\leq\ddfrac{K_4}{4!}|t-t_1||t-t_2||t-t_3|
+\label{eq:interpolation_error_cota}
+\end{align}
+
+Utilizando un mayor número de observaciones dispondremos de más nodos; así, si hemos realizado $N$ observaciones, la ecuación para el error será:
+\begin{align}
+|\lambda(t)-\lambda_L(t)|\leq\ddfrac{K_N}{(N+1)!}|t-t_1|...|t-t_N|
+\label{eq:interpolation_error_n_observations}
+\end{align}
+
+Con el estudio del error y todo lo visto anteriormente, podemos justificar que la diferencia entre los valores de $t$ ha de ser pequeña en la práctica para que las cantidades aproximadas calculadas sean lo más cercanas a su valor original. Además, no tendría sentido una diferencia de tiempo muy grande entre las observaciones del objeto, pues pasaríamos mucho tiempo para determinar una única órbita.\\
+
+Por último, ya que necesitamos la primera y segunda derivada de $\lambda$, nos bastará con derivar del polinomio \eqref{eq:lambda_value}.
+\begin{align*}
+\lambda'(t)_L = \frac{2t-(t_2+t_3)}{(t_1-t_2)(t_1-t_3)}\lambda(t_1)
++\frac{2t-(t_3+t_1)}{(t_2-t_3)(t_2-t_1)}\lambda(t_2)
++\frac{2t-(t_1+t_2)}{(t_3-t_1)(t_3-t_2)}\lambda(t_3)\\
+\lambda''(t)_L = \frac{2}{(t_1-t_2)(t_1-t_3)}\lambda(t_1)
++\frac{2}{(t_2-t_3)(t_2-t_1)}\lambda(t_2)
++\frac{2}{(t_3-t_1)(t_3-t_2)}\lambda(t_3)
+\end{align*}
+
+Tal y como comentamos anteriormente, se procederá al cálculo de $\mu$ y $\nu$ y al estudio de su error de aproximación de manera similar a la desarrollada en este apartado.\\
+
+\newpage
+\thispagestyle{empty}
+
+

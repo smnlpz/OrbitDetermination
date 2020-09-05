@@ -1,0 +1,506 @@
+\chapter{Número de soluciones admisibles}
+\label{chap:soluciones_admisibles}
+Tal y como comentamos en \ref{sec:distancias}, al obtener el valor de $\rho$ y $r$ puede que obtengamos más de una solución posible, por lo que es conveniente estudiar cuál de estas soluciones es válida para nuestro problema y cuál no, y dentro de las válidas determinar cuál es la solución que nos lleva a la órbita real del cuerpo observado.\\
+
+También trataremos de acotar el intervalo de valores donde la solución del problema de determinación es única.\\
+
+\section{Ecuaciones fundamentales en el método de Laplace.}
+\label{sec:fundamental_equations}
+Para terminar la explicación del método de determinación con tres observaciones, recapitulemos viendo las principales ecuaciones utilizadas para obtener la órbita del objeto observado. Las ecuaciones fundamentales serán las de \eqref{eq:fundamental_equations}, que involucrarán las coordenadas angulares $\lambda$, $\mu$, $\nu$ y sus derivadas, las cuáles conocemos su valor aproximado por \ref{sec:primera_segunda_derivada} o \ref{sec:series_potencias}. Por otra parte, el valor de $\rho$ y sus derivadas se obtendrá resolviendo las ecuaciones fundamentales utilizando la regla de Cramer, como vimos en anteriores apartados, aunque discutiremos más adelante otro método para su cálculo.\\
+
+Hasta ahora disponemos de $\rho$ y $\rho'$; nos faltaría por calcular $\rho''$. Comencemos definiendo el determinante $D_3$:
+\[
+D_3=-2k^2
+\left|
+\begin{array}{ccc}
+X & \lambda' & \lambda''\\
+Y & \mu' & \mu''\\
+Z & \nu' & \nu''
+\end{array}
+\right|
+\]
+
+Tras ello, calculemos el determinante $D$ cambiando la primera columna por el término independiente de \eqref{eq:fundamental_equations}, sin tomar $[\frac{1}{R^3}-\frac{1}{r^3}]$. 
+\[
+\left|
+\begin{array}{ccc}
+-k^2X & 2\lambda' & \lambda''+\frac{k^2\lambda}{r^3}\\
+-k^2Y & 2\mu' & \mu''+\frac{k^2\mu}{r^3}\\
+-k^2Z & 2\nu' & \nu''+\frac{k^2\nu}{r^3}
+\end{array}
+\right|
+=-2k^2
+\left|
+\begin{array}{ccc}
+X & \lambda' & \lambda''\\
+Y & \mu' & \mu''\\
+Z & \nu' & \nu''
+\end{array}
+\right|
+-\frac{2k^4}{r^3}
+\left|
+\begin{array}{ccc}
+X & \lambda' & \lambda\\
+Y & \mu' & \mu\\
+Z & \nu' & \nu
+\end{array}
+\right|
+=
+D_3-\frac{k^2D_1}{r^3}
+\]
+
+El signo negativo delante del determinante $D_1$ aparece por intercambiar la primera y la tercera columna del determinante inmediatamente anterior.\\
+
+Así, tenemos que los valores de $\rho$ y sus derivadas pueden ser calculados mediante:
+\begin{align}
+\left\{
+\def\arraystretch{1.5}
+\begin{array}{l}
+	\rho   = \ddfrac{D_1}{D}[\ddfrac{1}{R^3}-\ddfrac{1}{r^3}]\\
+	\rho'  = \ddfrac{D_2}{D}[\ddfrac{1}{R^3}-\ddfrac{1}{r^3}]\\
+	\rho'' = \ddfrac{1}{D}[D_3-\ddfrac{k^2D_1}{r^3}][\ddfrac{1}{R^3}-\ddfrac{1}{r^3}]
+\end{array}
+\right.
+\label{eq:rho_values}
+\end{align}
+
+\noindent con $D$, $D_1$ y $D_2$ definidos anteriormente.\\
+
+Notar que los determinantes $D$, $D_1$, $D_2$, $D_3$ están sujetos a pequeños errores dado que los valores implicados en ellos no pueden ser calculados de forma exacta, procediendo a obtenerlos de manera aproximada. Además, trabajamos bajo el supuesto de que las observaciones al objeto son realizadas desde el centro de la Tierra, y no desde un punto concreto de ella. Tras haber calculado de forma aproximada las distancias podremos corregir dichas observaciones por los efectos de la posición del observador sobre un punto en la superficie de la Tierra.\\
+
+
+\section{Ecuaciones para la determinación de las distancias $r$ y $\rho$.}
+\label{sec:distancias_r_rho}
+Recordemos la imagen \ref{fig:notation} en la que mostrábamos el triángulo formado por los tres cuerpos $S$, $E$ y $C$ junto a sus distancias. Definamos $\psi$ y $\phi$, ángulos formados en $E$ y $C$ respectivamente.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.15]{images/notation_angles.png}
+\caption{Triángulo formado por $S$, $E$ y $C$ junto a las distancias y ángulos generados.}
+\label{fig:notation_angles}
+\end{figure}
+
+Nos encontramos ahora ante un problema de resolución de triángulos. A partir de la figura superior y del teorema de los senos ($\ddfrac{a}{\sin{\alpha}}=\ddfrac{b}{\sin{\beta}}=\ddfrac{c}{\sin{\gamma}}$), podemos escribir las siguientes ecuaciones:
+\begin{align}
+\left\{
+\begin{array}{l}
+	\rho=R\ddfrac{\sin{(\psi+\phi)}}{\sin{\phi}}\\
+	r=R\ddfrac{\sin{\psi}}{\sin{\phi}}
+\end{array}
+\right.
+\label{eq:triangle_relations_2}
+\end{align}
+
+Además, recordemos que podemos obtener el ángulo $\psi$ mediante:
+\[
+R\cos{\psi}=X\lambda+Y\mu+Z\nu\\
+\]
+
+\noindent obteniendo así que el valor de $\psi$ estará en el primer o cuarto cuadrante, pues $R>0$ y el producto escalar de $(X,Y,Z)$ por $(\lambda,\mu,\nu)$ es positivo. Pero, como nos encontramos en un triángulo, se ha de cumplir que $\psi<\pi$, y suponemos que el ángulo $\psi$ es agudo.\\
+
+Si sustituimos las ecuaciones  \eqref{eq:triangle_relations_2} en la ecuación de $\rho$ en \eqref{eq:rho_values}, esta pasará a ser:
+\[
+R\sin{\psi}\cos{\phi}+\left(R\cos{\psi}-\ddfrac{D_1}{DR^3}\right)\sin{\phi}=\ddfrac{-D_1}{DR^3\sin^3{\psi}}\sin^4{\phi}
+\]
+
+\noindent de manera que, ya que podemos obtener el valor de $\psi$ utilizando la primera ecuación de \eqref{eq:triangle_relations_2}, nos queda una ecuación con una única incógnita, $\phi$.\\
+
+Ahora, consideramos el vector en el plano $(R\cos{\psi}-\ddfrac{D_1}{DR^3},R\sin{\psi})$ y suponemos que es distinto del origen. Realmente esto ocurre siempre, ya que, como el ángulo $\psi$ es agudo y distinto de $0$, $R\sin{\psi}$ será distinto de $0$. Como consecuencia, al no ser el origen, podremos expresar dicho punto en coordenadas polares de la forma $N(\cos{m},\sin{m})$, con $N\neq0$ y pudiendo escoger el valor de $m$ en $(0,2\pi)$.\\
+
+Con el fin de simplificar esta ecuación, definimos las siguientes expresiones:
+\begin{align}
+\left\{
+\begin{array}{l}
+	N\sin{m}=R\sin{\psi}\\
+	N\cos{m}=R\cos{\psi}-\ddfrac{D_1}{DR^3}\\
+	M=\ddfrac{-NDR^3\sin^3{\psi}}{D_1}
+\end{array}
+\right.
+\label{eq:to_simplify}
+\end{align}
+
+Las dos primeras ecuaciones vienen dadas de la forma polar comentada anteriormente. Respecto a la tercera ecuación, la utilizaremos para darle un signo al valor $N$, de manera que podamos reducir el intervalo donde escoger el valor de $m$ a $(0,\pi)$. El signo de $N$ será elegido de tal manera que $M$ sea positivo, y como $\sin{\psi}>0$, $R>0$, el valor $N$ será positivo cuando $\ddfrac{D_1}{D}$ sea negativo y viceversa.\\
+
+Hay ciertos casos excepcionales en las ecuaciones superiores. Si el término de la izquierda de la primera ecuación se anulase, llegaríamos a que $R\sin{\psi}=0$; como $R>0$ por definición, $\sin{\psi}=0$ y $\psi=k\pi$, $k\in\mathbb{Z}$, pero esta situación no es válida, pues entonces el sistema formado por el Sol, la Tierra y el objeto observado no formaría un triángulo tal y como queremos.\\
+
+Fijado el signo de $M$, las dos primeras ecuaciones de \eqref{eq:to_simplify} determinarán unívocamente los valores $N$ y $m$, y la expresión que queríamos simplificar pasa a ser simplemente:
+\begin{align}
+\def\arraystretch{2}
+\begin{array}{c}
+	N\sin{m}\cos{\phi}+N\cos{m}\sin{\phi}=N\sin{(\phi+m)}=\ddfrac{N}{M}\sin^4{\phi} \Longrightarrow\\
+	\Longrightarrow\sin^4{\phi}=M\sin{(\phi+m)}
+\end{array}
+\label{eq:phi_solution}
+\end{align}
+
+Aunque la ecuación \eqref{eq:phi_solution} podría estar definida para $\phi\in\mathbb{R}$, solo nos interesará en el intervalo $(0,\pi)$; es más, dicho intervalo se puede seguir reduciendo. Ya que $\phi$ es uno de los tres ángulos, y teniendo en cuenta cómo hemos definido $m$, podremos asegurar que $\phi=\pi-\psi$ es una solución válida (se puede comprobar sustituyendo en \eqref{eq:phi_solution}), aunque no es de valor práctico ya que que ésta corresponde a la posición del observador en la Tierra. Por tanto, dado que la solución ha de pertenecer al problema físico y que nos encontramos en un triángulo, podemos asegurar que:
+\[
+\phi<\pi-\psi
+\]
+\noindent y por tanto buscaremos una solución para la ecuación \eqref{eq:phi_solution}, no en todos los puntos que está definida, sino con $\phi$ estrictamente entre 0 y $\pi-\psi$.\\
+
+Así, las soluciones de \eqref{eq:phi_solution} han de ser las intersecciones entre las curvas que definen las ecuaciones de la izquierda y de la derecha, es decir, la intersección entre:
+\[
+\left\{
+\begin{array}{l}
+	y_1=\sin^4{\phi}\\
+	y_2=M\sin{(\phi+m)}
+\end{array}
+\right.
+\]
+
+Si el valor de $m$ es negativo cercano a cero y $M$ es ligeramente menor que 1, podemos ver la relación entre ambas curvas $y_1$, $y_2$ en la figura inferior:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.125]{images/phi_solution_m_negative_M_near_1.png}
+\caption{Representación gráfica de $y_1$ e $y_2$ ($\frac{D_1}{D}>0$).}
+\label{fig:phi_solution_m_negative_M_near_1}
+\end{figure}
+
+A partir de dicha imagen podemos observar que obtenemos tres intersecciones de las curvas, correspondientes cada una a una solución de \eqref{eq:phi_solution} y con $\phi_1<\phi_2<\phi_3$, sabiendo que una de ellas ha de ser $\pi-\psi$.\\
+
+Discutamos ahora según el signo de $\frac{D_1}{D}$ los valores de $r$, $R$ y $m$. Comencemos considerando que $\frac{D_1}{D}$ es positivo. Es claro que $\rho$ y $r$ han de ser positivos, por lo que deducimos de la primera ecuación de \eqref{eq:rho_values} que $r$ ha de ser mayor que $R$. Por tanto, como $\psi$ ha de ser menor que 180º (pues estamos en un triángulo), utilizando las ecuaciones \eqref{eq:to_simplify} tenemos:
+\[
+\def\arraystretch{2}
+\begin{array}{l}
+M=\ddfrac{-NDR^3\sin^3{\psi}}{D_1}>0 \Longrightarrow N<0 \\
+R\sin{\psi}>0 \Longrightarrow N\sin{m}>0 \Longrightarrow \sin{m}<0 \Longrightarrow m\in(\pi,2\pi)
+\end{array}
+\]
+
+Por tanto, $N$ es negativo y $m$ estará en el tercer o cuarto cuadrante.\\
+
+Si $m$ está en el cuarto cuadrante, la rama ascendente de la curva $y_2$ atraviesa el eje de abscisas $\phi$ en el primer cuadrante y, si $M<1$, las relaciones entre las dos curvas serán las que podemos ver en la figura \ref{fig:phi_solution_m_negative_M_near_1}. Si el valor de $m$ es cercano a 180º tendremos tres soluciones disponibles $\phi_1$, $\phi_2$, $\phi_3$, una de las cuales corresponderá al observador ($\phi_i=\pi-\psi$). Discutamos según cuál de las tres soluciones toma este valor:
+\begin{itemize}
+\item Si $\phi_1=\pi-\psi$, entonces el problema no tendría solución dado que cualquiera de las otras dos soluciones sería mayor que $\pi-\psi$.
+\item Si $\phi_2=\pi-\psi$, se sigue del hecho de que $\phi<\pi-\psi$ que la solución ha de ser $\phi_1$ y es única.
+\item Si $\phi_3=\pi-\psi$, las otras dos soluciones cumplirán todas las condiciones del problema, no pudiendo determinar cuál de las dos pertenece a la órbita real del cuerpo observado (siempre que no tengamos información adicional). Si tuviéramos una cuarta medición, repetiríamos el proceso anterior eliminando una de las mediciones tomadas y añadiendo ésta nueva; la solución que se repita (aproximadamente) será la perteneciente al problema real.
+
+Pero, si solo dispusiésemos de tres mediciones, podría darse el caso de que los valores de $r$ y $\rho$ proporcionados por la solución $\phi_1$ fueran demasiado grandes como para que el objeto fuera visible para el observador, llegando así a la conclusión de que $\phi_2$, el cuál proporcionaría un $r$ más pequeño, pertenecería al problema físico.
+\end{itemize} 
+
+A medida que la rama ascendente de la curva $y_2$ se mueve hacia la derecha, es decir, fijando $M$ hacemos decrecer $m$, las soluciones $\phi_1$ y $\phi_2$ tienden a coincidir, y en estas condiciones el problema no tendría solución. Por tanto:
+\begin{quote}
+\textit{Si $\frac{D_1}{D}>0$, la distancia $r$ es mayor que $R$, el ángulo $m$ estará en el cuarto cuadrante y disponemos de una o dos soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
+\end{quote}
+
+Veamos ahora el caso contrario. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.125]{images/phi_solution_m_positive_M_near_1.png}
+\caption{Representación gráfica de $y_1$ e $y_2$ ($\frac{D_1}{D}<0$).}
+\label{fig:phi_solution_m_positive_M_near_1}
+\end{figure}
+
+Supongamos que $\frac{D_1}{D}$ es negativo, de tal manera que, procediendo como en el caso positivo, llegamos a que $r<R$ y que $m$ está en el primer o segundo cuadrante. Si $m$ está en el primer cuadrante, la rama descendente de la curva $y_2$ atraviesa el eje de abscisas $\phi$ en el segundo cuadrante, y para un $m$ pequeño y $M<1$, las relaciones entre las dos curvas serán las que podemos ver en la gráfica \ref{fig:phi_solution_m_positive_M_near_1}. En este caso, la solución será única o doble en función de que $\phi_2$ o $\phi_3$ valgan $\pi-\psi$. Por último, si $m$ estuviera en el segundo cuadrante, la rama descendente de $y_2$ cortaría el eje de abscisas en el primer cuadrante, por lo que $\phi_2$ y $\phi_3$ no serían reales y el problema no tendría solución. Así, tenemos que:
+\begin{quote}
+\textit{Si $\frac{D_1}{D}<0$, la distancia $r$ es menor que $R$, el ángulo $m$ estará en el primer cuadrante y disponemos de una o dos soluciones del problema físico en función de que $\phi_2$ o $\phi_3$ sea igual a $\pi-\psi$.}\\
+\end{quote}
+
+Como consecuencia de toda esta discusión concluimos que, en determinadas situaciones, según las medidas que se nos den y el número de estas, nos encontraremos ante una única respuesta o dos respuestas, y en este segundo caso tendremos que discernir sobre cuál de las dos soluciones pertenecerá al problema físico.\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aproximación numérica mediante el método de Newton.}
+\label{sec:newton_rhapson}
+Tras haber realizado un estudio teórico de la ecuación \eqref{eq:phi_solution}, pasemos a buscar un método de resolución para ésta. Dado que no podemos encontrar valores exactos de $\phi$ que satisfagan la ecuación, pues no hay una fórmula explícita para la solución, utilizaremos el método de Newton para obtener un valor aproximado.\\
+
+Considerando una función $f$ derivable y $x_0$ un valor inicial, definimos el método de Newton para cada $n$ como:
+\[
+x_{n+1}=x_n-\ddfrac{f(x_n)}{f'(x_n)}, n\geq0
+\]
+
+Para no aplicar la operación superior de forma infinita, impondremos una tolerancia $\delta$ a la hora de aplicar el método de manera que cuando $|x_{k+1}-x_k|<\delta$, la solución será $x_{k+1}$. Es necesario que $f'(x)\neq0$ para poder llevar este método a la práctica.\\
+
+En nuestro caso, tomando $f(x)=\sin^4{x}-M\sin{(x+m)}$, tenemos que su derivada será $f'(x)=4\sin^3{x}\cos{x}-M\cos{(x+m)}$ de manera que la sucesión para la aproximación mediante el método de Newton será:
+\begin{align}
+x_{n+1}=x_n-\ddfrac{\sin^4{x_n}-M\sin{(x_n+m)}}{4\sin^3{x_n}\cos{x_n}-M\cos{(x_n+m)}}, \; \; \; \; \; n\geq0
+\label{eq:phi_newton}
+\end{align}
+
+El método de Newton no siempre es convergente, por lo que es conveniente mencionar los teoremas de convergencia de este método. 
+\begin{theorem}
+\label{theo:convergence_newton}
+Sea $f:I\rightarrow\mathbb{R}$ una función de clase 2 en un intervalo abierto $I$. Supongamos que existe $x^*$ tal que $f(x^*)=0$ y $f'(x^*)\neq0$; entonces, existe $\varepsilon>0$ tal que si $x_0\in[x^*-\varepsilon,x^*+\varepsilon]$, el método de Newton permite definir la sucesión $\{x_n\}_{n\in\mathbb{N}}$ que converge a $x^*$. Además, cuando $f''(x^*)\neq0$, dicha sucesión tiene orden de convergencia 2.\\
+\end{theorem}
+
+Dado que la función que queremos aproximar con el método de Newton es infinito-derivable por ser una función trigonométrica, podremos aplicar el teorema superior encontrado así el valor de $\phi$ para el que se cumple la ecuación \eqref{eq:phi_solution}.\\
+
+Notemos que este teorema solo nos garantiza la convergencia supuesto que el punto $x_0$ sea cercano a la raíz, por lo que será buena idea separar las raíces por Bolzano y elegir el valor intermedio de los intervalos obtenidos como valor inicial para aplicar el método de Newton. La separación de raíces consiste en escoger un número adecuado de puntos $\alpha_1,...,\alpha_k\in[a,b]$ y aplicar el teorema de Bolzano para cada par $(\alpha_j,\alpha_{j+1})$, acotando así los intervalos donde buscar las raíces de una función. Ya que en nuestro caso buscamos la solución en el intervalo $[0,\pi]$ podremos escoger los puntos de la manera $\frac{j\cdot \pi}{n}$, con $j=0,...,n$, y una vez acotemos la raíz quedarnos como valor inicial:
+\[
+x_0=\ddfrac{\ddfrac{j\cdot\pi}{n}+\ddfrac{(j+1)\cdot\pi}{n}}{2}=\ddfrac{(2j+1)\cdot\pi}{2n}
+\]
+
+Veamos ahora un caso práctico de la aplicación de este método para determinar las soluciones de \eqref{eq:phi_solution}. Tomemos $M=0.6$ y $m=6$, por lo que $m$ estará en el cuarto cuadrante y nos encontraremos en el caso de \ref{fig:phi_solution_m_negative_M_near_1}. Escojamos $n=8$ y separemos las raíces en intervalos para escoger el valor de $x_0$.
+\begin{table}[H]
+\centering
+\resizebox{9.5cm}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+$\alpha_j$    & $0$ & $\frac{\pi}{8}$ & $\frac{\pi}{4}$ & $\frac{3\pi}{8}$ & $\frac{\pi}{2}$ & $\frac{5\pi}{8}$ & $\frac{3\pi}{4}$ & $\frac{7\pi}{8}$ & $\pi$ \\ \hline
+$f(\alpha_j)$ & + & -             & -             & +              & +             & +              & -              & -              & -  
+\end{tabular}%
+}
+\end{table}
+
+Tomamos, por ejemplo, el intervalo $[0,\frac{\pi}{8}]$ en el que nuestra función cambia de signo entre sus extremos. Calculamos el valor medio del intervalo, lo elegimos como valor inicial, $x_0=\frac{\pi}{16}$, y aplicamos el método de Newton con una tolerancia de $10^{-5}$. Veamos en una tabla cómo va convergiendo la solución.
+\begin{table}[H]
+\centering
+\def\arraystretch{1.5}
+\setlength{\tabcolsep}{20pt}
+\begin{tabular}{cc|c}
+      &                       & $x_i-x_{i-1}$                   \\ \hline
+$x_0$ & $\pi/16$              &                                 \\ \hline
+$x_1$ & $0.2904116552751586$  & $0.0940621144257965$            \\ \hline
+$x_2$ & $0.295092645742656$   & $0.00468099046749737$           \\ \hline
+$x_3$ & $0.29511191583666796$ & $1.92700940119805\cdot10^{-5}$  \\ \hline
+$x_4$ & $0.29511191616986304$ & $3.33195082635740\cdot10^{-10}$ \\ \hline
+\end{tabular}
+\end{table}
+
+Por tanto, en cuatro iteraciones del método la diferencia entre las soluciones obtenidas es menor a la tolerancia que hemos fijado, obteniendo así que $\phi_1=0.29511191616986304$ es una solución de \eqref{eq:phi_solution}. De la misma manera calcularemos las raíces $\phi_2$ en $[\frac{\pi}{4},\frac{3\pi}{8}]$ y $\phi_3$ en $[\frac{5\pi}{8},\frac{3\pi}{4}]$.\\
+
+Tras aplicar el método de Newton y haber obtenido todas las soluciones de \eqref{eq:phi_solution} en el intervalo $[0,\pi]$, nos faltará comprobar cuál de las soluciones obtenidas es igual a $\pi-\psi$, pudiendo determinar así si hay o no unicidad para el problema físico. Aún así, es posible determinar la unicidad de la solución sin necesidad de resolver la ecuación \eqref{eq:phi_solution}, como veremos a continuación.\\
+
+\section{Unicidad de la solución.}
+\label{sec:unicidad}
+Tal y como hemos visto en la sección anterior, la solución del problema físico será única si $\phi_2=\pi-\psi$, independientemente del signo de $\frac{D_1}{D}$; en otro caso, la solución será doble o no existirá.\\
+
+Fijémonos en la figura \ref{fig:phi_solution_m_negative_M_near_1}, donde aparecen tres intersecciones entre las curvas $y_1$ e $y_2$. La observación fundamental en esta gráfica reside en el hecho de que $\phi_2$ es un cero positivo, entendiendo por esto que la derivada en dicho punto es positiva, es decir, la función es creciente, y $\phi_1$ y $\phi_3$ son ceros negativos. Podemos ver esto más fácilmente en la siguiente imagen:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.125]{images/y_1_menos_y_2.png}
+\caption{Representación gráfica de $y_1-y_2$ cuando $\ddfrac{D_1}{D}>0$.}
+\label{fig:y_1_menos_y_2}
+\end{figure}
+
+Por otra parte, calculemos la derivada de $y_1-y_2$:
+\[
+(y_1-y_2)'(x)=4\sin^3{\phi}\cos{\phi}-M\cos{(\phi+m)}
+\]
+
+Pues bien, para que nuestra solución sea única tendrá que cumplirse que la derivada de $y_1-y_2$ en el punto $\pi-\psi$ sea positiva, es decir, que $\phi_2=\pi-\psi$. Desarrollemos la derivada en este punto para comprobar más fácilmente en qué casos se cumple la unicidad.
+\[
+\def\arraystretch{2}
+\begin{array}{ll}
+  & 4\sin^3{(\pi-\psi)}\cos{(\pi-\psi)}-M\cos{(\pi-\psi+m)}=\\
+= &-4\sin^3{(\pi-\psi)}\cos{\psi}+M\cos{(-\psi+m)}=\\
+= & \left[\ddfrac{4MD_1}{NDR^3}\cos{\psi}+M(\cos{\psi}\cos{m}+\sin{\psi}\sin{m})\right]=\\
+= & \ddfrac{4MD_1}{NDR^3}\cos{\psi}+M\left(\ddfrac{R\cos^2{\psi}}{N}-\ddfrac{D_1\cos{\psi}}{NDR^3}+\ddfrac{R\sin^2{\psi}}{N}\right)=\\
+= & \ddfrac{4MD_1}{NDR^3}\cos{\psi}-\ddfrac{MD_1}{NDR^3}\cos{\psi}+\ddfrac{MR}{N}(\cos^2{\psi}+\sin^2{\psi})=\\
+= & \ddfrac{MR}{N}\left(1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right)
+\end{array}
+\]
+
+Dado que $M$ y $R$ son valores positivos podremos obviarlos a la hora de escribir la desigualdad. Así, tenemos una condición de unicidad para el caso de la figura \ref{fig:phi_solution_m_negative_M_near_1}, es decir, cuando $\ddfrac{D_1}{D}$ sea positivo, facilitando así un estudio previo en la determinación del ángulo $\phi$.\\
+
+El razonamiento para $\ddfrac{D_1}{D}<0$ es análogo; en este caso, $\phi_2$ será un cero negativo y las otras dos soluciones serán ceros positivos, por lo que tendremos que comprobar que la derivada en $\pi-\psi$ sea negativa.\\
+
+Así, con las dos desigualdades que hemos obtenido, llegamos a la conclusión de que la condición para que el problema físico tenga solución única es:
+\begin{align}
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	\ddfrac{1}{N}\left[1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right]>0 \; \; \; \; \text{si} \; \; \; \; \ddfrac{D_1}{D}>0\\
+	\ddfrac{1}{N}\left[1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right]<0 \; \; \; \; \text{si} \; \; \; \; \ddfrac{D_1}{D}<0
+\end{array}
+\right.
+\label{eq:condicion_unicidad}
+\end{align}
+
+Dado que todos los valores de estas ecuaciones están dados por simples observaciones, no será necesario resolver la ecuación \eqref{eq:phi_solution} para determinar la unicidad de la solución.\\
+
+Sabemos que $N\neq0$, y por tanto el límite de las dos desigualdades será:
+\[
+\left[1+\ddfrac{3D_1}{DR^4}\cos{\psi}\right]=0
+\]
+
+Ahora, utilicemos \eqref{eq:rho_values} y la relación \eqref{eq:triangle_relations_1} para eliminar $\cos{\psi}$ y $\frac{D_1}{D}$ de la expresión superior.
+\[
+\left\{
+\def\arraystretch{2}
+\begin{array}{l}
+	\cos{\psi}=\ddfrac{r^2-\rho^2-R^2}{-2\rho R}\\
+	\ddfrac{D_1}{D}=\ddfrac{\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)}
+\end{array}
+\right.
+\]
+\[
+\def\arraystretch{2}
+\begin{array}{ll}
+& 1+\ddfrac{3}{R^4}\ddfrac{\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)}\ddfrac{r^2-\rho^2-R^2}{-2\rho R}=0\\
+\Longrightarrow & \ddfrac{3\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)}(r^2-\rho^2-R^2)=2\rho R^5\\
+\Longrightarrow & r^2-\rho^2-R^2=\ddfrac{2}{3}R^5\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)
+\end{array}
+\]
+
+Obtenemos así la igualdad:
+\begin{align}
+\rho^2=r^2+\ddfrac{2}{3}\ddfrac{R^5}{r^3}-\ddfrac{5}{3}R^2
+\label{eq:rho_cuadrado}
+\end{align}
+
+Tomemos el miembro de la derecha de esta igualdad como una ecuación en $r$ y calculemos sus extremos mediante el método clásico:
+\[
+\ddfrac{\partial}{\partial r} (r^2+\ddfrac{2}{3}\ddfrac{R^5}{r^3}-\ddfrac{5}{3}R^2)=2r-\ddfrac{2R^5}{r}=0 \Longrightarrow R=r
+\]
+
+Por tanto, tenemos un extremo en $r=R$, que comprobaremos si es máximo o mínimo derivando una vez más:
+\[
+\ddfrac{\partial^2}{\partial r^2}(r^2+\ddfrac{2}{3}\ddfrac{R^5}{r^3}-\ddfrac{5}{3}R^2)=\ddfrac{8R^5}{r^5}+2
+ \; \; \; \xRightarrow[]{r=R} \; \; \; \ddfrac{8R^5}{R^5}+2>0, \; \; \; \forall R>0
+\]
+
+Así, tenemos un mínimo para nuestra función en $r=R$, y dado que el mínimo valor que puede tomar $R$ es cero, el miembro de la derecha de \eqref{eq:rho_cuadrado} alcanzará el mínimo en $r=0$, por lo que para cada valor de $r$ habrá un único valor positivo de $\rho$. Además, dado que estamos trabajando con el límite de las desigualdades \eqref{eq:condicion_unicidad}, todos los pares de valores $(\rho,r)$ que satisfagan la igualdad \eqref{eq:rho_cuadrado} se encontrarán en el límite de las regiones donde la solución es única, las cuales son superficies de revolución alrededor de la línea imaginaria que une la Tierra y el Sol. Intentemos entender esto mejor mediante una imagen.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{images/eje_rotacion.png}
+\caption{Distintas posiciones del cuerpo $C$, todas con las mismas distancias, $r$ y $\rho$, desde éstas al Sol y la Tierra.}
+\label{fig:eje_rotacion}
+\end{figure}
+
+Dado que $r$ y $\rho$ son distancias del Sol y la Tierra al cuerpo observado, habrá infinitos puntos en el espacio tridimensional donde estos valores se mantengan. En la imagen superior podemos ver como, girando en torno a un círculo cuyo eje es el vector $\overrightarrow{SE}$, la distancia de cada $C_i$ es la misma independientemente de en qué punto del círculo se encuentre. Por tanto, volviendo a lo comentado anteriormente, podremos formar una superficie de revolución para el límite de las regiones donde la solución pasa a ser única tomando los pares $(\rho,r)$ en dicho límite y girando alrededor de vector $\overrightarrow{SE}$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{images/sup_revol.png}
+\caption{Superficie formada por los límites donde cambia la unicidad de la solución.}
+\label{fig:sup_revol}
+\end{figure}
+
+En la imagen superior el círculo grande se extenderá hasta el infinito. A continuación, para obtener una imagen más visual en la que estudiar el cambio en la unicidad de la solución al atravesar las regiones límite, representamos una sección de la superficie con un plano que pase por la recta $SE$.
+\begin{figure}[H]
+\centering
+\subfloat{
+	\includegraphics[scale=0.1]{images/seccion_superficie_unicidad.png}
+	\hspace{1cm}
+	\rulesep
+	\hspace{1cm}
+	\includegraphics[scale=0.1]{images/seccion_superficie_no_unicidad.png}
+}
+\caption{Sección de la superficie de revolución junto a los casos en los que se da la unicidad y los que no. La región rosa se sigue extendiendo hasta el infinito.}
+\label{fig:seccion_superficie}
+\end{figure}
+
+En la imagen superior podemos ver que los límites para la condición de unicidad dividen el espacio en cuatro partes diferentes, dos sombreadas y las otras dos en blanco, de manera que las desigualdades de \eqref{eq:condicion_unicidad} mantienen el signo dentro de cada una de estas regiones y cambian de signo al cruzar la frontera de alguna de ellas.\\
+
+Estudiemos ahora en cuál de estas regiones obtenemos una solución única y en cual doble. Para ello, tomemos un punto a la izquierda de $E$ en la recta $SE$, en el cuál se cumplirá que $r=\rho+R$ y $\psi=\pi$. Con esto, comprobemos la unicidad con \eqref{eq:condicion_unicidad}:
+\[
+\def\arraystretch{2}
+\begin{array}{ll}
+  & 1+\ddfrac{3D_1}{DR^4}\cos{\psi} = 1-\ddfrac{3D_1}{DR^4} = 1-\ddfrac{3}{R^4}\ddfrac{\rho}{\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)} = \\
+= & 1-\ddfrac{3\rho}{R-\ddfrac{R^4}{r^3}} = 1-\ddfrac{3\rho}{R-\ddfrac{R^4}{(\rho+R)^3}} = 1-\ddfrac{3\rho}{\ddfrac{R(\rho+R)^3-R^4}{(\rho+R)^3}} = \\
+= & 1-\ddfrac{3\rho(\rho+R)^3}{\rho^3R+3\rho^2R^2+3\rho R^3+R^4-R^4} = 1-\ddfrac{3(\rho+R)^3}{R(\rho^2+3\rho R+3R^2)}
+\end{array}
+\]
+
+Podemos ver fácilmente que esta última igualdad es negativa para un valor grande de $\rho$, y ya que hemos supuesto previamente que $r>R$, se sigue que $\ddfrac{D_1}{D}>0$ y $N<0$, por lo que estamos en la primera desigualdad de \eqref{eq:condicion_unicidad}. Ya que esta desigualdad está satisfecha, podemos concluir que la solución del problema será única si el objeto observado se encuentra en el área no sombreada a la izquierda de $E$.\\
+
+Cuando el objeto cruce de la región no sombreada a la izquierda de \ref{fig:seccion_superficie} a una región sombreada, manteniendo que $r>R$, la función cambiará de signo mientras que el signo de $N$ no cambie, en cuyo caso la primera desigualdad de \eqref{eq:condicion_unicidad} no se cumplirá y estaremos en el caso de una solución doble. En esta región, la primera función de \eqref{eq:condicion_unicidad} es positiva y $N$ es negativo, por lo que si cruzamos al área pequeña sin sombra la función pasa a ser negativa y $N$ positivo, satisfaciendo así la segunda desigualdad y deduciendo así que la solución es única. De manera similar, podremos comprobar que la solución es doble en la región sombreada pequeña.\\
+
+Por tanto, el problema físico tiene solución única en los casos que vemos en la primera imagen de \ref{fig:seccion_superficie}, es decir, en las regiones blancas, y solución doble en los casos de la segunda imagen, las regiones sombreadas.\\
+
+
+
+\section{Límites en $m$ y $M$.}
+\label{sec:limites_m_M}
+A la hora de determinar una órbita en un problema real, hemos de tener en cuenta que los valores $m$ y $M$ han de cumplir que las soluciones reales de la ecuación \eqref{eq:phi_solution} estén entre $0$ y $\pi$, pues sino el Sol, la Tierra y el objeto observado no formarían un triángulo. Por tanto, hemos de determinar los límites para que esta condición se satisfaga, y dichos límites pueden ser determinados mediante las condiciones para que obtengamos raíces dobles.\\
+
+Para empezar, supongamos que $M$ es un valor fijo mientras $m$ varía. En el primer caso, que podemos ver en \ref{fig:phi_solution_m_negative_M_near_1}, se observan tres intersecciones de las curvas. Mientras $m$ vaya disminuyendo, la curva $y_2$ irá desplazándose hacia la derecha hasta que $\phi_1$ y $\phi_2$ pasen a ser iguales, teniendo así una raíz doble. De la misma manera, en \ref{fig:phi_solution_m_positive_M_near_1} observamos tres soluciones y, conforme $m$ aumente y desplace $y_2$ a la izquierda, $\phi_2$ y $\phi_3$ se igualarán.\\
+
+\begin{figure}[H]
+\centering
+%\subfloat{
+%	\includegraphics[scale=0.1]{images/minuscula_varia_primer_caso.png}
+%	\includegraphics[scale=0.1]{images/minuscula_varia_segundo_caso.png}
+%}
+\includegraphics[scale=0.115]{images/minuscula_varia_primer_caso.png}
+\caption{Variación de $m$ en la figura \ref{fig:phi_solution_m_negative_M_near_1} hasta obtener una solución doble.}
+\label{fig:minuscula_varia_primer_caso}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.115]{images/minuscula_varia_segundo_caso.png}
+\caption{Variación de $m$ en la figura \ref{fig:phi_solution_m_positive_M_near_1} hasta obtener una solución doble.}
+\label{fig:minuscula_varia_segundo_caso}
+\end{figure}
+
+Veamos ahora el otro caso; fijamos $m$ y vamos aumentando $M$ empezando desde un valor pequeño. Conforme $M$ aumente, la amplitud de $y_2$ aumentará, dejando fijo, en el primer caso (figura \ref{fig:phi_solution_m_negative_M_near_1}), $\phi_1$ y llegando a un punto donde $\phi_2$ y $\phi_3$ serán iguales. Funcionará análogamente con el segundo caso.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.115]{images/mayuscula_varia_primer_caso.png}
+\caption{Variación de $M$ en la figura \ref{fig:phi_solution_m_negative_M_near_1} hasta obtener una solución doble.}
+\label{fig:mayuscula_varia_primer_caso}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.115]{images/mayuscula_varia_segundo_caso.png}
+\caption{Variación de $M$ en la figura \ref{fig:phi_solution_m_positive_M_near_1} hasta obtener una solución doble.}
+\label{fig:mayuscula_varia_segundo_caso}
+\end{figure}
+
+Las condiciones en las que la ecuación \eqref{eq:phi_solution} tendrá una solución doble son:
+\begin{align}
+\left\{
+\begin{array}{l}
+	\sin^4{\phi}=M\sin{(\phi+m)}\\
+	4\sin^3{\phi}\cos{\phi}=M\cos{(\phi+m)}
+\end{array}
+\right.
+\label{eq:condicion_raiz_doble}
+\end{align}
+
+Con el fin de encontrar las condiciones a las que esté sujeto $m$ para que la raíz sea doble, dividamos las dos ecuaciones superiores y resolvamos para la $\tan{\phi}$.
+\begin{align}
+\def\arraystretch{2}
+\begin{array}{ll}
+  & \ddfrac{\sin^4{\phi}}{4\sin^3{\phi}\cos{\phi}}=\ddfrac{M\sin{(\phi+m)}}{M\cos{(\phi+m)}}\Longrightarrow \ddfrac{1}{4}\tan{\phi}=\tan{(\phi+m)}\\
+\Longrightarrow & \ddfrac{1}{4}\tan{\phi}=\ddfrac{\tan{m}+\tan{\phi}}{1-\tan{m}\tan{\phi}} \Longrightarrow \tan{\phi}-(\tan{\phi})^2\tan{m}=4\tan{m}+4\tan{\phi}\\
+\Longrightarrow & \tan^2{\phi}\tan{m}+3\tan{\phi}+4\tan{m}=0 \Longrightarrow \tan{\phi}=\ddfrac{-3\pm\sqrt{9-16\tan^2{m}}}{2\tan{m}}
+\end{array}
+\label{eq:tan_phi}
+\end{align}
+
+Así, para que $\tan{\phi}$ tenga soluciones reales $m$ ha de estar sujeto a la condición:
+\[
+9-\tan^2{m}\geq0,
+\]
+\noindent y resolviendo esta inecuación para $m$ obtendremos:
+\begin{align}
+\left\{
+\begin{array}{l}
+	0 \leq m \leq 36º52'\\
+	323º8' \leq m \leq 360º
+\end{array}
+\right.
+\label{eq:m_condition}
+\end{align}
+
+El primer rango de valores pertenecerá al segundo caso comentado, representado en la figura \ref{fig:phi_solution_m_positive_M_near_1}, y viceversa.\\
+
+Utilizando este rango de valores, para cada $m$ habrá dos soluciones de \eqref{eq:tan_phi} en el intervalo $(0,\pi)$. Si tomamos $m$ entre $323º8'$ y $360º$, la tangente de $m$ será negativa y $\tan{\phi}$ será positiva independientemente de qué signo tomemos antes de la raíz; además, $\tan{\phi}$ será menor cuando cojamos el signo negativo. De tal manera, si tomamos el radical positivo estaremos en el caso $\phi_1=\phi_2$ (figura \ref{fig:minuscula_varia_primer_caso}) y si lo tomamos negativo estaremos en el caso $\phi_2=\phi_3$ (figura \ref{fig:mayuscula_varia_primer_caso}). Por último, si tomamos $m$ como un valor límite del intervalo estaremos ante el caso $9-\tan^2{m}=0$, por lo que $\phi_1=\phi_2=\phi_3$. Si tomamos el caso $0 \leq m \leq 36º52'$ tendremos que $\tan{m}>0$ y la discusión será análoga a la anterior.\\
+
+Los valores límite de $\phi$ definidos por \eqref{eq:tan_phi} según el rango de valores para $m$ serán:
+\begin{align}
+\phi=\arctan{(\ddfrac{-3}{2\tan{m}})} \Longrightarrow
+\left\{
+\begin{array}{l}
+	\phi=116º34'\\
+	\phi=63º26'
+\end{array}
+\right.
+\end{align}
+
+Utilizando estos valores de $\phi$ podemos obtener un valor para $M$ mediante las ecuaciones \eqref{eq:condicion_raiz_doble}, $M=1.431$, y dicho valor se corresponderá con el máximo $M$ para el cuál \eqref{eq:phi_solution} tiene tres soluciones en el intervalo $(0,\pi)$.\\
+
+Supongamos que $m$ toma el valor límite $323º8'$ y va aumentando hasta su límite superior, $360º$. Como hemos visto anteriormente, comenzaremos teniendo una raíz doble y los dos valores de $\phi$ se corresponderán con $63º26'$, y conforme $m$ aumente, una de las soluciones irá hacia $0º$ mientras la otra irá hacia $90º$. Respecto a como cambian las soluciones en función de $M$, comenzaremos en el límite, $M=1.431$, e iremos reduciendo su valor hasta cero. Si $m=36º52'$, conforme vaya decreciendo $M$ la solución irá hasta $0$, y si $m=323º8'$ nuestra solución crecerá hasta $\pi$. Notar que para cada $m$ que tomemos en los intervalos definidos en \eqref{eq:m_condition} existirán dos límites de $M$ de manera que \eqref{eq:phi_solution} tenga tres soluciones reales; por tanto, estos límites han de ser tenidos en cuenta con el fin de reducir el trabajo lo máximo posible.\\
+
+
+
+
