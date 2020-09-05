@@ -1,12 +1,11 @@
 
 \chapter{Introducción}
-\pagenumbering{arabic} % Switch to normal numbers
 \label{chap:introduction}
 En este trabajo nos vamos a centrar en el problema de determinación de órbitas, que consiste en determinar los elementos orbitales de un cuerpo observado a partir de $N$ observaciones y así poder situar dicho cuerpo en la bóveda celeste en cualquier momento. Concretamente, se estudiará el método de determinación Laplaciano, el cuál fue desarrollado en 1780 y que sirvió como base para los métodos que fueron apareciendo posteriormente.	Dado que vamos a trabajar con observaciones tomadas desde la Tierra, no conoceremos una parametrización del movimiento real del cuerpo cuya órbita determinar y por tanto nos serviremos del cálculo numérico con el fin de aproximar las cantidades que necesitemos para nuestro trabajo. Además, haremos un repaso de la mecánica celeste comentando los principales elementos que necesitaremos para nuestro estudio de determinación.\\
 
 Una vez estudiado el método de Laplace, discutiremos el número de soluciones del problema que podemos obtener, buscando asegurar la unicidad y teniendo en cuenta que no todas las soluciones son válidas para nuestro problema físico. Por último, se desarrollará un programa que sea capaz de calcular la órbita de un cuerpo a partir de los datos introducidos de sus observaciones desde la Tierra, facilitando así la aplicación del método de Laplace.\\
 
-El trabajo desarrollado en esta memoria está basado principalmente en el estudio de ``\textit{An Introduction to Celestial Mechanics}'', escrito por Forest Ray Moulton \cite{moulton}, así como en ``\textit{Introducción a la Mecánica Celeste}'' de Rafael Ortega Ríos y Antonio Ureña \cite{ortega} y en los conocimientos adquiridos durante la carrera de cálculo numérico \cite{MNII}. Todas las imágenes utilizadas han sido construidas utilizando la herramienta online que proporciona el software matemático Geogebra \cite{geogebra}. Para el desarrollo informático se ha utilizado el lenguaje de programación Python, estudiado durante la carrera.\\
+El trabajo desarrollado en esta memoria está basado principalmente en el estudio de ``\textit{An Introduction to Celestial Mechanics}'', escrito por Forest Ray Moulton \cite{moulton}, así como en ``\textit{Introducción a la Mecánica Celeste}'' de Rafael Ortega Ríos y Antonio Ureña \cite{ortega} y en los conocimientos adquiridos durante la carrera de cálculo numérico \cite{MNII}. Todas las imágenes utilizadas han sido construidas utilizando la herramienta online que proporciona el software matemático Geogebra \cite{geogebra} o generadas a través del programa implementado. Para el desarrollo informático se ha utilizado el lenguaje de programación Python, estudiado durante la carrera, junto a diferentes paquetes facilitados por el mismo lenguaje.\\
 
 Pero, antes de entrar de lleno en las matemáticas, veamos un poco de historia sobre la determinación de órbitas.\\
 
@@ -42,7 +41,7 @@ Comencemos viendo cuáles son los distintos elementos de una órbita, así como 
 
 \section{Elementos Orbitales y Coordenadas Ecuatoriales}
 \label{sec:orbital_elements_equatorial_coordinates}
-En este apartado estudiaremos los diferentes parámetros que identifican una órbita (de manera única) así como las coordenadas ecuatoriales, elementos que forman un sistema que nos permite ubicar el objeto observado respecto al ecuador celeste y al equinoccio vernal (que definiremos más adelante) en un momento preciso.\\
+En este apartado realizaremos un repaso a la mecánica celeste (objetivo 1), estudiando los diferentes parámetros que identifican una órbita (de manera única) así como las coordenadas ecuatoriales, elementos que forman un sistema que nos permite ubicar el objeto observado respecto al ecuador celeste y al equinoccio vernal (que definiremos más adelante) en un momento preciso.\\
 
 \subsection{Elementos Orbitales}
 \label{subsec:orbital_elements}

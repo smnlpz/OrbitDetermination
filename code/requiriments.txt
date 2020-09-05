@@ -1,0 +1,7 @@
+numpy==1.18.5
+scipy==1.4.1
+matplotlib==3.0.3
+seaborn==0.9.1
+astropy==3.2.3
+requests==2.9.1
+sympy==1.6.2

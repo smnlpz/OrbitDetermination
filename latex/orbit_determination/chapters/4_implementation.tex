@@ -1,8 +1,9 @@
+
 \markedchapter{Implementación}{Implementación de un software para la aproximación de órbitas}
 \label{chap:implementation}
 Una vez hemos estudiado el método de Laplace para la determinación de órbitas mediante tres observaciones, nos centraremos en desarrollar un programa que sea capaz de realizar estos cálculos y mostrar los resultados de manera visual para hacer más fácil la aproximación. Además, éste nos servirá de ayuda para comprobar la precisión con la que se determina una órbita mediante el método laplaciano.\\
 
-Antes de hablar sobre el programa y todas sus funcionalidades, centrémonos en las herramientas que se han utilizado para todo el desarrollo.\\
+Antes de hablar sobre el programa y todas sus funcionalidades, centrémonos en las herramientas que se han utilizado para todo el desarrollo y el por qué de la elección de cada una de ellas (objetivo 5).\\
 
 \section{Herramientas utilizadas.}
 \label{sec:herramientas}
@@ -22,7 +23,7 @@ Una vez comentadas las distintas herramientas con las que hemos implementado nue
 
 \section{Núcleo de la aplicación.}
 \label{sec:kernel}
-A la hora de desarrollar el código que se encargue de la determinación de órbitas, se ha ido separando el código en función de cuál es su cometido en diferentes archivos y carpetas. Así, la aplicación estará dividida en los directorios \texttt{scripts}, que se encargará de la base para la determinación, \texttt{utils} que contendrá código útil para utilizar en diferentes momentos, y \texttt{test} que contendrá archivos con los que comprobar el correcto funcionamiento del programa. Dado que finalmente acabaremos utilizando una interfaz gráfica, no será necesario comentar el contenido del directorio \texttt{test}. Comentemos a continuación las principales funcionalidades de cada uno de estos archivos.\\
+Centrémonos ahora en la implementación de un código que sea capaz de determinar la posición y velocidad de un objeto (objetivo 6). A la hora de desarrollar el programa, se ha ido separando el código en función de cuál es su cometido en diferentes archivos y carpetas. Así, la aplicación estará dividida en los directorios \texttt{scripts}, que se encargará de la base para la determinación, \texttt{utils} que contendrá código útil para utilizar en diferentes momentos, y \texttt{test} que contendrá archivos con los que comprobar el correcto funcionamiento del programa. Dado que finalmente acabaremos utilizando una interfaz gráfica, no será necesario comentar el contenido del directorio \texttt{test}. Comentemos a continuación las principales funcionalidades de cada uno de estos archivos.\\
 
 \subsection{Elementos orbitales a partir de la posición y velocidad.}
 \label{subsec:orbital_elements_code}
@@ -188,7 +189,7 @@ Para obtener una estimación de cómo de buena ha sido la aproximación del obje
 El método \texttt{getApproximationError} tomará como parámetros la posición y velocidad aproximada mediante el método laplaciano de un cuerpo en un instante $t$, así como el nombre del cuerpo que se ha decidido aproximar. Mediante dicho nombre, llamaremos a la función \texttt{getVectorsFromEphemeris} comentada anteriormente para obtener el valor real de la posición y velocidad del cuerpo en el instante $t$ pasado como parámetro. Obtenidos los valores reales, bastará con comprobar la diferencia con los valores aproximados y sus normas, que la función almacenará en una variable \texttt{string}\footnote{Se ha escogido una variable del tipo \texttt{string} para facilitar la impresión por pantalla para la interfaz gráfica.} y devolverá al terminar.\\
 
 \section{Desarrollo de una interfaz gráfica de usuario.}
-Todo el código descrito anteriormente es completamente funcional, pero su uso a través de los ficheros en \texttt{tests/} es complicado y poco elegante. Es por ello que nos disponemos a realizar una interfaz gráfica para que la aplicación sea accesible a un mayor número de personas.\\
+Todo el código descrito anteriormente es completamente funcional, pero su uso a través de los ficheros en \texttt{tests/} es complicado y poco elegante. Es por ello que nos disponemos a realizar una interfaz gráfica para que la aplicación sea accesible a un mayor número de personas (objetivo 7).\\
 
 Como se ha comentado anteriormente, para desarrollar la GUI requerida utilizaremos únicamente el paquete \textit{Tkinter} que viene por defecto en la instalación de Python. La interfaz gráfica implementada se compone básicamente de un formulario en el que introducir los valores de las observaciones y el nombre del cuerpo observado, una serie de botones para realizar distintas funciones con dichos valores y una caja de texto donde mostrar los resultados.
 

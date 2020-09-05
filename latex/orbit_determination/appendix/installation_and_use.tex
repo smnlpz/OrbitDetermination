@@ -1,0 +1,40 @@
+\markedchapter{Instalación y uso}{Instalación y uso del programa informático}
+\section{Requisitos para la instalación.}
+Todo el software implementado se ha desarrollado y probado en Ubuntu 16.04.7 LTS, pero no debería haber problema en ejecutarlo en cualquier otra distribución Linux, en Windows o MacOS. Aún así, la instalación se explicará para sistemas Linux.\\
+
+Dado que todo el desarrollo está hecho en Python, será el primer requisito que debemos de instalar. Para ello, utilizamos la orden:
+\begin{lstlisting}[style=Console]
+sudo apt install python3
+\end{lstlisting}
+
+Por defecto, debería venir instalado el paquete \textit{Tkinter} que necesitaremos para la interfaz gráfica, pero si no fuera así ejecutaremos el comando:
+\begin{lstlisting}[style=Console]
+sudo apt install python3-tk
+\end{lstlisting}
+
+\section{Instalación del programa.}
+Para obtener todo el código del proyecto, será necesario descargarlo del repositorio de GitHub \href{https://github.com/smnlpz/OrbitDetermination}{OrbitDetermiantion} u obtenerlo mediante la orden \texttt{git} utilizando el comando:
+\begin{lstlisting}[style=Console]
+git clone https://github.com/smnlpz/OrbitDetermination.git
+\end{lstlisting}
+
+A continuación, debemos de instalar todos los paquetes de Python que se han utilizado para el desarrollo del programa. Para ello utilizaremos \texttt{pip3}, que debería de venir instalado por defecto, pero si no fuera así solo tendríamos que utilizar:
+\begin{lstlisting}[style=Console]
+sudo apt install python3-pip
+\end{lstlisting}
+
+En el repositorio que acabamos de descargar, entramos al directorio \texttt{code/} y corremos la orden:
+\begin{lstlisting}[style=Console]
+pip3 install -r requirements.py
+\end{lstlisting}
+
+Con todo esto, ya deberíamos de tener todo a punto para utilizar el programa.\\
+
+\section{Uso del programa.}
+Para ejecutar la interfaz gráfica desarrollada para la determinación de órbitas, simplemente tendremos que entrar al directorio \texttt{code/} y utilizar la orden:
+\begin{lstlisting}[style=Console]
+python3 orbitTroya.py
+\end{lstlisting}
+
+Tras ello, se abrirá la ventana del programa y bastará con introducir tanto los distintos valores de ascensión recta y declinación del cuerpo observado como el momento de observación para obtener una aproximación de su órbita completa.
+

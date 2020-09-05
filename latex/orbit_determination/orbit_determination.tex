@@ -144,17 +144,22 @@
 	\tableofcontents  % para generar el índice de contenidos
 	\thispagestyle{empty}
 	\listoffigures    % para generar el índice de las imágenes
+	\newpage
 	\thispagestyle{empty}
 	%\newpage
 %\endgroup
 
+\pagenumbering{arabic} % Switch to normal numbers
 
 \input{chapters/1_intro}
 \input{chapters/2_laplace}
 \input{chapters/3_admisible_solutions}
 \input{chapters/4_implementation}
 \input{chapters/5_experimentation}
+\input{chapters/6_conclusions}
 
+\appendix
+\input{appendix/installation_and_use}
 
 
 
