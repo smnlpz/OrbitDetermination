@@ -22,6 +22,7 @@ M=1.98847*10**(30)
 mu_unchanged=G*M
 mu=86400.0**2*mu_unchanged/149597870700.0**3
 
+# Oblicuidad media, para el paso de ICRF a la eclíptica
 mean_obliquity=2.343776036355538E+01*np.pi/180
 
 

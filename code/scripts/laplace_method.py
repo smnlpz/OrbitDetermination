@@ -66,8 +66,10 @@ def approximateDeriv(position,times):
 
 
 def vectorSE(epoch):
+	# Buscamos el vector Tierra-Sol en la efemérides para el plano ICRF
 	position,velocity,result=getVectorsFromEphemeris(name='Sun',center='Earth',epoch=epoch,ref_plane='FRAME')
 	
+	# Distancia y segunda derivada
 	R=np.linalg.norm(position)
 	second_deriv=-const.mu*position/R**3
 	
@@ -75,6 +77,8 @@ def vectorSE(epoch):
 	
 
 def discuss_phi(phi_values,psi):
+	# Para elegir entre los valores de $\phi$ cuál es el válido
+	
 	index=-1
 	print('\nPosibles φ:\n' +str(phi_values))
 	print('En grados:\n' +str(np.array(phi_values)*180/np.pi))
@@ -152,6 +156,7 @@ def getPosVel(pos,vel,second_deriv,pos_sun,vel_sun,R,r,rho):
 	rho_deriv=D2/D*(1/R**3-1/r**3)
 		
 	return rho*pos-pos_sun,rho_deriv*pos+rho*vel-vel_sun
+
 
 def Laplace(coordinates, times):	
 	# Transformamos a cartesianas los ángulos en radianes

@@ -53,6 +53,7 @@ def plotOrbit(orbitas,sun_center=True):
 	if type(orbitas)!=list:
 		orbitas=list([orbitas])
 	
+	# Inicializamos los colores a utilizar
 	colors=sns.color_palette("bright", len(orbitas))
 	color_i=0
 	
@@ -61,16 +62,20 @@ def plotOrbit(orbitas,sun_center=True):
 		b=orb.a*np.sqrt((1-orb.e**2))
 		center=orb.a*orb.e
 		
-		# Dibujamos la elipse y la rotamos
+		# Dibujamos la elipse
 		u = np.linspace(0, 2*np.pi, 1000)
 		ellipse=np.array([orb.a*np.cos(u)+center, b*np.sin(u), np.zeros(len(u))])
+		
+		# Dibujamos la línea de nodos de cada elipse
 		line_of_nodes=np.array([np.zeros(2),
 							    np.linspace(min(ellipse[1]),max(ellipse[1]),2),
 								np.zeros(2)])
 		
+		# Rotaciones en el espacio
 		ellipse=rotate(ellipse,orb.omega,orb.i,orb.Omega)
 		line_of_nodes=rotate(line_of_nodes,orb.omega,orb.i,orb.Omega)
 		
+		# Añadimos las elipses junto al resto
 		ax.plot3D(ellipse[0],ellipse[1],ellipse[2], color=colors[color_i],label=orb.name)
 		color_i+=1
 		ax.plot3D(line_of_nodes[0],line_of_nodes[1],line_of_nodes[2],linestyle=(0, (1,2)))

@@ -17,10 +17,8 @@ def newton_method(f,x_0,max_iters,tol):
 	f_prime=f.diff(x)
 	
 	iters=0
-	#print(x_0)
 	for iters in range(max_iters):
 		x_1=x_0-f.subs(x,x_0)/f_prime.subs(x,x_0)
-		#print(str(float(x_1)) + ' \t ' + str(x_1-x_0))
 		if(np.abs(x_1-x_0)<tol):
 			return float(x_1),iters+1
 		x_0=float(x_1)
@@ -38,11 +36,9 @@ def approximate_phi(M,m,tol=1E-09,max_tries=64,plot=False):
 	for i in range(max_tries):
 		alpha_i=i*np.pi/max_tries
 		alpha_i_plus_1=(i+1)*np.pi/max_tries
-		#print(str(f.subs(x,alpha_i)) + ' ' + str(f.subs(x,alpha_i_plus_1)))
 		
 		if np.sign(f.subs(x,alpha_i))!=np.sign(f.subs(x,alpha_i_plus_1)):
 			x_0=(alpha_i+alpha_i_plus_1)/2
-			#print('\nx_0 = ' +str(x_0))
 			phi,n_iters=newton_method(f=f,x_0=x_0,max_iters=max_iters,tol=tol)
 		
 			# Si llegamos al número máximo de iteraciones probablemente el

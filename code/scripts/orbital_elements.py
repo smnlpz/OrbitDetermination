@@ -42,7 +42,7 @@ def getOrbitalElements(x,vx,name='NotAssigned'):
 	Omega=np.arccos(np.dot(np.array([1,0,0]),nodo_asc)/(np.linalg.norm(nodo_asc)))
 	omega=np.arccos(np.dot(nodo_asc,e_vec)/(np.linalg.norm(nodo_asc)*e))
 	
-	
+	# Corregimos el valor de omega
 	if e_vec[2]<0:
 		omega = 2*np.pi-omega
 	

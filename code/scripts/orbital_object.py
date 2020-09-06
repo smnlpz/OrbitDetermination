@@ -13,6 +13,7 @@ from astropy.coordinates import Angle
 class OrbitalObject:
 	def __init__(self,name,a,e,i,Omega,omega,p,degree=False):
 		angle_unit=u.radian
+		# Para los valores de my_constants, que están en grados
 		if degree:
 			angle_unit=u.deg
 			

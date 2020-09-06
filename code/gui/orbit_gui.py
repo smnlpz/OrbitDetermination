@@ -36,14 +36,16 @@ class OrbitTroya:
 	real_Object = OrbitalObject('',0,0,0,0,0,0)
 	
 	def __init__(self, master=None):
-		# build ui
 		mainwindow = ttk.Frame(master)
 		
+		# Buscador de cuerpos celestes en la efemérides
 		name_label = ttk.Label(mainwindow, text='Nombre del Cuerpo: ')
 		name_label.grid(column='0', padx='5', pady='15', row='0', columnspan='2')
 		self.object_name = ttk.Entry(mainwindow,width='42')
 		self.object_name.grid(column='2', padx='5', columnspan='3', row='0', rowspan='1')
 		
+		
+		# Formulario observaciones
 		asc_label = ttk.Label(mainwindow)
 		asc_label.config(text='Ascensión recta (horas)')
 		asc_label.grid(column='0', padx='5', pady='5', row='1',columnspan='2')
@@ -73,6 +75,31 @@ class OrbitTroya:
 		self.t3 = ttk.Entry(mainwindow)
 		self.t3.grid(column='4', pady='5', row='4')
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		'''
+		*****************************************************
+		****************** DATOS INICIALES ******************
+		*****************************************************
+		'''
 		
 		# CERES (funciona ok)
 		'''
@@ -125,6 +152,8 @@ class OrbitTroya:
 		self.t3.insert('end', '2020-08-29 12:00')
 		'''
 		
+		# Neowise (error muy grande en semieje mayor)
+		'''
 		self.object_name.insert('end', 'DES=2020 F3')
 		
 		self.asc1.insert('end', '07 26 49.96')
@@ -138,11 +167,7 @@ class OrbitTroya:
 		self.asc3.insert('end', '07 44 28.60')
 		self.dec3.insert('end', '+46 47 56.1')
 		self.t3.insert('end', '2020-07-15 04:00')
-		
-		  
-		
-		
-		
+		'''
 		
 		# JUPITER (no aproxima bien)
 		'''
@@ -212,6 +237,23 @@ class OrbitTroya:
 		self.t3.insert('end', '2020-08-30 00:00')
 		'''
 		
+		# HILDA (intervalos grandes)
+		'''
+		self.object_name.insert('end', 'A875 VC')
+		
+		self.asc1.insert('end', '06 48 20.64')
+		self.dec1.insert('end', '+14 52 46.7')
+		self.t1.insert('end', '2020-03-06 00:00')
+		
+		self.asc2.insert('end', '06 54 33.22')
+		self.dec2.insert('end','+15 24 46.0')
+		self.t2.insert('end', '2020-04-05 00:00')
+		
+		self.asc3.insert('end', '07 12 23.54')
+		self.dec3.insert('end', '+15 29 50.7')
+		self.t3.insert('end', '2020-05-05 00:00')
+		'''
+		
 		# PLUTON (well)
 		'''
 		self.object_name.insert('end', '999')
@@ -246,8 +288,48 @@ class OrbitTroya:
 		self.t3.insert('end', '2020-09-14 08:00')
 		'''
 		
+		# PLUTON (intervalos grandes)
+		'''
+		self.object_name.insert('end', '999')
 		
-
+		self.asc1.insert('end', '19 44 33.39')
+		self.dec1.insert('end', '-22 02 00.5')
+		self.t1.insert('end', '2020-03-06 00:00')
+		
+		self.asc2.insert('end', '19 46 47.02')
+		self.dec2.insert('end','-21 59 58.1')
+		self.t2.insert('end', '2020-04-06 00:00')
+		
+		self.asc3.insert('end', '19 47 06.73')
+		self.dec3.insert('end', '-22 02 42.4')
+		self.t3.insert('end', '2020-05-06 00:00')
+		'''
+		
+		'''
+		*****************************************************
+		**************** FIN DATOS INICIALES ****************
+		*****************************************************
+		'''
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		# Ventana para los resultados
 		output_label = ttk.Label(mainwindow)
 		output_label.config(font='{FreeMono} 12 {bold underline}', text='Salida:')
 		output_label.grid(column='0', padx='5', pady=(20, 5), row='5', sticky='w',columnspan='2')
@@ -256,6 +338,10 @@ class OrbitTroya:
 		self.textWindow.config(width='64')
 		self.textWindow.grid(columnspan='5', padx='5', pady='5', row='6', rowspan='10', sticky='w')
 		
+		
+		
+		
+		# Selectores de cuerpos celestes a dibujar
 		check_0=tk.IntVar()
 		check_1=tk.IntVar()
 		check_2=tk.IntVar()
@@ -311,6 +397,7 @@ class OrbitTroya:
 		space_label.grid(row='20',pady='5')
 		
 		
+		# Botones junto a sus distintas funcionalidades
 		button_search = ttk.Button(mainwindow,text='Buscar',command=lambda: self.searchObject(checkbutton_1,check_1))
 		button_search.grid(column='5', padx=5, row='0')
 		button_error = ttk.Button(mainwindow,text='Error',command=self.computeError,state='disable')
@@ -328,10 +415,11 @@ class OrbitTroya:
 		self.mainwindow = mainwindow
 		
 	def searchObject(self,check,check_value):
+		# Buscamos el cuerpo en la efemérides
 		epoch=Time(self.t2.get(), format='iso').jd
 		pos,vel,result=getVectorsFromEphemeris(name=self.object_name.get(),epoch=epoch)
 		
-		if result:
+		if result:	# Si la cosa ha ido ok (se ha encontrado en la efemérides)
 			self.real_r=pos
 			self.real_v=vel
 			self.real_Object=getOrbitalElements(self.real_r,self.real_v,name=self.object_name.get())
@@ -339,7 +427,7 @@ class OrbitTroya:
 			self.textWindow.delete('1.0','end')
 			self.textWindow.insert('end','Órbita de '+self.object_name.get()+' obtenida.\nAhora puedes dibujar el objeto junto al resto.')
 			self.textWindow.insert('end','\n\n' +str(self.real_Object))
-		else:
+		else:		# Si la cosa ha ido mal
 			self.textWindow.delete('1.0','end')
 			self.textWindow.insert('end','No se puede encontrar el objeto '+self.object_name.get()+'.')
 			check_value.set(0)
@@ -367,12 +455,13 @@ class OrbitTroya:
 		
 		self.textWindow.delete('1.0','end')
 		
-		if isnan(self.r[0]):
+		
+		if isnan(self.r[0]):	# Si la cosa ha ido mal (phi no tiene solución)
 			self.textWindow.insert('end','π - ψ = φ_1\nNo hay solución.')
 			check_value.set(0)
 			check.config(state='disabled')
 			b_error.config(state='disabled')
-		else:
+		else:					# Si la cosa ha ido ok
 			self.textWindow.insert('end','Aproximación en t = '+str(self.times[1]))
 			self.textWindow.insert('end','\nPosición calculada: '+str(self.r))
 			self.textWindow.insert('end','\nVelocidad calculada: '+str(self.v))
@@ -397,6 +486,8 @@ class OrbitTroya:
 		
 	def plot(self,check_0,check_1,checkbuttons):
 		toPlot=list()
+		
+		# Comprobamos los cuerpos elegidos y los añadimos a la lista de ploteo
 		if check_0.get():
 			toPlot.append(self.Object)
 		if check_1.get():
@@ -406,6 +497,7 @@ class OrbitTroya:
 			if checkbuttons[i].get():
 				toPlot.append(const.SolarSystem[i])
 		
+		# Dibujamos los cuerpos elegidos
 		plotOrbit(toPlot)
 	
 			
