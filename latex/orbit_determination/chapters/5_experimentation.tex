@@ -7,7 +7,7 @@ Dado que no disponemos de instrumental óptimo para realizar las observaciones p
 
 \section{Cuando el cuerpo es cercano: Ceres.}
 \label{sec:exp_ceres}
-Tal y como hemos contado en \label{sec:history}, en 1801 Giuseppe Piazzi descubría el planeta enano Ceres, y meses más tarde Gauss usaba su recientemente desarrollado método para obtener la órbita del objeto con las observaciones que Piazzi había anotado. Gracias a ello, pudieron recuperar la pista de este planeta enano.\\
+Tal y como hemos comentado en \ref{sec:history}, en 1801 Giuseppe Piazzi descubría el planeta enano Ceres, y meses más tarde Gauss usaba su recientemente desarrollado método para obtener la órbita del objeto con las observaciones que Piazzi había anotado. Gracias a ello, pudieron recuperar la pista de este planeta enano.\\
 
 En ese momento quedó demostrado que el método de Gauss hacía buenas estimaciones para cuerpos a una distancia aproximada a la de Ceres. ¿Hubiera conseguido Laplace unos resultados exitosos? Veámoslo.\\
 
@@ -19,7 +19,7 @@ Vamos a tomar la ascensión recta y declinación de Ceres para ciertos momentos 
 \label{fig:ceres_exp}
 \end{figure}
 
-Cuando pulsemos el botón ``Buscar'' encontrará en la efemérides el cuerpo requerido de manera satisfactoria.
+Cuando pulsemos el botón ``Buscar'' encontrará en la efemérides los valores del cuerpo requerido de manera satisfactoria.
 \begin{lstlisting}[style=Console]
 Órbita de Ceres obtenida.
 Ahora puedes dibujar el objeto junto al resto.
@@ -68,7 +68,7 @@ Para terminar, utilicemos las coordenadas astronómicas que hemos aproximado de 
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.4]{images/plot_ceres.png}
+\includegraphics[scale=0.35]{images/plot_ceres.png}
 \caption{Órbita real y aproximada de Ceres junto a la Tierra.}
 \label{fig:plot_ceres}
 \end{figure}
@@ -79,7 +79,7 @@ Es fácilmente observable que los elementos orbitales obtenidos a través de la 
 \label{sec:exp_hilda_pluton}
 Ya hemos visto que con un cuerpo relativamente cercano funciona bien el método de Laplace. Alejémonos un poco más.\\
 
-Empecemos tomando el asteroide Hilda (A875 VC en la efemérides), un objeto que da nombre a un grupo de asteroides situado a unas cuatro unidades astronómicas, entre la órbita de Júpiter y el cinturón de asteroides. Tomamos su ascensión recta y declinación de la efemérides, las introducimos en el programa y aplicamos el método de Laplace.\\
+Empecemos tomando el asteroide Hilda (A875 VC en la efemérides), un objeto que da nombre a un grupo de asteroides situado a unas cuatro unidades astronómicas, entre la órbita de Júpiter y el cinturón de asteroides. Tomamos su ascensión recta y declinación de la efemérides en un intervalo de unos dos días, las introducimos en el programa y aplicamos el método de Laplace.\\
 
 \begin{figure}[H]
 \centering
@@ -88,7 +88,7 @@ Empecemos tomando el asteroide Hilda (A875 VC en la efemérides), un objeto que 
 \label{fig:hilda_exp}
 \end{figure}
 
-Antes de dar un resultado para la posición y velocidad del cuerpo, el programa para, ya que ha encontrado una solución doble, y nos preguntará sobre cuál de los dos valores posibles queremos tomar como solución del problema físico.\\
+Antes de dar un resultado para la posición y velocidad del cuerpo, el programa para, ya que ha encontrado una solución doble, y nos pregunta sobre cuál de los dos valores posibles queremos tomar como solución del problema físico.\\
 \[
 \left\{
 \begin{array}{l}
@@ -136,7 +136,7 @@ Aunque el error en la aproximación de la posición y la velocidad no es excesiv
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{images/hilda_plot.png}
+\includegraphics[scale=0.35]{images/hilda_plot.png}
 \caption{Órbita real y aproximada de Hilda (A875 VC) junto a la Tierra y Júpiter.}
 \label{fig:hilda_plot}
 \end{figure}
@@ -154,7 +154,7 @@ Error = [  6.00129948 -14.63666986  -0.29759148]
 |Error| = 15.822018227154214
 \end{lstlisting}
 
-Con esto podemos ir empezando a sospechar que cuanto mayor sea la distancia al cuerpo observado, mayor será el error que acarrea la aproximación de su posición y velocidad. Es más, el error en esta aproximación hará que al calcular los elementos orbitales obtengamos un semieje mayor negativo, algo que no es posible, y esta aproximación debería ser descartada como solución del problema físico.
+Con esto podemos ir empezando a sospechar que, mientras mantengamos el intervalo de toma de observaciones, cuanto mayor sea la distancia al cuerpo observado, mayor será el error que acarrea la aproximación de su posición y velocidad. Es más, el error en esta aproximación hará que al calcular los elementos orbitales obtengamos un semieje mayor negativo, algo que no es posible, y esta aproximación debería ser descartada como solución del problema físico.
 
 \begin{lstlisting}[style=Console]
 Aproximación en [...]
@@ -168,12 +168,45 @@ e = 581.0174156903244
 Semieje mayor negativo, no se puede dibujar la órbita.
 \end{lstlisting}
 
+\subsection{Intentando solucionar el problema de la distancia.}
+No conformes con el resultado que hemos obtenido en la aproximación de objetos más lejanos, veamos si podemos arreglar el error tan grande que se produce. Comprobando los valores de las derivadas $(\lambda,\mu,\nu)$ durante el proceso de aproximación, vemos que los valores que toman son muy pequeños. Por tanto, empezamos a suponer que el error reside aquí.\\
+
+Cuando observamos un cuerpo muy lejano a la Tierra, podemos ver que su posición varía poquísimo entre un día y otro (aparentemente). Para que la posición entre dos observaciones cambien más, debemos de escoger un intervalo de tiempo mucho más grande entre cada toma de datos. Y eso es lo que vamos a hacer ahora.\\
+
+Tomemos de nuevo el planeta enano Plutón e introduzcamos en nuestro software los valores de ascensión recta y declinación con una diferencia entre cada medida de un mes (seis de marzo, seis de abril y seis de mayo). Al aplicar el método de Laplace, obtenemos dos soluciones posibles, $\phi_1=1.62991238º$ y $\phi_2=80.67644758$. Si la solución del problema físico fuera $\phi_2$, al ser tan grande el ángulo formado el objeto observado debería de estar muy cerca, pero sabemos que ese no es el caso; por tanto, deducimos que la solución válida es $\phi_1$. La seleccionamos y pasamos a directamente a comprobar el error de la aproximación.
+\begin{lstlisting}[style=Console]
+Posición real: [ 13.26236291 -31.31779618  -0.48455854]
+Posición calculada: [ 13.59730661 -32.05011445  -0.4966634 ]
+Error = [-0.3349437   0.73231826  0.01210486]
+|Error| = 0.8053718719482896
+
+Velocidad real: [ 0.0029688   0.00056318 -0.00090387]
+Velocidad calculada: [ 0.00291106  0.00065941 -0.00093223]
+Error = [ 5.77378776e-05 -9.62253998e-05  2.83582814e-05]
+|Error| = 0.0001157461974060685
+
+Distancia real: 34.013665264543306
+Distancia aproximada: 34.818719933147946
+\end{lstlisting}
+
+En esta ocasión, los resultados son mucho más prometedores que haciendo las observaciones más cercanas, con una velocidad muy cercana y una posición con ``solo'' una unidad astronómica de error, que para la distancia a la que estamos trabajando está bastante bien. Veamos si hemos tenido la misma suerte con los elementos orbitales.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{images/plot_pluto_ok.png}
+\caption{Órbita real y aproximada de Plutón (999) junto a la Saturno y Urano.}
+\label{fig:plot_pluto_ok}
+\end{figure}
+
+La órbita real y aproximada son muy similares, por lo que podemos concluir que la decisión de tomar observaciones más espaciadas en el tiempo es una buena elección cuando el cuerpo se encuentra muy alejado de la Tierra. Aún así, en un caso real no sabemos si el cuerpo está más o menos cerca del observador, por lo que la elección del intervalo de tiempo entre cada toma debe de ser estudiada antes.\\
+
+
 
 \section{Órbitas muy excéntricas: C/2020 F3 (Neowise).}
 \label{sec:neowise}
 Cuanto mayor sea la excentricidad de un cuerpo espacial, más alejado estarán sus focos, pero más se acercará a ellos en algún momento de su órbita. Este es el caso del objeto C/2020 F3 (Neowise), un cometa del que se oyó mucho hablar durante el pasado mes de julio debido a que, en su trayectoria alrededor del Sol, se acercaba al punto más cercano a la Tierra, de manera que se podía observar a simple vista, y no volvería a ser así hasta dentro de 6765 años.\\
 
-Hemos visto que con objetos muy lejanos la aproximación que nos da el método de Laplace es muy mala. Pero, ¿y si las medidas se toman cuándo el objeto esté muy cercano a la Tierra, de manera que las observaciones sean incluso mejores que las de Ceres?\\
+Hemos visto que con objetos muy lejanos e intervalos muy pequeños para las observaciones, la aproximación que nos da el método de Laplace es muy mala. Pero, ¿y si las medidas se toman cuándo el objeto esté muy cercano a la Tierra, de manera que las observaciones sean incluso mejores que las de Ceres?\\
 
 Escogemos los valores de las observaciones del cometa entre el día 14 y el día 15 de julio, en los que su posición en la órbita se encontraba muy cerca de la Tierra.
 \begin{figure}[H]

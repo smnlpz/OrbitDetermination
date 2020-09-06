@@ -25,11 +25,11 @@ Análogamente podremos definir la derivada segunda de $\lambda$ en $t_2$, en la 
 \lambda''_2=\frac{\lambda_{23}'-\lambda_{12}'}{\frac{1}{2}(t_3-t_1)}
 \]
 
-Dicha aproximación será de orden $(t_3-t_1)^2$ siempre que $\lambda\in\mathcal{C}^4[t_1,t_3]$. Mediante este mismo método calcularemos la primera y segunda derivada de $\mu$ y $\nu$; además, podemos suponer que las tres funciones son de clase infinito en todo $\mathbb{R}$.\\
+Dicha aproximación será de orden $(t_3-t_1)^2$ siempre que $\lambda\in\mathcal{C}^4[t_1,t_3]$. Mediante este mismo método calcularemos la primera y segunda derivada de $\mu$ y $\nu$; además, podemos suponer que las tres funciones son de clase infinito en todo $\mathbb{R}$. \cite{MNII}\\
 
-Como hemos comentado antes, las aproximaciones obtenidas de esta manera es razonable que sean más cercanas cuanto menor sea la longitud de los intervalos entre las observaciones, y generalmente, en la práctica, los intervalos que utilizaremos serán cortos.\\
+Como hemos comentado antes, las aproximaciones obtenidas de esta manera es razonable que sean más cercanas cuanto menor sea la longitud de los intervalos entre las observaciones, y generalmente, en la práctica, los intervalos que utilizaremos serán cortos. Pero, en el caso de objetos muy lejanos, habremos de tomar intervalos de tiempo mayores, pues el movimiento entre dos momentos cercanos es mínimo y causará un gran error en las aproximaciones.\\
 
-Finalmente, necesitaremos tener los valores de la primera y segunda derivada de $X$, $Y$, $Z$, correspondientes al vector de $S$ a $E$, aunque no tendremos por qué calcularlos de manera aproximada. Para obtener dichas cantidades exactas utilizaremos la efemérides proporcionada por el \href{https://ssd.jpl.nasa.gov/horizons.cgi}{\textit{Jet Propulsion Laboratory}} en su página web, que nos dará el valor de estas variables para cualquier día del año, a cualquier hora y desde cualquier coordenada terrestre. Notar que aquí solo aparecerá la posición y velocidad, pero dado que $E$ gira alrededor de $S$ en concordancia con la ley de Gravitación Universal, podremos calcular la segunda derivada mediante:
+Finalmente, necesitaremos tener los valores de la posición junto a la primera y segunda derivada de $(X,Y,Z)$, correspondientes al vector de $S$ a $E$, aunque no tendremos por qué calcularlos de manera aproximada. Para obtener dichas cantidades exactas utilizaremos la efemérides proporcionada por el \textit{Jet Propulsion Laboratory} \cite{jpl} en su página web, que nos dará el valor de estas variables para cualquier día del año, a cualquier hora y desde cualquier coordenada terrestre. Notar que aquí solo aparecerá la posición y velocidad, pero dado que $E$ gira alrededor de $S$ en concordancia con la ley de Gravitación Universal, podremos calcular la segunda derivada mediante:
 \begin{align}
 \left\{
 \def\arraystretch{2}
@@ -42,7 +42,7 @@ Finalmente, necesitaremos tener los valores de la primera y segunda derivada de 
 \label{eq:ley_gravitacion_S_E}
 \end{align}
 
-\noindent donde $k^2=GM$\footnote{Es más común ver este valor como $\mu$, pero para evitar confusiones con la segunda coordenada del vector unitario $\overrightarrow{EC}$ utilizaremos el nombre de $k^2$.}, parámetro gravitacional estándar, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol. Tomamos solo la masa del Sol, $M$, ya que la masa de nuestro cuerpo es despreciable en comparación con ésta usando como modelo el problema de Kepler.\\
+\noindent donde $k^2=GM$\footnote{Es más común ver este valor como $\mu$, pero para evitar confusiones con la segunda coordenada del vector unitario $\overrightarrow{EC}$ utilizaremos el nombre de $k^2$.}, parámetro gravitacional estándar, $G=6.674\times10^{-11}\frac{\text{N}\cdot\text{m}^2}{\text{kg}^2}$ constante de gravitación y $M=1.989\times10^{30}\;\text{kg}$ masa del Sol. Tomamos solo la masa del Sol, $M$, ya que la masa de nuestro cuerpo es despreciable en comparación con ésta usando como modelo el problema de Kepler. \cite{mecanica_celeste}\\
 
 
 \markedsection{$C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}{Imponer la condición de que $C$ gira en torno a $S$ de acuerdo a la ley de gravitación.}
@@ -107,7 +107,7 @@ Utilizando el resultado \eqref{eq:ley_gravitacion_S_E}, sustituyendo en la ecuac
 \label{eq:fundamental_equations}
 \end{align}
 
-\noindent a las que llamaremos ecuaciones fundamentales. Así, las incógnitas de las ecuaciones a resolver pasan a ser $r, \; \rho, \; \rho'$ y $\rho''$.\\
+\noindent a las que llamaremos ecuaciones fundamentales. Así, las incógnitas de las ecuaciones a resolver pasan a ser $r, \; \rho, \; \rho'$ y $\rho''$. \cite{moulton}\\
 
 
 
@@ -167,7 +167,9 @@ Dado que disponemos de los valores $\overrightarrow{SE}=(X,Y,Z)$ y $\overrightar
 \cos{\psi}=\frac{\langle\overrightarrow{SE},\overrightarrow{EC}\rangle}{|\overrightarrow{SE}||\overrightarrow{EC}|}=\frac{\langle(X,Y,Z),(\lambda,\mu,\nu)\rangle}{R}
 \]
 
-Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valores de $\rho$ y $r$, habiendo terminado este paso. Más adelante discutiremos la unicidad de la solución en el sistema con $r,\rho>0$ (\ref{chap:soluciones_admisibles}). Al encontrar la solución de este sistema podremos calcular las coordenadas de $C$ mediante las ecuaciones \eqref{eq:relacion_C_S_E} de las relaciones entre $S$, $E$ y $C$.\\
+Resolviendo el sistema de ecuaciones al que hemos llegado obtendremos los valores de $\rho$ y $r$, habiendo terminado este paso. Más adelante discutiremos la unicidad de la solución en el sistema con $r,\rho>0$ (\ref{chap:soluciones_admisibles}). Al encontrar la solución de este sistema podremos calcular las coordenadas de $C$ mediante las ecuaciones \eqref{eq:relacion_C_S_E} de las relaciones entre $S$, $E$ y $C$. \cite{moulton}\\
+
+
 
 \section{Determinación de las componentes de velocidad de $C$.}
 \label{sec:velocity_component}
@@ -199,11 +201,16 @@ D_2 = -k^2
 
 Notar que en $D_2$ también hemos realizado la operación $C_3-\frac{k^2\lambda}{r^3}C_1$, como en $D$, para obtener un determinante más simple.\\
 
-Dado que ya conocemos el valor de $r$ podremos calcular directamente $\rho'$, y de esta manera $x'$, $y'$ y $z'$ se vuelven conocidas.\\
+Dado que ya conocemos el valor de $r$ podremos calcular directamente $\rho'$, y de esta manera $x'$, $y'$ y $z'$ se vuelven conocidas. \cite{moulton}\\
+
+
+
+
+
 
 \markedsection{Determinación de los elementos orbitales.}{Determinación de los elementos orbitales a partir de la posición y velocidad del cuerpo observado.}
 \label{sec:elements_determination}
-Una vez conocida tanto la posición como la velocidad del cuerpo en un instante determinado, nos dispondremos a calcular los elementos orbitales mediante las distintas fórmulas estudiadas en el manual de Mecánica Celeste\cite{ortega}. Denotemos por $r(t)=(x,y,z)(t)$ la posición del objeto y $v(t)$ su derivada, la velocidad.\\
+Una vez conocida tanto la posición como la velocidad del cuerpo en un instante determinado, nos dispondremos a calcular los elementos orbitales mediante las distintas fórmulas estudiadas en el manual de Mecánica Celeste \cite{ortega}. Denotemos por $r(t)=(x,y,z)(t)$ la posición del objeto y $v(t)$ su derivada, la velocidad.\\
 
 Comencemos determinando la energía que tiene nuestro cuerpo en un instante $t$. Para ello utilizaremos:
 \[
@@ -275,14 +282,14 @@ La solución para estas ecuaciones diferenciales de segundo orden puede ser expa
 \label{eq:series_taylor}
 \end{align}
 
-En las ecuaciones superiores el subíndice 0 indicará que tomamos el valor $t=0$ en la función. Podemos sustituir la segunda derivada que aparece en estas series por su valor en \eqref{eq:ley_gravitacion_C_2}, la tercera derivada por la derivada de ésta y a partir de la cuarta derivada repetimos este proceso, teniendo así que las series estarán solo en función de la $x$, $y$, $z$ y la primera derivada de cada una de estas, todos ellas tomadas en $t=0$.\\
+En las ecuaciones superiores el subíndice 0 indicará que tomamos el valor $t=0$ en la función. Podemos sustituir la segunda derivada que aparece en estas series por su valor en \eqref{eq:ley_gravitacion_C_2}, la tercera derivada por la derivada de ésta y a partir de la cuarta derivada repetimos este proceso, teniendo así que las series estarán solo en función de la $x$, $y$, $z$ y la primera derivada de cada una de estas, todos ellas tomadas en $t=0$. \cite{moulton}\\
 
 Los tres valores $x$, $y$, $z$, a los que en conjunto llamaremos $r(t)$, forman una solución del problema de Kepler. Además, sabemos que la fórmula de las soluciones para el problema de Kepler es:
 \[
 r(t)=a(\cos{u(t)}-e,\sqrt{1-e^2}\sin{u(t)})
 \]
 
-\noindent donde $u(t)$ es la anomalía. Dado que la ecuación está formada por funciones trigonométricas, que son analíticas, y la anomalía es una función analítica por el teorema de la función implícita, llegamos a que $r(t)$ será también una función analítica.\\
+\noindent donde $u(t)$ es la anomalía. Dado que la ecuación está formada por funciones trigonométricas, que son analíticas, y la anomalía es una función analítica por el teorema de la función implícita, llegamos a que $r(t)$ será también una función analítica. \cite{mecanica_celeste}\\
 
 Hemos de tener en cuenta que el valor de estas series no siempre tiene valor práctico, pues el intervalo de tiempo para la convergencia puede ser demasiado grande; notar que los límites serán más pequeños cuanto más pequeña sea la distancia del perihelio y más grande la excentricidad de nuestra órbita.\\
 
@@ -330,9 +337,9 @@ Utilizamos el subíndice $L$ para denotar que esta función es aproximada y no p
 
 Dicho polinomio corresponderá al polinomio de interpolación de Lagrange con el que obtendremos un valor aproximado de $\lambda$. Hemos de tener en cuenta que los valores en los nodos $t_1$, $t_2$, $t_3$ han de ser diferentes entre sí para que no se anulen los denominadores.\\
 
-Con esto, somos capaces de obtener $\lambda$ de manera exacta en $t_1$, $t_2$ y $t_3$; para otros valores diferentes de $t$ obtendremos $\lambda$ de forma aproximada. Para obtener un valor exacto de $\lambda$ habremos de tomar la primera ecuación de \eqref{eq:series_lambda}, una serie infinita, dentro de su rango de convergencia.\\
+Con esto, somos capaces de obtener $\lambda$ de manera exacta en $t_1$, $t_2$ y $t_3$; para otros valores diferentes de $t$ obtendremos $\lambda$ de forma aproximada. Para obtener un valor exacto de $\lambda$ habremos de tomar la primera ecuación de \eqref{eq:series_lambda}, una serie infinita, dentro de su rango de convergencia. \cite{moulton}\\
 
-Como comentamos anteriormente, el polinomio de interpolación de Lagrange obtenido nos proporcionará valores aproximados de $\lambda$, por lo que será conveniente estudiar el error de éste, que tomando la primera ecuación de \eqref{eq:series_lambda} será:
+Como comentamos anteriormente, el polinomio de interpolación de Lagrange obtenido nos proporcionará valores aproximados de $\lambda$, por lo que será conveniente estudiar el error de éste (mediante los conocimientos adquiridos en \cite{MNII}), que tomando la primera ecuación de \eqref{eq:series_lambda} será:
 \[
 |\lambda(t)-\lambda_L(t)|
 \]

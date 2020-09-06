@@ -1,6 +1,6 @@
 \chapter{Conclusiones y trabajos futuros}
 \section{Conclusiones.}
-Tras el completo estudio del método de Laplace, junto a la experimentación realizada, podemos concluir que es un método consistente y fiable para la determinación sobre cuerpos cercanos aún solo utilizando tres observaciones. Pero hemos comprobado que conforme aumenta la distancia, se dispara el error de la aproximación realizada. Es entendible que el método laplaciano no estuviera optimizado para cuerpos lejanos, pues con los telescopios rudimentarios con los que se trabajaba en aquella época no llegarían a observar más allá del cinturón de asteroides (salvo para objetos más masivos, como Júpiter o Saturno).\\
+Tras el completo estudio del método de Laplace, junto a la experimentación realizada, podemos concluir que es un método consistente y fiable para la determinación sobre cuerpos cercanos aún solo utilizando tres observaciones. Pero hemos comprobado que conforme aumenta la distancia, si se mantiene el intervalo de tiempo para hacer las observaciones, se dispara el error de la aproximación realizada. Como hemos comentado antes, esto es entendible debido a que el objeto, aparentemente, no se mueve, y por tanto las diferencias entre las posiciones en cada momento son muy pequeñas, manifestándose en los decimales más pequeños. Aún así, este problema que nos ha surgido probablemente no lo tuviera en cuenta Laplace, pues con los telescopios rudimentarios con los que se trabajaba en aquella época no llegarían a observar cuerpos muy lejanos, más allá del cinturón de asteroides (salvo para objetos más masivos, como Júpiter o Saturno).\\
 
 Hoy día disponemos de mejor tecnología y podemos observar cuerpos más lejanos, pero aún así el método de Laplace no funciona con ellos de manera óptima. Conviene preguntarse, ¿de dónde viene el error al intentar aproximar la órbita de estos? Recordemos las ecuaciones para calcular $r$ y $\rho$ \eqref{eq:triangle_relations_2}.
 \[
@@ -20,7 +20,7 @@ Tomando los valores de $r$ y $\rho$ como funciones en $\phi$, podemos deducir r�
 
 El hecho de que $r=R\ddfrac{\sin{\psi}}{\sin{\phi}}$ diverja en $\pi$ no nos importará, pues el valor de $\phi$ para que sea solución del problema físico ha de ser menor que $\pi-\psi$.\\
 
-Por otra parte, podemos ver en la siguiente figura, cuanto mayor sea la distancia del cuerpo $C$ a la Tierra, menor será el ángulo $\phi$ que forma.
+Por otra parte, podemos ver en la siguiente figura que cuanto mayor sea la distancia del cuerpo $C$ a la Tierra, menor será el ángulo $\phi$ que forma.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.125]{images/bigger_rho_smaller_phi.png}
@@ -34,7 +34,6 @@ Nótese que el hecho de que el ángulo $\phi$ sea pequeño no tiene que venir de
 
 En cuanto a las conclusiones subjetivas que puedo sacar de este trabajo, el estudio sobre la determinación de órbitas me ha parecido realmente interesante y me ha servido para mejorar mi capacidad a la hora de entender un libro de matemáticas desde cero. Además, el hecho de realizar la interfaz gráfica me ha ayudado a aprender a utilizar \textit{Tkinter}, una buena herramienta para implementar GUIs sobre código Python, así como seguir mejorando mi nivel de éste lenguaje de programación.\\
 
-\section{Trabajos futuros.}
 Durante toda esta memoria se han ido enumerando diferentes objetivos que podemos ver a continuación:
 \begin{itemize}
 \item Objetivo 1: repaso de la mecánica celeste.
@@ -47,8 +46,11 @@ Durante toda esta memoria se han ido enumerando diferentes objetivos que podemos
 \item Objetivo 8: estudio de la eficacia del método de Laplace.
 \end{itemize}
 
-Todos estos objetivos, algunos obligatorios y otros opcionales, han sido cumplidos durante el desarrollo de este trabajo. Sin embargo, aún podemos seguir extendiendo el estudio de la determinación y la implementación del software.\\
+Todos estos objetivos, algunos obligatorios y otros opcionales, han sido cumplidos durante el desarrollo de este trabajo. Sin embargo, aún podemos seguir extendiendo el estudio de la determinación y la implementación del software, como veremos en la siguiente sección.\\
 
+
+
+\section{Trabajos futuros.}
 Por la parte matemática, se puede continuar desarrollando el método de Laplace estudiando la aproximación de las derivadas utilizando 4 o más observaciones, o cómo utilizar una cuarta observación en el caso de una solución doble. También se puede extender el análisis de los determinantes $D$, $D_1$, $D_2$ y en qué momento desaparecen, para seguir acotando los valores que toman $m$ y $M$ en la ecuación \eqref{eq:phi_solution}. Además, Laplace desarrolló procedimientos con los que mejorar los valores de la posición y velocidad tras aplicar su método mediante el uso de las derivadas de $(\lambda,\mu,\nu)$ de un orden mayor.\\
 
 Si nos salimos del método de Laplace, quedaría como buen trabajo a desarrollar en el futuro el método de Gauss para así entender los dos métodos de determinación de órbitas básicos, y tras ello se podría llegar hasta algunos métodos mucho más modernos.\\
