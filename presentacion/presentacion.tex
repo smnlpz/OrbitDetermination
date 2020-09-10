@@ -155,7 +155,7 @@ $
 \end{columns}
 \end{frame}
 
-\section{La Órbita Completa}
+\section{Órbita completa del cuerpo}
 \begin{frame}{Elementos orbitales}
 Utilizando $r=(x,y,z)$ y $v=r'$ podemos obtener $(a,e,i,\omega,\Omega)$.\\
 \pause
@@ -183,7 +183,128 @@ $
 \begin{itemize}
 \item \textbf{Python:} Numpy, Matplotlib, Astropy, etc.
 \item \textbf{Tkinter}
+\item \textbf{Jet Propulsion Laboratory} (JPL)
 \end{itemize}
 \end{frame}
+
+\begin{frame}{Cuerpos lejanos}
+\textbf{Plutón} (999), observaciones 6 de marzo, 6 de abril, 6 de mayo.
+\begin{columns}
+\column[]{0.5\textwidth}
+	\begin{table}[]
+	\centering
+	\resizebox{4cm}{!}{%
+	\begin{tabular}{ccc}
+	    & Real         & Aproximado   \\ \hline
+	$x$ & 13.26236291  & 13.59730661  \\ \hline
+	$y$ & -31.31779618 & -32.05011445 \\ \hline
+	$z$ & -0.48455854  & -0.4966634  
+	\end{tabular}%
+	}
+	\end{table}
+	
+	\begin{table}[H]
+	\centering
+	\resizebox{4cm}{!}{%
+	\begin{tabular}{ccc}
+	     & Real        & Aproximado  \\ \hline
+	$x'$ & 0.0029688   & 0.00291106  \\ \hline
+	$y'$ & 0.00056318  & 0.00065941  \\ \hline
+	$z'$ & -0.00090387 & -0.00093223
+	\end{tabular}%
+	}
+	\end{table}
+
+\column[]{0.5\textwidth}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{images/plot_pluto_ok.png}
+	\end{figure}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Cuerpos muy excéntricos}
+\textbf{Neowise} (DES=2020 F3), observaciones con 8 horas de diferencia.
+\begin{columns}
+\column[]{0.5\textwidth}
+	\begin{table}[]
+	\centering
+	\resizebox{4cm}{!}{%
+	\begin{tabular}{ccc}
+	    & Real         & Aproximado   \\ \hline
+	$x$ & 0.16652972   & 0.16854806   \\ \hline
+	$y$ & -0.24402154  & -0.25029356  \\ \hline
+	$z$ & 0.32665628   & 0.32362519 
+	\end{tabular}%
+	}
+	\end{table}
+	
+	\begin{table}[H]
+	\centering
+	\resizebox{4cm}{!}{%
+	\begin{tabular}{ccc}
+	     & Real        & Aproximado  \\ \hline
+	$x'$ & -0.01084886 & -0.0106734  \\ \hline
+	$y'$ & -0.03392851 & -0.03331783 \\ \hline
+	$z'$ & 0.00860642  & 0.00864502
+	\end{tabular}%
+	}
+	\end{table}
+	
+\column[]{0.5\textwidth}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{images/neowise_close.png}
+	\end{figure}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\begin{columns}
+\column[]{0.5\textwidth}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{images/neowise_far.png}
+	\end{figure}
+\column[]{0.5\textwidth}
+\begin{table}[H]
+\centering
+\resizebox{5cm}{!}{%
+\begin{tabular}{ccc}
+         & Real            & Aproximado      \\ \hline
+$e$      & 0.9992401080381 & 0.9623385094824 \\ \hline
+$i$      & 128.9372837890  & 129.87582386324 \\ \hline
+$\omega$ & 37.28105014282  & 34.302810750239 \\ \hline
+$\Omega$ & 61.01063124644  & 60.32375719162
+\end{tabular}%
+}
+\end{table}
+
+\vspace{0.75cm}
+\begin{small}
+\begin{center}
+	$a_{real}=387.7566248050 \text{UA}$\\
+	$a_{aprox}=7.640204712942 \text{UA}$
+\end{center}
+\end{small}
+\end{columns}
+\end{frame}
+
+
+\section{Conclusiones}
+
+
+\begin{frame}
+
+\vspace{1cm}
+
+\begin{center}
+\Large Muchas gracias por su atención\\
+\vspace{0.7cm}
+\footnotesize Correo de contacto: \textit{simondelosbros@correo.ugr.es}
+\end{center}
+
+\end{frame}
+
 
 \end{document}
