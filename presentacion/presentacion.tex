@@ -1,0 +1,189 @@
+\documentclass{beamer}
+%\usetheme{Goettingen}
+%\usetheme{Singapore}
+\usetheme{Darmstadt}
+\usecolortheme{seahorse}
+
+\AtBeginSection[]{
+	\begin{frame}
+		\vfill
+		\centering
+		\begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+			\usebeamerfont{title}\insertsectionhead\par%
+		\end{beamercolorbox}
+		\vfill
+	\end{frame}
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+
+
+% Fracciones más grandes
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+
+
+
+%Information to be included in the title page:
+\title{Determinación de Órbitas Elípticas}
+\subtitle{El Método de Laplace}
+\author{Simón López Vico}
+\institute{Doble Grado en Matemáticas e Ingeniería Informática\\Universidad de Granada}
+\date{Septiembre de 2020}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Índice}
+\tableofcontents
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.15]{images/problem_construct_1.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.15]{images/problem_construct_2.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.15]{images/problem_construct_3.png}
+\end{figure}
+\end{frame}
+
+
+\section{El Método de Laplace}
+
+\begin{frame}
+\frametitle{Aproximando las derivadas}
+Tres observaciones: $(\lambda_1,\mu_1,\nu_1)$, $(\lambda_2,\mu_2,\nu_2)$, $(\lambda_3,\mu_3,\nu_3)$.\pause
+\vspace{0.66666cm}
+
+\textbf{Diferencia regresiva} ($t_2>t_1$)
+\[
+\lambda'_{12}=\frac{\lambda_2-\lambda_1}{t_2-t_1}
+\]
+
+\textbf{Diferencia progresiva} ($t_2<t_3$)
+\[
+\lambda'_{23}=\frac{\lambda_3-\lambda_2}{t_3-t_2}
+\]
+
+\textbf{Diferencia centrada} ($t_2-t_1=t_3-t_2$)
+\[
+\lambda'_{2}=\frac{\lambda'_{12}+\lambda'_{23}}{2}
+\]
+
+\end{frame}
+
+\begin{frame}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{images/triangle_tfg.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+Soluciones para $\phi$:
+\[
+\sin^4{\phi}=M\sin{(\phi + m)}
+\]
+\vspace{0.6666cm}
+\pause
+
+Condiciones: \hspace{0.5cm}
+$
+\left\{
+\begin{array}{l}
+\phi\in(0,\pi)\\
+\phi<\pi-\psi
+\end{array}
+\right.
+$
+\end{frame}
+
+\begin{frame}{Valores para $\phi$}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.1]{images/phi_solution_m_negative_M_near_1.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Utilizamos los valores calculados}
+\[\rho'=\ddfrac{D_2}{D}\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)\]\\
+\vspace{1cm}
+
+\pause
+\begin{columns}
+\column[]{0.35\textwidth}
+\textbf{Posición:}\\
+\vspace{0.4cm}
+$
+\left\{
+\begin{array}{l}
+	x=\rho\lambda-X\\
+	y=\rho\mu-Y\\
+	z=\rho\nu-Z
+\end{array}
+\right.
+$
+\column[]{0.35\textwidth}
+\textbf{Velocidad:}\\
+\vspace{0.4cm}
+$
+\left\{
+\begin{array}{l}
+	x'=\rho'\lambda+\rho\lambda'-X'\\
+	y'=\rho'\mu+\rho\mu'-Y'\\
+	z'=\rho'\nu+\rho\nu'-Z'
+\end{array}
+\right.
+$
+\end{columns}
+\end{frame}
+
+\section{La Órbita Completa}
+\begin{frame}{Elementos orbitales}
+Utilizando $r=(x,y,z)$ y $v=r'$ podemos obtener $(a,e,i,\omega,\Omega)$.\\
+\pause
+\vspace{1cm}
+\textbf{Elipse:}
+\hspace{0.75cm}
+$
+(a\cos{\theta}+ae, a\sqrt{1-e^2}\sin{\theta}, 0), \; \; \; \; \theta\in(0,2\pi)
+$
+\end{frame}
+
+
+\begin{frame}{Posición de la órbita}
+% Diapositiva para dibujar
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.25]{images/omega_i.png}
+%\end{figure}
+\end{frame}
+
+\section{Bondad del método}
+
+\begin{frame}{Herramientas para el desarrollo}
+\begin{itemize}
+\item \textbf{Python:} Numpy, Matplotlib, Astropy, etc.
+\item \textbf{Tkinter}
+\end{itemize}
+\end{frame}
+
+\end{document}
