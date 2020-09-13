@@ -88,7 +88,7 @@ Tres observaciones: $(\lambda_1,\mu_1,\nu_1)$, $(\lambda_2,\mu_2,\nu_2)$, $(\lam
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Cálculo de las distancias}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.2]{images/triangle_tfg.png}
@@ -123,7 +123,11 @@ $
 \end{frame}
 
 \begin{frame}{Utilizamos los valores calculados}
-\[\rho'=\ddfrac{D_2}{D}\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)\]\\
+
+
+\[\rho=R\ddfrac{\sin{(\psi+\phi)}}{\sin{\psi}}
+\hspace{2cm}
+\rho'=\ddfrac{D_2}{D}\left(\ddfrac{1}{R^3}-\ddfrac{1}{r^3}\right)\]\\
 \vspace{1cm}
 
 \pause
@@ -169,12 +173,10 @@ $
 
 
 \begin{frame}{Posición de la órbita}
-% Diapositiva para dibujar
-
-%\begin{figure}[H]
-%\centering
-%\includegraphics[scale=0.25]{images/omega_i.png}
-%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.41]{images/inclinacion.png}
+\end{figure}
 \end{frame}
 
 \section{Bondad del método}
@@ -293,6 +295,13 @@ $\Omega$ & 61.01063124644  & 60.32375719162
 
 \section{Conclusiones}
 
+\begin{frame}{Conclusiones}
+\begin{itemize}
+\item El método de Laplace obtiene buena aproximación.
+\item Cuerpos cercanos $\longrightarrow$ observaciones cercanas.\\Cuerpos lejanos $\longrightarrow$ observaciones lejanas.
+\item Implementación software funciona al completo.
+\end{itemize}
+\end{frame}
 
 \begin{frame}
 
